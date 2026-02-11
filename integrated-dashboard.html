@@ -16,16 +16,23 @@
     --bg-primary: #0a0a0a;
     --bg-secondary: #111111;
     --bg-card: #151515;
+    --bg-white: #ffffff;
     --border: #1f1f1f;
     --border-hover: #2a2a2a;
+    --border-light: #e5e7eb;
     --accent: #10b981;
     --accent-dark: #059669;
     --text-primary: #ffffff;
     --text-secondary: #9ca3af;
     --text-muted: #6b7280;
+    --text-dark: #111111;
+    --text-dark-secondary: #374151;
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow-md: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 4px 16px rgba(16, 185, 129, 0.2);
 }
 
 body {
@@ -147,6 +154,51 @@ body {
 
 .btn-danger:hover {
     background: #dc2626;
+}
+
+/* Pill Button Styles */
+.btn-pill {
+    padding: 10px 24px;
+    border-radius: 24px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-pill-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-pill-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-pill-outline {
+    background: transparent;
+    border: 2px solid var(--border-light);
+    color: var(--text-dark-secondary);
+}
+
+.btn-pill-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-pill-secondary {
+    background: #f3f4f6;
+    color: var(--text-dark-secondary);
+    border: none;
+}
+
+.btn-pill-secondary:hover {
+    background: #e5e7eb;
 }
 
 /* Profile Dropdown */
@@ -421,7 +473,7 @@ body {
 .section {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 48px;
+    padding: 40px 24px;
 }
 
 .section-label {
@@ -1244,10 +1296,11 @@ textarea.form-input {
     position: relative;
     width: 100%;
     aspect-ratio: 5/7;
-    background: var(--bg-secondary);
-    border-radius: 12px;
+    background: #f3f4f6;
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid var(--border);
+    border: none;
+    box-shadow: var(--shadow-md);
 }
 
 .card-detail-image {
@@ -1263,20 +1316,26 @@ textarea.form-input {
 
 .card-image-toggle button {
     flex: 1;
-    padding: 8px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-secondary);
+    padding: 10px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    color: var(--text-muted);
     font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
 }
 
+.card-image-toggle button:hover {
+    background: #e5e7eb;
+}
+
 .card-image-toggle button.active {
-    background: var(--accent);
-    color: var(--text-primary);
-    border-color: var(--accent);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .card-detail-info {
@@ -1312,10 +1371,10 @@ textarea.form-input {
 }
 
 .card-detail-stat {
-    background: var(--bg-secondary);
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+    background: #f9fafb;
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
 }
 
 .card-detail-stat-label {
@@ -1341,10 +1400,11 @@ textarea.form-input {
 }
 
 .card-detail-chart-section {
-    background: var(--bg-secondary);
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
+    background: var(--bg-white);
+    padding: 24px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: var(--shadow-md);
 }
 
 .chart-header {
@@ -1355,30 +1415,39 @@ textarea.form-input {
 }
 
 .chart-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
 .chart-timeframes {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    background: #f3f4f6;
+    padding: 4px;
+    border-radius: 10px;
 }
 
 .timeframe-btn {
-    padding: 6px 12px;
+    padding: 6px 14px;
     background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text-secondary);
+    border: none;
+    border-radius: 8px;
+    color: var(--text-muted);
     font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
 }
 
+.timeframe-btn:hover {
+    background: #e5e7eb;
+}
+
 .timeframe-btn.active {
-    background: var(--accent);
-    color: var(--text-primary);
-    border-color: var(--accent);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
 }
 
 .chart-wrapper {
@@ -1457,10 +1526,8 @@ textarea.form-input {
 
 /* Portfolio Intelligence Dashboard */
 .intelligence-dashboard {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
+    background: transparent;
+    padding: 0;
     margin-bottom: 32px;
 }
 
@@ -1472,8 +1539,9 @@ textarea.form-input {
 }
 
 .intelligence-title {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
+    color: var(--text-primary);
 }
 
 .intelligence-grid {
@@ -1483,18 +1551,26 @@ textarea.form-input {
 }
 
 .intelligence-card {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px;
+    background: var(--bg-white);
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s;
+}
+
+.intelligence-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }
 
 .intelligence-card-title {
-    font-size: 14px;
+    font-size: 12px;
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 16px;
+    font-weight: 600;
 }
 
 .action-signals {
@@ -1504,29 +1580,36 @@ textarea.form-input {
 }
 
 .action-signal {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 12px;
+    padding: 16px;
     text-align: center;
+    transition: all 0.2s;
+}
+
+.action-signal:hover {
+    background: #f3f4f6;
 }
 
 .action-signal-value {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 4px;
+    line-height: 1.2;
 }
 
 .action-signal-value.buy { color: var(--success); }
 .action-signal-value.hold { color: var(--warning); }
-.action-signal-value.sell { color: #60a5fa; }
+.action-signal-value.sell { color: #2563eb; }
 .action-signal-value.cut { color: var(--danger); }
 
 .action-signal-label {
-    font-size: 12px;
-    color: var(--text-secondary);
+    font-size: 11px;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-weight: 600;
 }
 
 .opportunity-list, .attention-list {
@@ -1536,15 +1619,20 @@ textarea.form-input {
 }
 
 .opportunity-item, .attention-item {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px;
+    background: #f9fafb;
+    border: 1px solid #f3f4f6;
+    border-radius: 12px;
+    padding: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     transition: all 0.2s;
+}
+
+.opportunity-item:hover, .attention-item:hover {
+    background: #f3f4f6;
+    border-color: var(--accent);
 }
 
 .opportunity-item:hover, .attention-item:hover {
@@ -1558,7 +1646,8 @@ textarea.form-input {
 
 .item-name {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--text-dark);
     margin-bottom: 4px;
 }
 
@@ -1568,17 +1657,17 @@ textarea.form-input {
 }
 
 .item-badge {
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 6px 14px;
+    border-radius: 10px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-.item-badge.buy { background: rgba(16, 185, 129, 0.15); color: var(--success); }
-.item-badge.sell { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
-.item-badge.cut { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.item-badge.buy { background: rgba(16, 185, 129, 0.1); color: #059669; }
+.item-badge.sell { background: rgba(37, 99, 235, 0.1); color: #2563eb; }
+.item-badge.cut { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
 
 .strategy-chart-wrapper {
     position: relative;
@@ -1589,13 +1678,15 @@ textarea.form-input {
     text-align: center;
     padding: 40px 20px;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 .empty-intelligence svg {
     width: 48px;
     height: 48px;
     margin-bottom: 16px;
-    opacity: 0.5;
+    opacity: 0.3;
+    color: var(--text-muted);
 }
 
 /* Portfolio Section */
@@ -1617,21 +1708,23 @@ textarea.form-input {
 /* Enhanced Top Dashboard Stats */
 .portfolio-stats {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
     margin-bottom: 32px;
 }
 
 .portfolio-stat-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
+    background: var(--bg-white);
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
     transition: all 0.2s;
+    box-shadow: var(--shadow-md);
 }
 
 .portfolio-stat-card:hover {
-    border-color: var(--border-hover);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
 }
 
 .portfolio-stat-label {
@@ -1639,13 +1732,16 @@ textarea.form-input {
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    font-weight: 600;
 }
 
 .portfolio-stat-value {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--text-dark);
+    line-height: 1.2;
+    margin-bottom: 8px;
 }
 
 .portfolio-stat-value.positive {
@@ -1656,13 +1752,35 @@ textarea.form-input {
     color: var(--danger);
 }
 
+.portfolio-stat-change {
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.portfolio-stat-change.positive {
+    color: var(--success);
+}
+
+.portfolio-stat-change.negative {
+    color: var(--danger);
+}
+
 .top-performer-card {
     display: flex;
     gap: 12px;
     margin-top: 12px;
-    padding: 12px;
-    background: var(--bg-secondary);
-    border-radius: 8px;
+    padding: 14px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #f3f4f6;
+    transition: all 0.2s;
+}
+
+.top-performer-card:hover {
+    background: #f3f4f6;
 }
 
 .top-performer-img {
@@ -1679,14 +1797,15 @@ textarea.form-input {
 
 .top-performer-name {
     font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-weight: 700;
+    color: var(--text-dark);
     margin-bottom: 4px;
 }
 
 .top-performer-meta {
     font-size: 12px;
     color: var(--text-muted);
+    font-weight: 500;
 }
 
 .top-performer-change {
@@ -1705,11 +1824,12 @@ textarea.form-input {
 
 /* View Controls */
 .view-controls {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    background: var(--bg-white);
+    border: none;
+    border-radius: 16px;
     padding: 20px;
     margin-bottom: 32px;
+    box-shadow: var(--shadow-md);
 }
 
 .controls-row {
@@ -1733,19 +1853,28 @@ textarea.form-input {
 
 .control-select,
 .control-input {
-    padding: 8px 12px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text-primary);
+    padding: 10px 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    color: var(--text-dark);
     font-size: 14px;
     font-family: inherit;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
 .control-select:hover,
 .control-input:hover {
     border-color: var(--accent);
+    background: white;
+}
+
+.control-select:focus,
+.control-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
 }
 
 .control-input {
@@ -1758,18 +1887,18 @@ textarea.form-input {
 
 .view-mode-btns {
     display: flex;
-    gap: 8px;
-    background: var(--bg-secondary);
+    gap: 6px;
+    background: #f3f4f6;
     padding: 4px;
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
 .view-mode-btn {
-    padding: 8px 16px;
+    padding: 10px 18px;
     background: transparent;
     border: none;
-    border-radius: 6px;
-    color: var(--text-secondary);
+    border-radius: 10px;
+    color: var(--text-muted);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -1777,12 +1906,14 @@ textarea.form-input {
 }
 
 .view-mode-btn:hover {
-    color: var(--text-primary);
+    color: var(--text-dark);
+    background: #e5e7eb;
 }
 
 .view-mode-btn.active {
-    background: var(--accent);
-    color: #000;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 /* Performance Dashboard */
@@ -1822,16 +1953,17 @@ textarea.form-input {
 }
 
 .sport-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
+    background: var(--bg-white);
+    border: none;
+    border-radius: 16px;
+    padding: 24px;
     transition: all 0.2s;
     cursor: pointer;
+    box-shadow: var(--shadow-md);
 }
 
 .sport-card:hover {
-    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
 }
 
@@ -1845,6 +1977,7 @@ textarea.form-input {
 .sport-name {
     font-size: 18px;
     font-weight: 700;
+    color: var(--text-dark);
 }
 
 .sport-card-arrow {
@@ -1874,12 +2007,19 @@ textarea.form-input {
     color: var(--text-primary);
 }
 
-/* Cards Grid */
+/* Cards Grid (Legacy - for compatibility) */
 .cards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+/* For actual grid view if needed */
+.cards-grid.grid-view {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 20px;
-    margin-bottom: 32px;
 }
 
 .card-tile {
@@ -2400,30 +2540,230 @@ textarea.form-input {
     .portfolio-stats {
         grid-template-columns: 1fr;
     }
+
+    .card-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .card-row-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 5/7;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .card-row-prices {
+        flex-wrap: wrap;
+    }
+
+    .roi-badge {
+        min-width: auto;
+    }
+
+    .intelligence-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-/* Thumbnail Card Styles */
-.card-thumb {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+/* Card List View - Horizontal Rows */
+.card-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card-row {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.card-row:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.card-row-image {
+    width: 80px;
+    height: 112px;
     border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f3f4f6;
+}
+
+.card-row-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-row-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-row-player {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.card-row-set {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.card-row-prices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.price-pill {
+    background: #f3f4f6;
+    padding: 6px 12px;
+    border-radius: 12px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.price-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.price-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.price-arrow {
+    font-size: 18px;
+    color: var(--text-muted);
+}
+
+.roi-badge {
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 90px;
+    justify-content: center;
+}
+
+.roi-badge.positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.roi-badge.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
+
+.roi-badge.neutral {
+    background: #f3f4f6;
+    color: var(--text-muted);
+}
+
+.recommendation-badge {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+}
+
+.recommendation-badge.buy {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.recommendation-badge.hold {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.recommendation-badge.sell {
+    background: rgba(96, 165, 250, 0.1);
+    color: #2563eb;
+}
+
+.card-row-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.action-icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: #f3f4f6;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-icon-btn:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.action-icon-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Legacy Thumbnail Card Styles (for grid view if needed) */
+.card-thumb {
+    background: var(--bg-white);
+    border: none;
+    border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
 }
 
 .card-thumb:hover {
-    border-color: var(--accent);
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .card-thumb-image {
     width: 100%;
-    aspect-ratio: 5/7; /* Standard card ratio */
-    background: var(--bg-secondary);
+    aspect-ratio: 5/7;
+    background: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2439,13 +2779,12 @@ textarea.form-input {
 .card-thumb-info {
     padding: 12px;
     text-align: center;
-    border-top: 1px solid var(--border);
 }
 
 .card-thumb-name {
     font-weight: 600;
     font-size: 14px;
-    color: var(--text-primary);
+    color: var(--text-dark);
     margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
@@ -2460,7 +2799,7 @@ textarea.form-input {
 
 .card-thumb-manufacturer {
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-dark-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -4359,7 +4698,7 @@ function renderSportBreakdown() {
 }
 
 // Render individual card HTML
-function renderCardHTML(card) {
+function renderCardHTML(card, useListView = true) {
     const playerName = card.player_name || card.playerName || 'Unknown Player';
     const year = card.year || '';
     const cardSet = card.card_set || card.set || card.set_name || card.setName || card.brand || 'Unknown Set';
@@ -4369,6 +4708,78 @@ function renderCardHTML(card) {
     const estimatedValue = parseFloat(card.estimated_value || card.estimatedValue || 0);
     const hasValue = purchasePrice > 0 || estimatedValue > 0;
 
+    const profitPercent = calculateProfitPercent(card);
+    const profitAmount = estimatedValue - purchasePrice;
+
+    // Get recommendation
+    const recommendation = card.ai_recommendation || card.recommendation || 'HOLD';
+    const recommendationClass = recommendation.toLowerCase();
+
+    // ROI badge styling
+    let roiClass = 'neutral';
+    let roiArrow = '';
+    if (profitPercent > 0) {
+        roiClass = 'positive';
+        roiArrow = '↗';
+    } else if (profitPercent < 0) {
+        roiClass = 'negative';
+        roiArrow = '↘';
+    }
+
+    // List view (horizontal row)
+    if (useListView) {
+        return `
+            <div class="card-row" onclick="openCardDetailModal('${card.id}')">
+                <div class="card-row-image">
+                    <img src="${frontImage}" alt="${playerName}" onerror="this.src='/api/placeholder/200/280'">
+                </div>
+                <div class="card-row-info">
+                    <div class="card-row-player">${playerName}</div>
+                    <div class="card-row-set">${year} ${cardSet}</div>
+                </div>
+                ${hasValue ? `
+                    <div class="card-row-prices">
+                        <div class="price-pill">
+                            <span class="price-label">Purchase</span>
+                            <span class="price-value">$${purchasePrice.toFixed(0)}</span>
+                        </div>
+                        <span class="price-arrow">→</span>
+                        <div class="price-pill">
+                            <span class="price-label">Current</span>
+                            <span class="price-value">$${estimatedValue.toFixed(0)}</span>
+                        </div>
+                    </div>
+                    <div class="roi-badge ${roiClass}">
+                        <span class="roi-percent">${profitPercent > 0 ? '+' : ''}${profitPercent.toFixed(1)}%</span>
+                        ${roiArrow ? `<span class="roi-arrow">${roiArrow}</span>` : ''}
+                    </div>
+                    <div class="recommendation-badge ${recommendationClass}">
+                        ${recommendation}
+                    </div>
+                ` : `
+                    <div class="roi-badge neutral">
+                        <span>No value</span>
+                    </div>
+                `}
+                <div class="card-row-actions" onclick="event.stopPropagation()">
+                    <button class="action-icon-btn" onclick="openEditCardModal('${card.id}')" title="Edit card">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                    </button>
+                    <button class="action-icon-btn" onclick="deleteCard('${card.id}')" title="Delete card">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    // Grid view (thumbnail - legacy)
     return `
         <div class="card-thumb" onclick="openCardDetailModal('${card.id}')" title="Click to view card details">
             <div class="card-thumb-image">
@@ -4664,10 +5075,11 @@ function renderPriceChart(history) {
 
     const prices = sortedHistory.map(h => h.market_price || 0);
 
-    // Determine trend color
+    // Always use green for main chart (positive trend color)
     const firstPrice = prices[0] || 0;
     const lastPrice = prices[prices.length - 1] || 0;
-    const lineColor = lastPrice >= firstPrice ? '#10b981' : '#ef4444';
+    const isPositive = lastPrice >= firstPrice;
+    const lineColor = isPositive ? '#10b981' : '#ef4444';
 
     priceChartInstance = new Chart(ctx, {
         type: 'line',
@@ -4677,12 +5089,32 @@ function renderPriceChart(history) {
                 label: 'Market Value',
                 data: prices,
                 borderColor: lineColor,
-                backgroundColor: lineColor + '20',
-                borderWidth: 2,
+                backgroundColor: function(context) {
+                    const chart = context.chart;
+                    const {ctx, chartArea} = chart;
+
+                    if (!chartArea) {
+                        return null;
+                    }
+
+                    const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                    if (isPositive) {
+                        gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+                        gradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+                    } else {
+                        gradient.addColorStop(0, 'rgba(239, 68, 68, 0.3)');
+                        gradient.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
+                    }
+                    return gradient;
+                },
+                borderWidth: 3,
                 fill: true,
                 tension: 0.4,
-                pointRadius: 3,
-                pointHoverRadius: 5
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: lineColor,
+                pointHoverBorderColor: 'white',
+                pointHoverBorderWidth: 2
             }]
         },
         options: {
@@ -4695,6 +5127,18 @@ function renderPriceChart(history) {
                 tooltip: {
                     mode: 'index',
                     intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    borderColor: lineColor,
+                    borderWidth: 1,
+                    titleFont: {
+                        size: 13,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14,
+                        weight: '700'
+                    },
                     callbacks: {
                         label: function(context) {
                             return '$' + context.parsed.y.toFixed(2);
@@ -4709,20 +5153,30 @@ function renderPriceChart(history) {
                         callback: function(value) {
                             return '$' + value.toFixed(0);
                         },
-                        color: '#9ca3af'
+                        color: '#9ca3af',
+                        font: {
+                            size: 12,
+                            weight: '600'
+                        }
                     },
                     grid: {
-                        color: '#1f1f1f'
+                        color: 'rgba(31, 31, 31, 0.3)',
+                        drawBorder: false
                     }
                 },
                 x: {
                     ticks: {
                         color: '#9ca3af',
                         maxRotation: 45,
-                        minRotation: 45
+                        minRotation: 45,
+                        font: {
+                            size: 11,
+                            weight: '500'
+                        }
                     },
                     grid: {
-                        color: '#1f1f1f'
+                        color: 'rgba(31, 31, 31, 0.1)',
+                        drawBorder: false
                     }
                 }
             }
@@ -5008,26 +5462,43 @@ function renderStrategyChart(data) {
             datasets: [{
                 data: values,
                 backgroundColor: backgroundColors,
-                borderWidth: 2,
-                borderColor: '#151515'
+                borderWidth: 3,
+                borderColor: '#ffffff',
+                hoverBorderWidth: 4,
+                hoverBorderColor: '#ffffff'
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            cutout: '65%',
             plugins: {
                 legend: {
                     position: 'right',
                     labels: {
-                        color: '#9ca3af',
+                        color: '#6b7280',
                         font: {
-                            size: 11
+                            size: 12,
+                            weight: '600'
                         },
-                        padding: 10,
-                        boxWidth: 12
+                        padding: 12,
+                        boxWidth: 14,
+                        boxHeight: 14,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
                     }
                 },
                 tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    titleFont: {
+                        size: 13,
+                        weight: '600'
+                    },
+                    bodyFont: {
+                        size: 14,
+                        weight: '700'
+                    },
                     callbacks: {
                         label: function(context) {
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
