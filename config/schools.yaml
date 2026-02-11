@@ -1,0 +1,93 @@
+# School-to-stats-URL mappings for NCAA women's basketball
+# Used by scrapers/ncaa_stats.py to fetch player stats
+# Add more schools as needed — URL should point to the team stats page
+
+schools:
+  USC:
+    stats_url: "https://usctrojans.com/sports/womens-basketball/stats"
+  South Carolina:
+    stats_url: "https://gamecocksonline.com/sports/womens-basketball/stats"
+  LSU:
+    stats_url: "https://lsusports.net/sports/womens-basketball/stats"
+  UConn:
+    stats_url: "https://uconnhuskies.com/sports/womens-basketball/stats"
+  UCONN:
+    stats_url: "https://uconnhuskies.com/sports/womens-basketball/stats"
+  Stanford:
+    stats_url: "https://gostanford.com/sports/womens-basketball/stats"
+  UCLA:
+    stats_url: "https://uclabruins.com/sports/womens-basketball/stats"
+  Texas:
+    stats_url: "https://texassports.com/sports/womens-basketball/stats"
+  Iowa:
+    stats_url: "https://hawkeyesports.com/sports/womens-basketball/stats"
+  Oregon:
+    stats_url: "https://goducks.com/sports/womens-basketball/stats"
+  Notre Dame:
+    stats_url: "https://und.com/sports/womens-basketball/stats"
+  North Carolina:
+    stats_url: "https://goheels.com/sports/womens-basketball/stats"
+  Tennessee:
+    stats_url: "https://utsports.com/sports/womens-basketball/stats"
+  Maryland:
+    stats_url: "https://umterps.com/sports/womens-basketball/stats"
+  Duke:
+    stats_url: "https://goduke.com/sports/womens-basketball/stats"
+  Baylor:
+    stats_url: "https://baylorbears.com/sports/womens-basketball/stats"
+  Indiana:
+    stats_url: "https://iuhoosiers.com/sports/womens-basketball/stats"
+  Ohio State:
+    stats_url: "https://ohiostatebuckeyes.com/sports/womens-basketball/stats"
+  NC State:
+    stats_url: "https://gopack.com/sports/womens-basketball/stats"
+  Virginia Tech:
+    stats_url: "https://hokiesports.com/sports/womens-basketball/stats"
+  Oklahoma:
+    stats_url: "https://soonersports.com/sports/womens-basketball/stats"
+  Colorado:
+    stats_url: "https://cubuffs.com/sports/womens-basketball/stats"
+  Kentucky:
+    stats_url: "https://ukathletics.com/sports/womens-basketball/stats"
+  Florida:
+    stats_url: "https://floridagators.com/sports/womens-basketball/stats"
+  Alabama:
+    stats_url: "https://rolltide.com/sports/womens-basketball/stats"
+  Auburn:
+    stats_url: "https://auburntigers.com/sports/womens-basketball/stats"
+  Georgia:
+    stats_url: "https://georgiadogs.com/sports/womens-basketball/stats"
+  Kansas:
+    stats_url: "https://kuathletics.com/sports/womens-basketball/stats"
+  Michigan:
+    stats_url: "https://mgoblue.com/sports/womens-basketball/stats"
+  Oregon State:
+    stats_url: "https://osubeavers.com/sports/womens-basketball/stats"
+  Gonzaga:
+    stats_url: "https://gozags.com/sports/womens-basketball/stats"
+  Ole Miss:
+    stats_url: "https://olemisssports.com/sports/womens-basketball/stats"
+  Purdue:
+    stats_url: "https://purduesports.com/sports/womens-basketball/stats"
+  Arizona:
+    stats_url: "https://arizonawildcats.com/sports/womens-basketball/stats"
+  BYU:
+    stats_url: "https://byucougars.com/sports/womens-basketball/stats"
+  Villanova:
+    stats_url: "https://villanova.com/sports/womens-basketball/stats"
+  Creighton:
+    stats_url: "https://gocreighton.com/sports/womens-basketball/stats"
+  Louisville:
+    stats_url: "https://gocards.com/sports/womens-basketball/stats"
+  Mississippi State:
+    stats_url: "https://hailstate.com/sports/womens-basketball/stats"
+  TCU:
+    stats_url: "https://gofrogs.com/sports/womens-basketball/stats"
+  Arkansas:
+    stats_url: "https://arkansasrazorbacks.com/sports/womens-basketball/stats"
+  Washington:
+    stats_url: "https://gohuskies.com/sports/womens-basketball/stats"
+  Syracuse:
+    stats_url: "https://cuse.com/sports/womens-basketball/stats"
+  Nebraska:
+    stats_url: "https://huskers.com/sports/womens-basketball/stats"

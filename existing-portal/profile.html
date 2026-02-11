@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile — CollectorStream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --danger: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+.logo svg { width: 20px; height: 20px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+.btn-primary { background: var(--accent); color: #000; }
+.btn-primary:hover { background: var(--accent-dark); }
+.btn-outline { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 32px;
+}
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 32px;
+}
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.card-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+.form-group {
+    margin-bottom: 16px;
+}
+.form-group.full {
+    grid-column: 1 / -1;
+}
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+.form-group input::placeholder { color: var(--text-muted); }
+.form-group input:disabled {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+.msg {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+}
+.msg.visible { display: block; }
+.msg-success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); }
+.msg-error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); }
+.admin-section {
+    display: none;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+.admin-section.visible { display: block; }
+.admin-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--danger);
+    margin-bottom: 16px;
+}
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.user-table th {
+    text-align: left;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+.user-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+.role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.role-admin { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.role-user { background: var(--bg-secondary); color: var(--text-muted); }
+.profile-pic-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+.profile-pic-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.profile-pic-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.profile-pic-preview svg {
+    width: 40px;
+    height: 40px;
+    color: var(--text-muted);
+}
+.profile-pic-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.profile-pic-actions h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+.profile-pic-actions p {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+.file-input-wrapper input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<header class="header">
+    <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Collector</span><span>Stream</span>
+    </a>
+    <div class="header-actions">
+        <a href="/portfolio.html" class="btn btn-outline">Portfolio</a>
+        <button onclick="logout()" class="btn btn-danger">Sign Out</button>
+    </div>
+</header>
+
+<div class="container">
+    <h1 class="page-title">Account Settings</h1>
+    <p class="page-subtitle">Manage your profile and preferences</p>
+
+    <div id="profileMsg" class="msg"></div>
+
+    <!-- Profile Picture -->
+    <div class="card">
+        <h3 class="card-title">Profile Picture</h3>
+        <div class="profile-pic-section">
+            <div class="profile-pic-preview" id="profilePicPreview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="defaultPicIcon">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </div>
+            <div class="profile-pic-actions">
+                <h4>Upload a new photo</h4>
+                <p>JPG, PNG or GIF. Max 2MB.</p>
+                <div style="display: flex; gap: 8px;">
+                    <div class="file-input-wrapper">
+                        <button type="button" class="btn btn-outline btn-sm">Choose File</button>
+                        <input type="file" id="profilePicInput" accept="image/jpeg,image/png,image/gif" onchange="handleProfilePic(this)">
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" onclick="removeProfilePic()" id="removePicBtn" style="display:none;">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Info -->
+    <div class="card">
+        <h3 class="card-title">Profile Information</h3>
+        <form onsubmit="saveProfile(event)">
+            <div class="form-group">
+                <label>Email address</label>
+                <input type="email" id="email" disabled>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First name</label>
+                    <input type="text" id="firstName" placeholder="Enter first name">
+                </div>
+                <div class="form-group">
+                    <label>Last name</label>
+                    <input type="text" id="lastName" placeholder="Enter last name">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Display name</label>
+                <input type="text" id="displayName" placeholder="How should we call you?">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="card">
+        <h3 class="card-title">Change Password</h3>
+        <div id="passwordMsg" class="msg"></div>
+        <form onsubmit="changePassword(event)">
+            <div class="form-group">
+                <label>Current password</label>
+                <input type="password" id="currentPassword" placeholder="Enter current password" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>New password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label>Confirm new password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+        </form>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection" class="admin-section">
+        <h2>Admin Panel</h2>
+
+        <div class="card">
+            <h3 class="card-title">User Management</h3>
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading users...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Quick Actions</h3>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <a href="/private/" class="btn btn-outline">Pipeline Dashboard</a>
+                <a href="/admin/users.html" class="btn btn-outline">Full User Admin</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const API = "https://16bs8nqbr8.execute-api.us-east-1.amazonaws.com";
+
+// Check auth
+const token = localStorage.getItem("token");
+const email = localStorage.getItem("email");
+const role = localStorage.getItem("role");
+
+if (!token) {
+    location.href = "/login.html?redirect=/profile.html";
+}
+
+// Populate email
+document.getElementById("email").value = email || "";
+
+// Show admin section if admin
+if (role === "admin") {
+    document.getElementById("adminSection").classList.add("visible");
+    loadUsers();
+}
+
+function showMsg(id, text, isError) {
+    const el = document.getElementById(id);
+    el.className = "msg visible " + (isError ? "msg-error" : "msg-success");
+    el.textContent = text;
+    setTimeout(() => el.classList.remove("visible"), 5000);
+}
+
+async function saveProfile(e) {
+    e.preventDefault();
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const displayName = document.getElementById("displayName").value;
+
+    // TODO: Implement profile save API
+    showMsg("profileMsg", "Profile saved successfully!", false);
+}
+
+async function changePassword(e) {
+    e.preventDefault();
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    if (newPassword !== confirmPassword) {
+        showMsg("passwordMsg", "New passwords do not match", true);
+        return;
+    }
+
+    try {
+        const res = await fetch(API + "/auth/change-password", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                current_password: currentPassword,
+                new_password: newPassword
+            })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            showMsg("passwordMsg", data.error || "Failed to change password", true);
+            return;
+        }
+        showMsg("passwordMsg", "Password changed successfully!", false);
+        document.getElementById("currentPassword").value = "";
+        document.getElementById("newPassword").value = "";
+        document.getElementById("confirmPassword").value = "";
+    } catch (e) {
+        showMsg("passwordMsg", "Network error. Please try again.", true);
+    }
+}
+
+async function loadUsers() {
+    try {
+        const res = await fetch(API + "/admin/users", {
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (!res.ok) return;
+        const users = await res.json();
+        const tbody = document.getElementById("userTableBody");
+        tbody.innerHTML = users.map(u => `
+            <tr>
+                <td>${u.email}</td>
+                <td><span class="role-badge role-${u.role}">${u.role}</span></td>
+                <td>${u.created_at ? new Date(u.created_at).toLocaleDateString() : '-'}</td>
+                <td>
+                    ${u.role !== 'admin' ? `<button onclick="deleteUser('${u.email}')" class="btn btn-danger" style="padding: 4px 12px; font-size: 12px;">Delete</button>` : ''}
+                </td>
+            </tr>
+        `).join("");
+    } catch (e) {
+        console.error("Failed to load users", e);
+    }
+}
+
+async function deleteUser(userEmail) {
+    if (!confirm("Delete user " + userEmail + "?")) return;
+    try {
+        const res = await fetch(API + "/admin/users/" + encodeURIComponent(userEmail), {
+            method: "DELETE",
+            headers: { "Authorization": "Bearer " + token }
+        });
+        if (res.ok) loadUsers();
+    } catch (e) {
+        alert("Failed to delete user");
+    }
+}
+
+// Profile Picture Functions
+function loadProfilePic() {
+    const pic = localStorage.getItem("profilePic");
+    if (pic) {
+        showProfilePic(pic);
+    }
+}
+
+function showProfilePic(dataUrl) {
+    const preview = document.getElementById("profilePicPreview");
+    const icon = document.getElementById("defaultPicIcon");
+    const removeBtn = document.getElementById("removePicBtn");
+
+    // Remove existing image if any
+    const existingImg = preview.querySelector("img");
+    if (existingImg) existingImg.remove();
+
+    // Create and add new image
+    const img = document.createElement("img");
+    img.src = dataUrl;
+    img.alt = "Profile";
+    preview.appendChild(img);
+
+    // Hide default icon, show remove button
+    if (icon) icon.style.display = "none";
+    if (removeBtn) removeBtn.style.display = "inline-block";
+}
+
+function handleProfilePic(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Validate file size (2MB max)
+    if (file.size > 2 * 1024 * 1024) {
+        showMsg("profileMsg", "Image must be less than 2MB", true);
+        input.value = "";
+        return;
+    }
+
+    // Validate file type
+    if (!file.type.match(/^image\/(jpeg|png|gif)$/)) {
+        showMsg("profileMsg", "Please upload a JPG, PNG, or GIF image", true);
+        input.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const dataUrl = e.target.result;
+
+        // Resize image to reduce storage size
+        resizeImage(dataUrl, 200, 200, function(resizedDataUrl) {
+            localStorage.setItem("profilePic", resizedDataUrl);
+            showProfilePic(resizedDataUrl);
+            showMsg("profileMsg", "Profile picture updated!", false);
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
+function resizeImage(dataUrl, maxWidth, maxHeight, callback) {
+    const img = new Image();
+    img.onload = function() {
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions
+        if (width > height) {
+            if (width > maxWidth) {
+                height = height * maxWidth / width;
+                width = maxWidth;
+            }
+        } else {
+            if (height > maxHeight) {
+                width = width * maxHeight / height;
+                height = maxHeight;
+            }
+        }
+
+        // Create canvas and resize
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        callback(canvas.toDataURL("image/jpeg", 0.8));
+    };
+    img.src = dataUrl;
+}
+
+function removeProfilePic() {
+    localStorage.removeItem("profilePic");
+
+    const preview = document.getElementById("profilePicPreview");
+    const icon = document.getElementById("defaultPicIcon");
+    const removeBtn = document.getElementById("removePicBtn");
+
+    // Remove image
+    const img = preview.querySelector("img");
+    if (img) img.remove();
+
+    // Show default icon, hide remove button
+    if (icon) icon.style.display = "block";
+    if (removeBtn) removeBtn.style.display = "none";
+
+    showMsg("profileMsg", "Profile picture removed", false);
+}
+
+// Load profile pic on page load
+loadProfilePic();
+
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    localStorage.removeItem("profilePic");
+    location.href = "/";
+}
+</script>
+</body>
+</html>

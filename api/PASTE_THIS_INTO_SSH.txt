@@ -1,0 +1,72 @@
+#!/bin/bash
+# Paste this ENTIRE block into your browser SSH terminal
+
+cd /home/ubuntu/collectorstream-api
+
+echo "🔧 Fixing cards.py..."
+
+# Restore backup
+cp cards.py.backup cards.py
+
+# Apply fix
+python3 << 'ENDPYTHON'
+with open('cards.py', 'r') as f:
+    lines = f.readlines()
+
+# Find the identify_card function
+start = None
+end = None
+for i, line in enumerate(lines):
+    if '@router.post("/identify"' in line:
+        start = i
+    elif start is not None and (line.startswith('async def identify_with_ximilar') or line.startswith('@router.')):
+        if 'identify' not in line or 'identify_with_ximilar' in line:
+            end = i
+            break
+
+if start is not None and end is not None:
+    # New function
+    new = '''@router.post("/identify", response_model=CardIdentificationResponse)
+async def identify_card(
+    image: UploadFile = File(...),
+    sport: Optional[str] = "baseball",
+    current_user: dict = Depends(get_current_user)
+):
+    """Identify card using multi-model AI"""
+    from card_identifier import get_identifier
+    image_data = await image.read()
+    image_base64 = base64.b64encode(image_data).decode()
+    print(f"🔍 Identifying {sport} card...")
+    try:
+        identifier = get_identifier()
+        result = await identifier.identify_card(image_base64, sport)
+        print(f"✅ {result.modelUsed}: {result.confidence:.0%}")
+        return CardIdentificationResponse(
+            playerName=result.playerName, team=result.team, year=result.year,
+            set=result.set, cardNumber=result.cardNumber, manufacturer=result.manufacturer,
+            estimatedValue=result.estimatedValue, confidence=result.confidence, grading=result.grading
+        )
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return CardIdentificationResponse(confidence=0.1, grading=None)
+
+'''
+    # Replace
+    with open('cards.py', 'w') as f:
+        f.writelines(lines[:start])
+        f.write(new)
+        f.write('\n')
+        f.writelines(lines[end:])
+    print("✅ Fixed cards.py")
+else:
+    print("❌ Could not find function")
+ENDPYTHON
+
+# Restart
+echo "🔄 Restarting service..."
+sudo systemctl restart collectorstream-api
+sleep 3
+sudo systemctl status collectorstream-api --no-pager | head -10
+curl -s http://localhost:8000/health | head -5
+echo ""
+echo "✅ Done!"

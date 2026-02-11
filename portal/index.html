@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CollectorStream Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --border-hover: #2a2a2a;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+.hidden { display: none !important; }
+
+/* Top Bar */
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); }
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo svg { width: 20px; height: 20px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+
+.header-right { display: flex; align-items: center; gap: 16px; }
+
+.header-nav { display: flex; gap: 8px; }
+
+.nav-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.nav-btn:hover { color: var(--text-primary); background: var(--bg-card); }
+.nav-btn.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-card);
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover { background: var(--bg-secondary); border-color: var(--border-hover); color: var(--text-primary); }
+
+/* Login Screen */
+.login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.login-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-box h1 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.login-box p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.btn:hover { background: var(--accent-dark); }
+.btn:disabled { background: var(--text-muted); cursor: not-allowed; opacity: 0.5; }
+
+.btn-secondary {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover { background: var(--bg-secondary); border-color: var(--border-hover); }
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover { background: #dc2626; }
+
+.error, .success {
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    color: #fca5a5;
+}
+
+.success {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success);
+    color: #6ee7b7;
+}
+
+/* Main Content */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px;
+}
+
+/* Portfolio Section */
+.section-header {
+    margin-bottom: 24px;
+}
+
+.section-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.section-header .subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.filter-bar select {
+    padding: 10px 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.card-item:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 16px;
+}
+
+.card-player {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card-team {
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.card-sport {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card-value {
+    color: var(--success);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 900px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.close-btn:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.modal-body {
+    display: grid;
+    gap: 24px;
+}
+
+.modal-section {
+    display: grid;
+    gap: 16px;
+}
+
+.modal-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.modal-actions .btn {
+    width: auto;
+    flex: 1;
+}
+
+/* Performance Badge */
+.performance-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.performance-badge.positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.performance-badge.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.performance-badge.neutral {
+    background: rgba(156, 163, 175, 0.1);
+    color: var(--text-muted);
+}
+
+/* Recommendation Badge */
+.recommendation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.recommendation-badge.buy {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.recommendation-badge.sell {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.recommendation-badge.hold {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+}
+
+/* Admin Section */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.scraper-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.scraper-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    transition: border-color 0.2s;
+}
+
+.scraper-card:hover { border-color: var(--accent); }
+
+.scraper-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.scraper-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.scraper-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.scraper-controls select {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+
+.scraper-controls .btn {
+    width: auto;
+    padding: 8px 16px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: var(--bg-primary);
+}
+
+th {
+    padding: 12px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 12px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+}
+
+tbody tr:hover {
+    background: var(--bg-primary);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge.active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.badge.inactive {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.badge.admin {
+    background: rgba(96, 165, 250, 0.1);
+    color: #60a5fa;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: var(--bg-primary);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-box">
+        <h1>CollectorStream</h1>
+        <p>Sign in to your account</p>
+        <div id="loginError" class="error hidden"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+    </div>
+</div>
+
+<!-- Portal (Hidden until logged in) -->
+<div id="portal" class="hidden">
+    <div class="top-bar"></div>
+    <header class="header">
+        <div class="logo" onclick="showSection('portfolio')">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"/>
+            </svg>
+            <span>Collector<span>Stream</span></span>
+        </div>
+        <div class="header-right">
+            <nav class="header-nav">
+                <button class="nav-btn active" data-section="portfolio">Portfolio</button>
+                <button class="nav-btn" data-section="profile">Profile</button>
+                <button class="nav-btn hidden" id="adminNavBtn" data-section="admin">Admin</button>
+            </nav>
+            <div class="user-badge">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                </svg>
+                <span id="userEmail"></span>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Portfolio Section -->
+    <div id="portfolioSection" class="container">
+        <div class="section-header">
+            <h1>My Collection</h1>
+            <p class="subtitle">Track your sports card investments and performance</p>
+        </div>
+
+        <div class="filter-bar">
+            <select id="sportFilter" onchange="loadCollection()">
+                <option value="">All Sports</option>
+                <option value="baseball">Baseball</option>
+                <option value="basketball">Basketball</option>
+                <option value="football">Football</option>
+                <option value="hockey">Hockey</option>
+                <option value="soccer">Soccer</option>
+            </select>
+        </div>
+
+        <div id="cardsContainer" class="cards-grid">
+            <div class="loading">Loading your collection...</div>
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+            <svg fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"/>
+                <path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <h3>No cards yet</h3>
+            <p>Start building your collection using the iOS app</p>
+        </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div id="profileSection" class="container hidden">
+        <div class="section-header">
+            <h1>Profile</h1>
+            <p class="subtitle">Manage your account settings</p>
+        </div>
+
+        <div class="section">
+            <h2>Account Information</h2>
+            <div id="profileError" class="error hidden"></div>
+            <div id="profileSuccess" class="success hidden"></div>
+            <form id="profileForm">
+                <div class="modal-grid">
+                    <div class="form-group">
+                        <label for="profileEmail">Email</label>
+                        <input type="email" id="profileEmail" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileUsername">Username</label>
+                        <input type="text" id="profileUsername" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Save Changes</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Change Password</h2>
+            <div id="passwordError" class="error hidden"></div>
+            <div id="passwordSuccess" class="success hidden"></div>
+            <form id="passwordForm">
+                <div class="modal-grid">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Section -->
+    <div id="adminSection" class="container hidden">
+        <div class="section-header">
+            <h1>Admin Dashboard</h1>
+            <p class="subtitle">Manage users, scrapers, and system settings</p>
+        </div>
+
+        <!-- System Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalUsers">-</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeUsers">-</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalCards">-</div>
+                <div class="stat-label">Total Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="newUsersWeek">-</div>
+                <div class="stat-label">New Users (7 days)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="cardsWeek">-</div>
+                <div class="stat-label">Cards Added (7 days)</div>
+            </div>
+        </div>
+
+        <!-- Scraper Management -->
+        <div class="section">
+            <h2>Scraper Management</h2>
+            <div id="scraperSuccess" class="success hidden"></div>
+            <div id="scraperError" class="error hidden"></div>
+            <div class="scraper-grid" id="scraperGrid"></div>
+        </div>
+
+        <!-- User Management -->
+        <div class="section">
+            <h2>User Management</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>Status</th>
+                            <th>Role</th>
+                            <th>Cards</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <tr><td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">Loading users...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Card Detail Modal -->
+<div id="cardModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Card Details</h2>
+            <button class="close-btn" onclick="closeCardModal()">&times;</button>
+        </div>
+        <div id="modalError" class="error hidden"></div>
+        <div id="modalSuccess" class="success hidden"></div>
+        <div class="modal-body">
+            <form id="cardForm">
+                <input type="hidden" id="cardId">
+
+                <div class="modal-section">
+                    <h3>Player Information</h3>
+                    <div class="modal-grid">
+                        <div class="form-group">
+                            <label for="playerName">Player Name *</label>
+                            <input type="text" id="playerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="team">Team</label>
+                            <input type="text" id="team">
+                        </div>
+                        <div class="form-group">
+                            <label for="sport">Sport</label>
+                            <select id="sport">
+                                <option value="baseball">Baseball</option>
+                                <option value="basketball">Basketball</option>
+                                <option value="football">Football</option>
+                                <option value="hockey">Hockey</option>
+                                <option value="soccer">Soccer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="text" id="year">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Card Details</h3>
+                    <div class="modal-grid">
+                        <div class="form-group">
+                            <label for="cardSet">Set</label>
+                            <input type="text" id="cardSet">
+                        </div>
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber">
+                        </div>
+                        <div class="form-group">
+                            <label for="manufacturer">Manufacturer</label>
+                            <input type="text" id="manufacturer">
+                        </div>
+                        <div class="form-group">
+                            <label for="condition">Condition</label>
+                            <input type="text" id="condition">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Grading</h3>
+                    <div class="modal-grid">
+                        <div class="form-group">
+                            <label for="gradingCompany">Grading Company</label>
+                            <input type="text" id="gradingCompany" placeholder="PSA, BGS, SGC, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="gradingGrade">Grade</label>
+                            <input type="text" id="gradingGrade" placeholder="10, 9.5, Gem Mint, etc.">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-section">
+                    <h3>Value & Investment</h3>
+                    <div class="modal-grid">
+                        <div class="form-group">
+                            <label for="purchasePrice">Purchase Price ($)</label>
+                            <input type="number" id="purchasePrice" step="0.01" placeholder="0.00">
+                        </div>
+                        <div class="form-group">
+                            <label for="estimatedValue">Estimated Value ($)</label>
+                            <input type="number" id="estimatedValue" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+
+                    <div id="performanceInfo"></div>
+
+                    <button type="button" class="btn btn-secondary" onclick="refreshMarketValue()" id="refreshMarketBtn">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                        </svg>
+                        Refresh Market Value
+                    </button>
+                </div>
+
+                <div class="modal-section">
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea id="notes" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn">Save Changes</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteCard()">Delete Card</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeCardModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Edit User</h2>
+            <button class="close-btn" onclick="closeEditUserModal()">&times;</button>
+        </div>
+        <div id="editUserError" class="error hidden"></div>
+        <div id="editUserSuccess" class="success hidden"></div>
+        <form id="editUserForm">
+            <input type="hidden" id="editUserId">
+            <div class="modal-grid">
+                <div class="form-group">
+                    <label for="editUserEmail">Email</label>
+                    <input type="email" id="editUserEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editUserUsername">Username</label>
+                    <input type="text" id="editUserUsername" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editUserActive">Status</label>
+                <select id="editUserActive">
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn">Save Changes</button>
+                <button type="button" class="btn btn-secondary" onclick="closeEditUserModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetPasswordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Reset Password</h2>
+            <button class="close-btn" onclick="closeResetPasswordModal()">&times;</button>
+        </div>
+        <div id="resetPasswordError" class="error hidden"></div>
+        <div id="resetPasswordSuccess" class="success hidden"></div>
+        <form id="resetPasswordForm">
+            <input type="hidden" id="resetUserId">
+            <div class="form-group">
+                <label for="resetNewPassword">New Password</label>
+                <input type="password" id="resetNewPassword" required>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn">Reset Password</button>
+                <button type="button" class="btn btn-secondary" onclick="closeResetPasswordModal()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const API_BASE = 'https://api.collectorstream.com/v1';
+let authToken = localStorage.getItem('authToken');
+let currentUser = null;
+let currentCard = null;
+let isAdmin = false;
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    if (authToken) {
+        verifyToken();
+    } else {
+        showLoginScreen();
+    }
+
+    // Navigation
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const section = e.target.dataset.section;
+            showSection(section);
+        });
+    });
+});
+
+// Login
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch(`${API_BASE}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.detail || 'Login failed');
+        }
+
+        authToken = data.token;
+        localStorage.setItem('authToken', authToken);
+        currentUser = data.user;
+
+        showPortal();
+    } catch (error) {
+        showError('loginError', error.message);
+    }
+});
+
+async function verifyToken() {
+    try {
+        const response = await fetch(`${API_BASE}/auth/validate`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) {
+            throw new Error('Invalid token');
+        }
+
+        currentUser = await response.json();
+        showPortal();
+    } catch (error) {
+        logout();
+    }
+}
+
+function showLoginScreen() {
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('portal').classList.add('hidden');
+}
+
+function showPortal() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('portal').classList.remove('hidden');
+    document.getElementById('userEmail').textContent = currentUser.email;
+
+    // Check if user is admin
+    const adminEmails = ['todd@collectorstream.com', 'todd@fluxzi.com'];
+    isAdmin = adminEmails.includes(currentUser.email.toLowerCase());
+
+    if (isAdmin) {
+        document.getElementById('adminNavBtn').classList.remove('hidden');
+    }
+
+    showSection('portfolio');
+}
+
+function logout() {
+    localStorage.removeItem('authToken');
+    authToken = null;
+    currentUser = null;
+    showLoginScreen();
+}
+
+// Navigation
+function showSection(section) {
+    // Hide all sections
+    document.getElementById('portfolioSection').classList.add('hidden');
+    document.getElementById('profileSection').classList.add('hidden');
+    document.getElementById('adminSection').classList.add('hidden');
+
+    // Update nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.section === section) {
+            btn.classList.add('active');
+        }
+    });
+
+    // Show selected section
+    if (section === 'portfolio') {
+        document.getElementById('portfolioSection').classList.remove('hidden');
+        loadCollection();
+    } else if (section === 'profile') {
+        document.getElementById('profileSection').classList.remove('hidden');
+        loadProfile();
+    } else if (section === 'admin' && isAdmin) {
+        document.getElementById('adminSection').classList.remove('hidden');
+        loadAdminData();
+    }
+}
+
+// Portfolio/Collection
+async function loadCollection() {
+    const sport = document.getElementById('sportFilter').value;
+    const container = document.getElementById('cardsContainer');
+    const emptyState = document.getElementById('emptyState');
+
+    container.innerHTML = '<div class="loading">Loading your collection...</div>';
+    emptyState.classList.add('hidden');
+
+    try {
+        let url = `${API_BASE}/cards`;
+        if (sport) url += `?sport=${sport}`;
+
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load cards');
+
+        const data = await response.json();
+
+        if (data.cards.length === 0) {
+            container.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            return;
+        }
+
+        container.innerHTML = data.cards.map(card => `
+            <div class="card-item" onclick='openCardModal(${JSON.stringify(card).replace(/'/g, "&apos;")})'>
+                <div class="card-image">
+                    ${card.frontImageUrl ? `<img src="${card.frontImageUrl}" alt="${card.playerName}">` : '<span>No Image</span>'}
+                </div>
+                <div class="card-info">
+                    <div class="card-player">${card.playerName}</div>
+                    <div class="card-team">${card.team || 'Team Unknown'} • ${card.year || 'Year Unknown'}</div>
+                    <div class="card-details">
+                        <span class="card-sport">${normalizeSport(card.sport)}</span>
+                        ${card.marketValue ?
+                            `<span class="card-value">$${card.marketValue.currentValue.toFixed(2)}</span>` :
+                            card.estimatedValue ?
+                            `<span class="card-value">~$${card.estimatedValue.toFixed(2)}</span>` :
+                            '<span class="card-value">-</span>'
+                        }
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        container.innerHTML = `<div class="error">Error loading collection: ${error.message}</div>`;
+    }
+}
+
+function normalizeSport(sport) {
+    if (!sport) return 'Baseball';
+    const sportLower = sport.toLowerCase();
+    if (sportLower.includes('baseball') || sportLower === 'mlb') return 'Baseball';
+    if (sportLower.includes('basketball') || sportLower === 'nba' || sportLower === 'wnba') return 'Basketball';
+    if (sportLower.includes('football') || sportLower === 'nfl') return 'Football';
+    if (sportLower.includes('hockey') || sportLower === 'nhl') return 'Hockey';
+    if (sportLower.includes('soccer')) return 'Soccer';
+    return 'Baseball';
+}
+
+// Card Modal
+function openCardModal(card) {
+    currentCard = card;
+    document.getElementById('cardModal').classList.add('active');
+
+    // Populate form
+    document.getElementById('cardId').value = card.id;
+    document.getElementById('playerName').value = card.playerName || '';
+    document.getElementById('team').value = card.team || '';
+    document.getElementById('sport').value = normalizeSport(card.sport).toLowerCase();
+    document.getElementById('year').value = card.year || '';
+    document.getElementById('cardSet').value = card.set || '';
+    document.getElementById('cardNumber').value = card.cardNumber || '';
+    document.getElementById('manufacturer').value = card.manufacturer || '';
+    document.getElementById('condition').value = card.condition || '';
+    document.getElementById('gradingCompany').value = card.grading?.company || '';
+    document.getElementById('gradingGrade').value = card.grading?.grade || '';
+    document.getElementById('purchasePrice').value = card.purchasePrice || '';
+    document.getElementById('estimatedValue').value = card.estimatedValue || '';
+    document.getElementById('notes').value = card.notes || '';
+
+    // Show performance info
+    updatePerformanceInfo(card);
+}
+
+function closeCardModal() {
+    document.getElementById('cardModal').classList.remove('active');
+    currentCard = null;
+}
+
+function updatePerformanceInfo(card) {
+    const container = document.getElementById('performanceInfo');
+
+    if (!card.marketValue && !card.purchasePrice) {
+        container.innerHTML = '';
+        return;
+    }
+
+    const currentValue = card.marketValue?.currentValue || card.estimatedValue || 0;
+    const purchasePrice = card.purchasePrice || 0;
+    const profit = currentValue - purchasePrice;
+    const profitPercent = purchasePrice > 0 ? ((profit / purchasePrice) * 100) : 0;
+
+    // Determine recommendation
+    let recommendation = 'hold';
+    let recText = 'HOLD';
+    if (profitPercent > 20) {
+        recommendation = 'sell';
+        recText = 'SELL';
+    } else if (profitPercent < -10) {
+        recommendation = 'buy';
+        recText = 'BUY MORE';
+    }
+
+    const perfClass = profit > 0 ? 'positive' : profit < 0 ? 'negative' : 'neutral';
+    const perfSymbol = profit > 0 ? '+' : '';
+
+    container.innerHTML = `
+        <div style="margin-top: 16px; padding: 16px; background: var(--bg-primary); border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">Current Value</div>
+                    <div style="font-size: 24px; font-weight: 700; color: var(--success);">$${currentValue.toFixed(2)}</div>
+                </div>
+                <div>
+                    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">Purchase Price</div>
+                    <div style="font-size: 24px; font-weight: 700;">$${purchasePrice.toFixed(2)}</div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="performance-badge ${perfClass}">
+                    ${perfSymbol}$${profit.toFixed(2)} (${perfSymbol}${profitPercent.toFixed(1)}%)
+                </div>
+                <div class="recommendation-badge ${recommendation}">
+                    ${recText}
+                </div>
+            </div>
+            ${card.marketValue ? `
+                <div style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">
+                    Last updated: ${new Date(card.marketValue.lastChecked).toLocaleDateString()}
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
+document.getElementById('cardForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const cardId = document.getElementById('cardId').value;
+
+    const cardData = {
+        player_name: document.getElementById('playerName').value,
+        team: document.getElementById('team').value,
+        sport: document.getElementById('sport').value,
+        year: document.getElementById('year').value,
+        set: document.getElementById('cardSet').value,
+        card_number: document.getElementById('cardNumber').value,
+        manufacturer: document.getElementById('manufacturer').value,
+        condition: document.getElementById('condition').value,
+        grading_company: document.getElementById('gradingCompany').value,
+        grading_grade: document.getElementById('gradingGrade').value,
+        purchase_price: parseFloat(document.getElementById('purchasePrice').value) || null,
+        estimated_value: parseFloat(document.getElementById('estimatedValue').value) || null,
+        notes: document.getElementById('notes').value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/cards/${cardId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cardData)
+        });
+
+        if (!response.ok) throw new Error('Failed to update card');
+
+        showSuccess('modalSuccess', 'Card updated successfully!');
+        setTimeout(() => {
+            closeCardModal();
+            loadCollection();
+        }, 1500);
+    } catch (error) {
+        showError('modalError', error.message);
+    }
+});
+
+async function deleteCard() {
+    if (!confirm('Are you sure you want to delete this card?')) return;
+
+    const cardId = document.getElementById('cardId').value;
+
+    try {
+        const response = await fetch(`${API_BASE}/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to delete card');
+
+        closeCardModal();
+        loadCollection();
+    } catch (error) {
+        showError('modalError', error.message);
+    }
+}
+
+async function refreshMarketValue() {
+    const btn = document.getElementById('refreshMarketBtn');
+    const cardId = document.getElementById('cardId').value;
+
+    btn.disabled = true;
+    btn.textContent = 'Fetching...';
+
+    try {
+        const response = await fetch(`${API_BASE}/cards/${cardId}/market-value`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch market value');
+
+        const data = await response.json();
+
+        if (data.marketValue) {
+            document.getElementById('estimatedValue').value = data.marketValue.toFixed(2);
+            showSuccess('modalSuccess', 'Market value updated successfully!');
+
+            // Update performance info
+            currentCard.marketValue = {
+                currentValue: data.marketValue,
+                lastChecked: new Date().toISOString()
+            };
+            currentCard.estimatedValue = data.marketValue;
+            updatePerformanceInfo(currentCard);
+        } else {
+            showError('modalError', 'Could not determine market value');
+        }
+    } catch (error) {
+        showError('modalError', error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg> Refresh Market Value';
+    }
+}
+
+// Profile
+function loadProfile() {
+    document.getElementById('profileEmail').value = currentUser.email;
+    document.getElementById('profileUsername').value = currentUser.username;
+}
+
+document.getElementById('profileForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // Profile update not implemented in backend yet
+    showError('profileError', 'Profile updates coming soon');
+});
+
+document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    // Password change not implemented in backend yet
+    showError('passwordError', 'Password change coming soon');
+});
+
+// Admin
+async function loadAdminData() {
+    if (!isAdmin) return;
+
+    // Load stats
+    try {
+        const response = await fetch(`${API_BASE}/admin/stats`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const data = await response.json();
+
+        document.getElementById('totalUsers').textContent = data.users.total;
+        document.getElementById('activeUsers').textContent = data.users.active;
+        document.getElementById('totalCards').textContent = data.cards.total;
+        document.getElementById('newUsersWeek').textContent = data.users.newLastWeek;
+        document.getElementById('cardsWeek').textContent = data.cards.addedLastWeek;
+    } catch (error) {
+        console.error('Failed to load stats:', error);
+    }
+
+    // Load scrapers
+    try {
+        const response = await fetch(`${API_BASE}/admin/scrapers`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const data = await response.json();
+
+        const grid = document.getElementById('scraperGrid');
+        grid.innerHTML = data.scrapers.map(scraper => `
+            <div class="scraper-card">
+                <div class="scraper-name">${scraper.name}</div>
+                <div class="scraper-desc">${scraper.description}</div>
+                <div class="scraper-controls">
+                    <select id="${scraper.id}_sport">
+                        <option value="basketball">Basketball</option>
+                        <option value="football">Football</option>
+                        <option value="baseball">Baseball</option>
+                        <option value="hockey">Hockey</option>
+                    </select>
+                    <select id="${scraper.id}_year">
+                        ${[2026, 2025, 2024, 2023].map(y => `<option value="${y}">${y}</option>`).join('')}
+                    </select>
+                </div>
+                <button class="btn" onclick="runScraper('${scraper.id}')">Run</button>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Failed to load scrapers:', error);
+    }
+
+    // Load users
+    loadUsers();
+}
+
+async function loadUsers() {
+    try {
+        const response = await fetch(`${API_BASE}/admin/users`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+        const data = await response.json();
+
+        const tbody = document.getElementById('usersTable');
+        tbody.innerHTML = data.users.map(user => `
+            <tr>
+                <td>${user.email}</td>
+                <td>${user.username}</td>
+                <td><span class="badge ${user.isActive ? 'active' : 'inactive'}">${user.isActive ? 'Active' : 'Inactive'}</span></td>
+                <td>${user.isAdmin ? '<span class="badge admin">Admin</span>' : '-'}</td>
+                <td>${user.cardCount || 0}</td>
+                <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                <td class="table-actions">
+                    <button class="icon-btn" onclick='editUser(${JSON.stringify(user).replace(/'/g, "&apos;")})'>Edit</button>
+                    <button class="icon-btn" onclick="resetUserPassword('${user.id}', '${user.email}')">Reset PW</button>
+                    ${!user.isAdmin ? `<button class="icon-btn" onclick="deleteUser('${user.id}', '${user.email}')">Delete</button>` : ''}
+                </td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error('Failed to load users:', error);
+    }
+}
+
+async function runScraper(scraperId) {
+    const sport = document.getElementById(`${scraperId}_sport`).value;
+    const year = parseInt(document.getElementById(`${scraperId}_year`).value);
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/scrapers/run`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ scraper: scraperId, sport, year })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.detail);
+
+        showSuccess('scraperSuccess', `${scraperId} scraper started successfully! (PID: ${data.pid})`);
+    } catch (error) {
+        showError('scraperError', error.message);
+    }
+}
+
+function editUser(user) {
+    document.getElementById('editUserId').value = user.id;
+    document.getElementById('editUserEmail').value = user.email;
+    document.getElementById('editUserUsername').value = user.username;
+    document.getElementById('editUserActive').value = user.isActive.toString();
+    document.getElementById('editUserModal').classList.add('active');
+}
+
+function closeEditUserModal() {
+    document.getElementById('editUserModal').classList.remove('active');
+}
+
+document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userId = document.getElementById('editUserId').value;
+
+    const updates = {
+        email: document.getElementById('editUserEmail').value,
+        username: document.getElementById('editUserUsername').value,
+        is_active: document.getElementById('editUserActive').value === 'true'
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updates)
+        });
+
+        if (!response.ok) throw new Error('Failed to update user');
+
+        showSuccess('editUserSuccess', 'User updated successfully!');
+        setTimeout(() => {
+            closeEditUserModal();
+            loadUsers();
+        }, 1500);
+    } catch (error) {
+        showError('editUserError', error.message);
+    }
+});
+
+function resetUserPassword(userId, email) {
+    document.getElementById('resetUserId').value = userId;
+    document.getElementById('resetPasswordModal').classList.add('active');
+}
+
+function closeResetPasswordModal() {
+    document.getElementById('resetPasswordModal').classList.remove('active');
+}
+
+document.getElementById('resetPasswordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userId = document.getElementById('resetUserId').value;
+    const newPassword = document.getElementById('resetNewPassword').value;
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}/reset-password`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ new_password: newPassword })
+        });
+
+        if (!response.ok) throw new Error('Failed to reset password');
+
+        showSuccess('resetPasswordSuccess', 'Password reset successfully!');
+        setTimeout(() => {
+            closeResetPasswordModal();
+        }, 1500);
+    } catch (error) {
+        showError('resetPasswordError', error.message);
+    }
+});
+
+async function deleteUser(userId, email) {
+    if (!confirm(`Are you sure you want to delete ${email}?`)) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to delete user');
+
+        loadUsers();
+    } catch (error) {
+        alert('Error: ' + error.message);
+    }
+}
+
+// Utility functions
+function showError(elementId, message) {
+    const el = document.getElementById(elementId);
+    el.textContent = message;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 5000);
+}
+
+function showSuccess(elementId, message) {
+    const el = document.getElementById(elementId);
+    el.textContent = message;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 3000);
+}
+</script>
+</body>
+</html>

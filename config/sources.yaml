@@ -1,0 +1,279 @@
+# Mock draft sources organized by sport
+# Each sport has sources with URLs per draft year
+# Update URLs when new mock draft articles are published
+
+# ============================================================================
+# WNBA - Women's National Basketball Association
+# ============================================================================
+wnba:
+  draft_years: [2026, 2027, 2028, 2029, 2030]
+
+  sources:
+    bleacher_report:
+      name: "Bleacher Report"
+      urls:
+        2026: "https://bleacherreport.com/articles/25257478-2026-wnba-mock-draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    espn:
+      name: "ESPN"
+      urls:
+        2026: "https://www.espn.com/wnba/story/_/id/47077823/wnba-mock-draft-2026-lottery-dallas-wings-no-1-pick-awa-fam-betts-miles-latson-johnson-fudd"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    hoops_hq:
+      name: "Hoops HQ"
+      urls:
+        2026: "https://www.hoopshq.com/womens-college-basketball/2026-wnba-mock-draft-jan-30"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    swish_appeal:
+      name: "Swish Appeal"
+      urls:
+        2026: "https://www.swishappeal.com/ncaa/69663/wnba-mock-draft-dallas-wings-no-1-pick-azzi-fudd-flaujae-johnson-lauren-betts-olivia-miles-taniya-latson-awa-fam-raven-johnson"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    wbasketball_blog:
+      name: "WBasketball Blog"
+      urls:
+        2026: "https://wbasketballblog.com/2026/01/09/2026-wnba-mock-draft-4-0/"
+        2027: "https://wbasketballblog.com/2026/01/20/2027-wnba-mock-draft-3-0/"
+        2028: "https://wbasketballblog.com/2026/01/21/2028-wnba-mock-draft-2-0/"
+        2029: "https://wbasketballblog.com/2026/01/27/2029-wnba-mock-draft-1-0/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    across_the_timeline:
+      name: "Across The Timeline"
+      urls:
+        2026: "https://www.acrossthetimeline.com/wnba/mock-drafts.html"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    tankathon:
+      name: "Tankathon"
+      urls:
+        2026: "https://www.tankathon.com/wnba/mock_draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    pas_sports:
+      name: "PAS-Sports"
+      urls:
+        2026: "https://pas-sports.com/2026-draft-class-1"
+        2027: "https://pas-sports.com/2027-draft-class"
+        2028: "https://pas-sports.com/2028-draft-class"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    yahoo_sports:
+      name: "Yahoo Sports"
+      urls:
+        2026: "https://sports.yahoo.com/articles/2026-wnba-draft-think-no-162233121.html"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+
+# ============================================================================
+# NBA - National Basketball Association
+# ============================================================================
+nba:
+  draft_years: [2026, 2027, 2028]
+
+  sources:
+    espn:
+      name: "ESPN"
+      urls:
+        2026: "https://www.espn.com/nba/draft/bestavailable"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    nbadraft_net:
+      name: "NBADraft.net"
+      urls:
+        2026: "https://www.nbadraft.net/nba-mock-drafts/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    tankathon:
+      name: "Tankathon"
+      urls:
+        2026: "https://www.tankathon.com/mock_draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    bleacher_report:
+      name: "Bleacher Report"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    the_ringer:
+      name: "The Ringer"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    yahoo_sports:
+      name: "Yahoo Sports"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    nbc_sports:
+      name: "NBC Sports"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    sporting_news:
+      name: "Sporting News"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+
+# ============================================================================
+# NFL - National Football League
+# ============================================================================
+nfl:
+  draft_years: [2026, 2027]
+
+  sources:
+    tankathon:
+      name: "Tankathon"
+      urls:
+        2026: "https://www.tankathon.com/nfl/mock_draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    cbs_sports:
+      name: "CBS Sports"
+      urls:
+        2026: "https://www.cbssports.com/nfl/draft/mock-draft/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    nfl_mock_db:
+      name: "NFL Mock Draft Database"
+      urls:
+        2026: "https://www.nflmockdraftdatabase.com/mock-drafts/2026/consensus-mock-draft-2026"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    pff:
+      name: "Pro Football Focus"
+      urls:
+        2026: "https://www.pff.com/draft/big-board"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    sporting_news:
+      name: "Sporting News"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    espn:
+      name: "ESPN"
+      urls: {}  # To be discovered
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+
+# ============================================================================
+# NHL - National Hockey League
+# ============================================================================
+nhl:
+  draft_years: [2026, 2027]
+
+  sources:
+    tankathon:
+      name: "Tankathon"
+      urls:
+        2026: "https://www.tankathon.com/nhl/mock_draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    nhl_com:
+      name: "NHL.com"
+      urls:
+        2026: "https://www.nhl.com/draft/prospects"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    elite_prospects:
+      name: "Elite Prospects"
+      urls:
+        2026: "https://www.eliteprospects.com/draft-center"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    smaht_scouting:
+      name: "Smaht Scouting"
+      urls:
+        2026: "https://smahtscouting.com/2025/11/09/2026-nhl-draft-rankings-preliminary/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    the_athletic:
+      name: "The Athletic"
+      urls: {}  # Requires subscription
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+
+# ============================================================================
+# MLB - Major League Baseball
+# ============================================================================
+mlb:
+  draft_years: [2026, 2027]
+
+  sources:
+    mlb_pipeline:
+      name: "MLB Pipeline"
+      urls:
+        2026: "https://www.mlb.com/milb/prospects/draft"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    baseball_america:
+      name: "Baseball America"
+      urls:
+        2026: "https://www.baseballamerica.com/rankings/2026-top-mlb-draft-prospects/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    prospects_live:
+      name: "Prospects Live"
+      urls:
+        2026: "https://www.prospectslive.com/2026-mock-draft-1-0/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    mlb_com:
+      name: "MLB.com"
+      urls:
+        2026: "https://www.mlb.com/draft/2026"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+    bleacher_nation:
+      name: "Bleacher Nation"
+      urls:
+        2026: "https://www.bleachernation.com/mlb/2026/02/03/2026-mlb-mock-early-feb/"
+      strategy: "llm_parse"
+      rate_limit_seconds: 10
+
+
+# ============================================================================
+# Scrape Schedule
+# ============================================================================
+schedule:
+  mock_drafts: "weekly"
+  recruiting_rankings: "monthly"
+  source_discovery: "weekly"

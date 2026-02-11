@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — CollectorStream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+.logo svg { width: 20px; height: 20px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.header-nav { display: flex; gap: 8px; }
+.header-nav a {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.header-nav a:hover { color: var(--text-primary); background: var(--bg-card); }
+.header-nav a.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.profile-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+    color: var(--text-secondary);
+    overflow: hidden;
+    padding: 0;
+}
+.profile-btn:hover { border-color: var(--accent); color: var(--accent); }
+.profile-btn img { width: 100%; height: 100%; object-fit: cover; }
+.profile-btn svg { flex-shrink: 0; }
+.container { max-width: 1400px; margin: 0 auto; padding: 32px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+h2 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--text-primary); }
+.subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 24px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.stat-value { font-size: 28px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select, .form-group textarea {
+    background: var(--bg-primary); border: 1px solid var(--border); color: var(--text-primary);
+    padding: 10px 14px; border-radius: 8px; font-size: 14px;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--accent); outline: none; }
+.form-group.full { grid-column: 1 / -1; }
+.checkbox-group { display: flex; gap: 20px; align-items: center; grid-column: 1 / -1; padding: 8px 0; }
+.checkbox-group label { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+.checkbox-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); }
+.numbered-fields { display: none; grid-template-columns: 1fr 1fr; gap: 12px; grid-column: 1 / -1; }
+.numbered-fields.visible { display: grid; }
+.radio-group { display: flex; gap: 20px; }
+.radio-group label { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--text-secondary); cursor: pointer; }
+.radio-group input[type="radio"] { width: 16px; height: 16px; accent-color: var(--accent); }
+.graded-fields { display: none; grid-template-columns: 1fr 1fr; gap: 12px; grid-column: 1 / -1; }
+.graded-fields.visible { display: grid; }
+.graded-fields .checkbox-group { grid-column: 1 / -1; }
+.raw-fields { display: grid; grid-template-columns: 1fr; gap: 12px; grid-column: 1 / -1; }
+.raw-fields.hidden { display: none; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; color: #000; background: var(--accent); border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.btn:hover { background: var(--accent-dark); }
+.btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+.btn-sm { padding: 6px 12px; font-size: 12px; background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.btn-sm:hover { border-color: var(--accent); color: var(--accent); }
+.btn-del { border-color: var(--danger); color: var(--danger); }
+.btn-del:hover { background: var(--danger); color: #fff; }
+.btn-sold { border-color: #f59e0b; color: #f59e0b; margin-right: 6px; }
+.btn-sold:hover { background: #f59e0b; color: #000; }
+.badge-sell { background: var(--danger); color: #fff; }
+.badge-sold { background: #f59e0b; color: #000; }
+.row-sold { opacity: 0.7; background: rgba(245, 158, 11, 0.05); }
+.row-sold td:not(:last-child) { text-decoration: line-through; text-decoration-color: var(--text-muted); }
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 1000; }
+.modal.visible { display: flex; }
+.modal-content { background: var(--bg-card); padding: 24px; border-radius: 12px; max-width: 400px; width: 90%; border: 1px solid var(--border); }
+.modal-content h3 { margin-bottom: 16px; color: var(--text-primary); }
+.modal-content .form-group { margin-bottom: 16px; }
+.modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+.collapsible { cursor: pointer; user-select: none; }
+.collapsible::after { content: " +"; color: var(--accent); }
+.collapsible.open::after { content: " −"; }
+.form-container { display: none; margin-top: 15px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+.form-container.visible { display: block; }
+.msg { padding: 12px 16px; border-radius: 8px; margin: 10px 0; font-size: 14px; }
+.msg-success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); }
+.msg-error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); }
+.loading { text-align: center; padding: 40px; color: var(--text-muted); }
+.sort-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; align-items: center; }
+.sort-bar span { color: var(--text-muted); font-size: 13px; margin-right: 5px; }
+.sort-btn { padding: 6px 12px; font-size: 12px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+.sort-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sort-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
+.sort-btn.asc::after { content: " ▲"; font-size: 10px; }
+.sort-btn.desc::after { content: " ▼"; font-size: 10px; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; padding: 12px; font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; background: var(--bg-secondary); border-bottom: 1px solid var(--border); }
+td { padding: 12px; border-bottom: 1px solid var(--border); font-size: 14px; }
+tr:hover { background: rgba(16, 185, 129, 0.02); }
+.data-table-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<header class="header">
+    <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Collector</span><span>Stream</span>
+    </a>
+    <nav class="header-nav">
+        <a href="/">Home</a>
+        <a href="players-2026.html">2026 Prospects</a>
+        <a href="buy-signals.html">Buy Signals</a>
+        <a href="watchlist.html">Watchlist</a>
+        <a href="portfolio.html" class="active">Portfolio</a>
+    </nav>
+    <div class="header-actions">
+        <a href="profile.html" class="profile-btn" id="headerProfileBtn" title="Account settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" id="headerProfileIcon">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+            </svg>
+        </a>
+    </div>
+</header>
+<script>
+// Load profile picture in header
+(function() {
+    const pic = localStorage.getItem("profilePic");
+    if (pic) {
+        const btn = document.getElementById("headerProfileBtn");
+        const icon = document.getElementById("headerProfileIcon");
+        if (btn && icon) {
+            const img = document.createElement("img");
+            img.src = pic;
+            img.alt = "Profile";
+            icon.style.display = "none";
+            btn.appendChild(img);
+        }
+    }
+})();
+</script>
+
+<div class="container">
+
+<h1>Card Portfolio</h1>
+<p class="subtitle">Track your personal card investments with buy/sell signals</p>
+
+<div class="stats-grid" id="statsGrid">
+  <div class="stat-card"><div class="stat-value" id="statCards">0</div><div class="stat-label">Cards Owned</div></div>
+  <div class="stat-card"><div class="stat-value" id="statInvested">$0.00</div><div class="stat-label">Total Invested</div></div>
+  <div class="stat-card"><div class="stat-value" id="statCurrent">$0.00</div><div class="stat-label">Current Value</div></div>
+  <div class="stat-card"><div class="stat-value" id="statGainLoss" style="color:#00c853">$+0.00</div><div class="stat-label" id="statPct">Unrealized (+0.0%)</div></div>
+  <div class="stat-card"><div class="stat-value" id="statSold">0</div><div class="stat-label">Cards Sold</div></div>
+  <div class="stat-card"><div class="stat-value" id="statRealized" style="color:#f59e0b">$0.00</div><div class="stat-label">Realized Profit</div></div>
+</div>
+
+<h2 class="collapsible" onclick="toggleForm()">Add Card</h2>
+<div class="form-container" id="formContainer">
+<div id="formMsg"></div>
+<div class="form-grid">
+  <div class="form-group">
+    <label>Player Name *</label>
+    <input type="text" id="player_name" list="playerList" placeholder="e.g. JuJu Watkins">
+    <datalist id="playerList"></datalist>
+  </div>
+  <div class="form-group"><label>Card Year *</label><input type="number" id="card_year" value="2024" min="1900" max="2100"></div>
+  <div class="form-group">
+    <label>Manufacturer *</label>
+    <select id="manufacturer">
+      <option value="">Select...</option>
+      <option>Panini</option><option>Topps</option><option>Leaf</option>
+      <option>Donruss</option><option>Bowman</option><option>Upper Deck</option>
+      <option>Hoops</option><option>Fleer</option><option>Sage</option>
+      <option>Press Pass</option><option>SP Authentic</option>
+      <option>Immaculate</option><option>National Treasures</option><option>Other</option>
+    </select>
+  </div>
+  <div class="form-group"><label>Set Name *</label><input type="text" id="set_name" placeholder="e.g. Prizm, Contenders"></div>
+  <div class="form-group"><label>Card Number</label><input type="text" id="card_number" placeholder="e.g. 125, RC-1"></div>
+  <div class="form-group"><label>Parallel / Variant</label><input type="text" id="parallel" placeholder="e.g. Silver, Pink Shimmer" value="Base"></div>
+  <div class="checkbox-group">
+    <label><input type="checkbox" id="is_numbered" onchange="toggleNumbered()"> Numbered Card</label>
+    <label><input type="checkbox" id="is_autograph"> Autograph</label>
+    <label><input type="checkbox" id="is_rookie"> Rookie Card</label>
+  </div>
+  <div class="numbered-fields" id="numberedFields">
+    <div class="form-group"><label>Numbered To (e.g. 100 for /100)</label><input type="number" id="numbered_to" placeholder="100"></div>
+    <div class="form-group"><label>Serial Number (e.g. 3 for 3/100)</label><input type="number" id="serial_number" placeholder="3"></div>
+  </div>
+  <div class="form-group full">
+    <label>Card Condition</label>
+    <div class="radio-group">
+      <label><input type="radio" name="condition_type" value="raw" checked onchange="toggleConditionType()"> Raw (Ungraded)</label>
+      <label><input type="radio" name="condition_type" value="graded" onchange="toggleConditionType()"> Graded (Slabbed)</label>
+    </div>
+  </div>
+  <div class="graded-fields" id="gradedFields">
+    <div class="form-group">
+      <label>Grading Company</label>
+      <select id="grading_company">
+        <option value="PSA">PSA</option>
+        <option value="BGS">BGS (Beckett)</option>
+        <option value="SGC">SGC</option>
+        <option value="CGC">CGC</option>
+        <option value="CSG">CSG</option>
+        <option value="HGA">HGA</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Grade</label>
+      <select id="grade_number">
+        <option value="10">10 (Gem Mint)</option>
+        <option value="9.5">9.5</option>
+        <option value="9">9 (Mint)</option>
+        <option value="8.5">8.5</option>
+        <option value="8">8 (NM-MT)</option>
+        <option value="7.5">7.5</option>
+        <option value="7">7 (NM)</option>
+        <option value="6.5">6.5</option>
+        <option value="6">6 (EX-MT)</option>
+        <option value="5">5 (EX)</option>
+        <option value="4">4 (VG-EX)</option>
+        <option value="3">3 (VG)</option>
+        <option value="2">2 (Good)</option>
+        <option value="1.5">1.5</option>
+        <option value="1">1 (Poor)</option>
+        <option value="A">Authentic (A)</option>
+      </select>
+    </div>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="auto_authenticated"> Auto Authenticated by Grading Company</label>
+    </div>
+  </div>
+  <div class="raw-fields" id="rawFields">
+    <div class="form-group">
+      <label>Estimated Condition</label>
+      <select id="raw_condition">
+        <option value="Mint">Mint</option>
+        <option value="Near Mint" selected>Near Mint</option>
+        <option value="Excellent">Excellent</option>
+        <option value="Very Good">Very Good</option>
+        <option value="Good">Good</option>
+        <option value="Fair">Fair</option>
+        <option value="Poor">Poor</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group"><label>Purchase Price</label><input type="number" id="purchase_price" step="0.01" placeholder="Leave blank for Card Ladder avg"></div>
+  <div class="form-group"><label>Purchase Date</label><input type="date" id="purchase_date"></div>
+  <div class="form-group full"><label>Notes</label><textarea id="notes" rows="2" placeholder="Optional notes"></textarea></div>
+</div>
+<button class="btn" id="addBtn" onclick="addCard()">Add Card</button>
+</div>
+
+<h2>Holdings</h2>
+<div class="sort-bar">
+  <span>Sort by:</span>
+  <button class="sort-btn active desc" onclick="sortCards('player_name')">Player</button>
+  <button class="sort-btn" onclick="sortCards('manufacturer')">Manufacturer</button>
+  <button class="sort-btn" onclick="sortCards('set_name')">Set</button>
+  <button class="sort-btn" onclick="sortCards('purchase_price')">Purchased</button>
+  <button class="sort-btn" onclick="sortCards('current_price')">Current</button>
+  <button class="sort-btn" onclick="sortCards('gain_loss')">Gain/Loss</button>
+  <button class="sort-btn" onclick="sortCards('signal')">Signal</button>
+</div>
+<div id="cardsTable"><p class="loading">Loading portfolio...</p></div>
+
+<!-- Mark as Sold Modal -->
+<div class="modal" id="soldModal">
+  <div class="modal-content">
+    <h3>Mark Card as Sold</h3>
+    <p id="soldCardName" style="color:var(--text-secondary);margin-bottom:16px;"></p>
+    <div class="form-group">
+      <label>Sale Price</label>
+      <input type="number" id="salePrice" step="0.01" placeholder="Enter sale price">
+    </div>
+    <div class="form-group">
+      <label>Date Sold</label>
+      <input type="date" id="saleDate">
+    </div>
+    <div class="modal-buttons">
+      <button class="btn" onclick="submitSold()">Mark as Sold</button>
+      <button class="btn-sm" onclick="closeSoldModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = "https://16bs8nqbr8.execute-api.us-east-1.amazonaws.com";
+const PLAYERS = ["A.J. Gracia", "AJ Dybantsa", "AJ Gracia", "Aaliyah Chavez", "Aaliyah Crump", "Aalyah Del Rosario", "Ace Reese", "Adam Goljer", "Adam Nemec", "Adam Novotn\u00fd", "Adam Valentini", "Aday Mara", "Addi Mack", "Addy Brown", "Aiden Ruiz", "Aiva Arquette", "Alan Shaikhlislamov", "Alberts Smits", "Alessandro Di Iorio", "Alex Condon", "Alex Karaban", "Alexander Command", "Alexei Vlasov", "Alexis Bordas", "Alijah Arenas", "Allie Turner", "Allie Ziebell", "Amari Allen", "Amaya Stewart", "Amiah Hargrove", "Amiya Joyner", "Andrew Fischer", "Angela Dugalic", "Anovia Sheals", "Arinna Robinson", "Arvell Reese", "Ashley Sofilkanich", "Ashlon Jackson", "Asia Boone", "Aubrey Galvan", "Audi Crooks", "Ava Heiden", "Ava Renninger", "Ava Zediker", "Avery Howell", "Avery Koenen", "Avieon Terrell", "Awa Fam", "Axel Brongel-Larsson", "Axel Elofsson", "Ayanna Patterson", "Azzi Fudd", "BJ Edwards", "Baba Miller", "Bailey Flavell", "Bailey Maupin", "Baye Ndongo", "Beckham Edwards", "Ben Macbeath", "Bennett Stirtz", "Berry Wallace", "Billy Carlson", "Blair Baugus", "Blake Bowen", "Blake Zielinski", "Blanca Quinonez", "Bonnie Deas", "Braden Smith", "Brady Harris", "Braidy Wassilyn", "Brayden Burries", "Braylon Mullins", "Breona Hurd", "Breya Cunningham", "Britt Prince", "Brooklyn Meyer", "Brooks Rogowski", "Bruce Thornton", "Caden Sorrell", "Caleb Banks", "Caleb Downs", "Caleb Lomu", "Caleb Malhotra", "Caleb Wilson", "Callum Croskery", "Cameron Boozer", "Cameron Carr", "Cameron Chartrand", "Cameron Flukey", "Carnell Tate", "Carson Bolemon", "Carson Carels", "Carys Baker", "Casey Mutryn", "Cashius Howell", "Cassandre Prosper", "Charlie Morrison", "Charlisse Leger-Walker", "Chase Harrington", "Chase Reid", "Chazadi Wright", "Chloe Kitts", "Chris Cenac", "Chris Cenac Jr.", "Chris Hacopian", "Chris Rembert", "Christeen Iwuala", "Christen Miller", "Christian Anderson", "Christopher Hacopian", "Ciera Toomey", "Clara Silva", "Clara Strack", "Clara Toomey", "Cole Zurawski", "Colin Fitzgerald", "Colton Hood", "Cooper Williams", "Cotie McMahon", "Dailyn Swain", "Dakota Howard", "Dani Carnegie", "Daniel Pierce", "Darianna Littlepage-Buggs", "Darius Acuff", "Darrion Williams", "Darryn Peterson", "Dash Daniels", "David Bailey", "Daxon Rudolph", "Delaney Gibb", "Denzel Boston", "Derek Curiel", "Diana Collins", "Dillon Mitchell", "Dmitri Borichev", "Donovyn Hunter", "Drew Burress", "Ebuka Okorie", "Egor Barabanov", "Eli Willits", "Elif Istanbulluoglu", "Elina Aarnisalo", "Elle Evans", "Elle Ladine", "Elsa Lemmila", "Elton Hermansson", "Emely Rodriguez", "Emmanuel McNeil-Warren", "Eric Becker", "Essence Cody", "Ethan Belchetz", "Ethan Conrad", "Ethan Holliday", "Ethan MacKenzie", "Fadima Tall", "Fernando Mendoza", "Filip Nov\u00e1k", "Flau'Jae Johnson", "Flory Bidunga", "Francis Mauigoa", "Gabby Elliot", "Gabe Gaeckle", "Gabriella Jaquez", "Gage Wood", "Gal Raviv", "Gavin Fien", "Gavin Kilen", "Gavin McKenna", "Gianna Kneepkens", "Gio Rojas", "Giorgos Pantelas", "Gleb Pugachyov", "Grace Grocholski", "Grace Kingery", "Grace Knox", "Grace Oliver", "Grace Slaughter", "Grace Vanslooten", "Gracie Merkle", "Grady Emerson", "Haleigh Timmer", "Hannah Hidalgo", "Hannah Stuelke", "Hannes Steinbach", "Harissoum Coulibaly", "Henri Veesaar", "Hila Karsh", "Ike Irish", "Ilya Morozov", "Indya Nivar", "Isaiah Evans", "Ivar Stenberg", "Iyana Martin", "Iyana Martin Carrion", "Iyana Mart\u00edn", "J.P. Hurlbert", "JP Hurlbert", "JT Toppin", "Jace LaViolette", "Jack Hextall", "Jackson Flora", "Jacob Lombard", "Jada Eads", "Jada Williams", "Jade Jones", "Jaden Bradley", "Jaden Donovan", "Jadyn Donovan", "Jadyn Wooten", "Jakub Vanecek", "Jaliya Davis", "Jaloni Cambridge", "Jalyn Brown", "Jalynn Bristow", "Jamie Arnold", "Jana El Alfy", "Janiah Barker", "Jaron Pierre", "Jasmine Bascoe", "Jasmine Davidson", "Jason DeCaro", "Jaxon Cover", "Jayden Quaintance", "Jaylah Lampley", "Jean-Cristoph Lemieux", "Jenna Villa", "Jeremiyah Love", "Jermod McCoy", "Jessica Petrie", "Jessica Timmons", "JoJo Parker", "JoJo Tugler", "Johann Gr\u00fcnloh", "Jordan Harrison", "Jordan Lee", "Jordan Yost", "Jordon Lee", "Jordyn Tyson", "Joshua Jefferson", "Joyce Edwards", "JuJu Watkins", "Juho Piiparinen", "Juke Harris", "Julien Maze", "Justice Carton", "Justin Lebron", "Justine Pissot", "KC Concepcion", "KJ Lewis", "Kade Anderson", "Kadyn Proctor", "Kaety L'Amoreaux", "Kara Dunn", "Karim Lopez", "Karim L\u00f3pez", "Kate Harpring", "Kate Koval", "Kate Loval", "Katie Fiso", "Katie Vasecka", "Kayden McDonald", "Kayleigh Heckel", "Kaylene Smikle", "Kayson Cunningham", "Keaton Verhoeff", "Keaton Wagler", "Keldric Faulk", "Kennedy Blair", "Kennedy Smith", "Kenyon Sadiq", "Kevin Roberts Jr.", "Key Roseby", "Keyshawn Hall", "Khamil Pierre", "Kierra Wheeler", "Kiki Rice", "Kingston Flemings", "Kiyomi McMiller", "Koa Peat", "Kruz Schoolcraft", "Kyla Oldacre", "Kylee Kitts", "Kymora Johnson", "Kyson Witherspoon", "Labaron Philon", "Laila Phelia", "Lamar Wilkerson", "Landon Amrhein", "Landon Hafele", "Landon Nycz", "Lani White", "Lara Somfai", "Lars Steiner", "Latasha Lattimore", "Laura Ziegler", "Lauren Betts", "Lauren Olsen", "Lauren Whittaker", "Lauryn Swann", "Lavr Gashilov", "Lee Hunter", "Lena Girardi", "Lenee Beaumont", "Liam Doyle", "Liam Peterson", "Liam Ruck", "Liv McGill", "Liz Freihofer", "Logan Schmidt", "Logyn Greer", "Luke Schairer", "Mackenly Randolph", "Maddox Dagenais", "Maddox Molony", "Madina Okot", "Madison Booker", "Madison Francis", "Madison St. Rose", "Maggie Doogan", "Makai Lemon", "Malachi Moreno", "Malik Reneau", "Malique Lewis", "Malte Gustafsson", "Mansoor Delane", "MarArah O'Neal", "Marcus Nordmark", "Marek Houston", "Mark Mitchell", "Markus Ruck", "Marta Suarez", "Mathis Preston", "Max Isaksson", "McKinna Brackens", "Me'Arah O'Neal", "Meadow Roland", "Meghan Schultz", "Meleek Thomas", "MiLaysia Fulwiley", "Mia Jacobs", "Mia Pauldo", "Mia Woolfolk", "Micah Gray", "Miikka Muurinen", "Mikalah Williams", "Mikayla Blakes", "Mikel Brown", "Mikel Brown Jr.", "Mikey Berchild", "Mila Holloway", "Milan Momcilovic", "Miles Byrd", "Milos Uzan", "Molly Masingale", "Monroe Freeling", "Morez Johnson Jr.", "Motiejus Krivas", "Mouhamed Faye", "Naomi White", "Natalie Potts", "Nate Ament", "Nate Bittle", "Ndjakalenga Mwenentanda", "Nell Angloma", "Neoklis Avdalas", "Nikita Klepov", "Nikita Shcherbakov", "Niklas Aaram-Olsen", "Nils Bartholdsson", "Nunu Agara", "Ny'Ceara Pryor", "Nya Smith", "Nyla Brooks", "Ognjen Srzentic", "Olaivavega Ioane", "Oliver Suvanto", "Olivers Murnieks", "Olivia Hamlin", "Olivia Miles", "Olivia Olson", "Oluchi Okananwa", "Oscar Hemming", "Oscar Holmertz", "PJ Haggerty", "Palmire Mbu", "Parker Vaughan", "Patrick Ngongba II", "Paul McNeil Jr.", "Payton Verhulst", "Peter Woods", "Pierce Mbuyi", "Ra Shaya Kyle", "Raegan Beers", "Rafael Castro", "Rashunda Jones", "Raven Johnson", "Reagan Beers", "Reese Ross", "Rian Chudzinski", "Richie Saunders", "Rocco Maniscalco", "Roch Cholowsky", "Rori Harmon", "Rueben Bain Jr.", "Ryan Conwell", "Ryan Lin", "Ryan Roobroeck", "Ryder Cali", "S'Mya Nichols", "Saffron Shiels", "Sahara Williams", "Samu Alalauri", "Sarah Strong", "Sarah Williams", "Sawyer Strosnider", "Saylor Poffenbarger", "Sayvia Sellers", "Sean Dunlap", "Sean Gamble", "Sergio De Larrea", "Sergio de Larrea", "Seth Hernandez", "Sharnecce Currie-Jelks", "Shay Ciezki", "Simas Ignatavicius", "Simon Katolicky", "Sina Hollerl", "Sira Thienou", "Skylar Forbes", "Skylar Jones", "Snuda Collins", "Snudda Collins", "Sonny Styles", "Spencer Fano", "Stailee Heard", "Steele Hall", "Susie Rafiu", "Sydney Shaw", "Syla Swords", "Ta'Niya Latson", "Tajianna Roberts", "Talausia Cooper", "Talayah Walker", "Talia Scott", "Tamin Lipsey", "Tara Daye", "Tarris Reed", "Tarris Reed Jr.", "Tate Southisene", "Taylee Chirrick", "Te'Yala Delfosse", "Teonni Key", "Tessa Johnson", "Thomas Haugh", "Thomas Vandenberg", "Tobias Tomik", "Tobias Trejbal", "Toby Fournier", "Tomas Chrenko", "Tomas Galvas", "Tommy Bleyl", "Tonie Morgan", "Tori McKinney", "Tounde Yessoufou", "Tre White", "Trevon Brazile", "Trevor Condon", "Trinity Turner", "Ty Simpson", "Tyler Bell", "Tyler Bremner", "Tyler Spangler", "Tyler Tanner", "Tynan Lawrence", "Uche Izoje", "Vahn Lackey", "Vanessa Harris", "Vertti Svensk", "Victor Plante", "Viggo Bj\u00f6rck", "Viktor Fyodorov", "Vilho Vanhatalo", "Vladim\u00edr Draveck\u00fd", "William Hakansson", "Wyatt Cullen", "Xavier Neyens", "Xavier Villeneuve", "Yahmani McKayle", "Yarden Garzon", "Yaroslav Fedoseyev", "Yaxel Lendeborg", "Yegor Shilov", "ZaKiyah Johnson", "Zamareya Jones", "Zee Spearman", "Zhang Ziyu", "Zoe Brooks", "Zuby Ejiofor", "Zyanna Walker"];
+let allCards = [];
+let currentSort = { field: 'player_name', dir: 'asc' };
+
+// Auth guard
+const token = localStorage.getItem("token");
+if (!token) { location.href = "/login.html?redirect=/portfolio.html"; }
+
+// Verify token
+fetch(API + "/auth/me", {headers: {"Authorization": "Bearer " + token}})
+.then(r => {
+    if (!r.ok) { localStorage.clear(); location.href = "/login.html?redirect=/portfolio.html"; }
+    return r.json();
+})
+.then(data => {
+    document.getElementById("userEmail").textContent = data.email;
+    document.getElementById("userRole").textContent = data.role;
+    loadPortfolio();
+});
+
+function logout() {
+    localStorage.clear();
+    location.href = "/login.html";
+}
+
+// Populate player autocomplete
+const dl = document.getElementById("playerList");
+PLAYERS.forEach(p => { const o = document.createElement("option"); o.value = p; dl.appendChild(o); });
+
+function toggleForm() {
+    document.querySelector(".collapsible").classList.toggle("open");
+    document.getElementById("formContainer").classList.toggle("visible");
+}
+
+function toggleNumbered() {
+    document.getElementById("numberedFields").classList.toggle("visible", document.getElementById("is_numbered").checked);
+}
+
+function toggleConditionType() {
+    const isGraded = document.querySelector('input[name="condition_type"]:checked').value === 'graded';
+    document.getElementById("gradedFields").classList.toggle("visible", isGraded);
+    document.getElementById("rawFields").classList.toggle("hidden", isGraded);
+}
+
+function getGradeValue() {
+    const isGraded = document.querySelector('input[name="condition_type"]:checked').value === 'graded';
+    if (isGraded) {
+        const company = document.getElementById("grading_company").value;
+        const grade = document.getElementById("grade_number").value;
+        const autoAuth = document.getElementById("auto_authenticated").checked;
+        let result = company + " " + grade;
+        if (autoAuth) result += " Auto";
+        return result;
+    } else {
+        return "Raw - " + document.getElementById("raw_condition").value;
+    }
+}
+
+function showMsg(text, isError) {
+    const el = document.getElementById("formMsg");
+    el.className = "msg " + (isError ? "msg-error" : "msg-success");
+    el.textContent = text;
+    setTimeout(() => el.textContent = "", 5000);
+}
+
+async function loadPortfolio() {
+    try {
+        const res = await fetch(API + "/portfolio", {
+            headers: {"Authorization": "Bearer " + token}
+        });
+        if (!res.ok) throw new Error("Failed to load portfolio");
+        const data = await res.json();
+        renderStats(data);
+        allCards = data.cards || [];
+        sortCards(currentSort.field, true);
+    } catch (e) {
+        document.getElementById("cardsTable").innerHTML = '<p class="empty-state">Error loading portfolio: ' + e.message + '</p>';
+    }
+}
+
+function sortCards(field, skipToggle) {
+    // Update sort direction
+    if (!skipToggle && currentSort.field === field) {
+        currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+    } else if (!skipToggle) {
+        currentSort.field = field;
+        currentSort.dir = 'asc';
+    }
+
+    // Update button states
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+        btn.classList.remove('active', 'asc', 'desc');
+    });
+    const activeBtn = document.querySelector(`.sort-btn[onclick="sortCards('${field}')"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', currentSort.dir);
+    }
+
+    // Sort cards
+    const sorted = [...allCards].sort((a, b) => {
+        let valA, valB;
+        if (field === 'current_price') {
+            valA = (a.trends && a.trends.current_price) || 0;
+            valB = (b.trends && b.trends.current_price) || 0;
+        } else if (field === 'gain_loss') {
+            valA = (a.trends && a.trends.gain_loss) || 0;
+            valB = (b.trends && b.trends.gain_loss) || 0;
+        } else if (field === 'signal') {
+            valA = (a.trends && a.trends.signal) || 'HOLD';
+            valB = (b.trends && b.trends.signal) || 'HOLD';
+        } else {
+            valA = a[field] || '';
+            valB = b[field] || '';
+        }
+
+        if (typeof valA === 'string') valA = valA.toLowerCase();
+        if (typeof valB === 'string') valB = valB.toLowerCase();
+
+        let cmp = 0;
+        if (valA < valB) cmp = -1;
+        else if (valA > valB) cmp = 1;
+
+        return currentSort.dir === 'asc' ? cmp : -cmp;
+    });
+
+    renderCards(sorted);
+}
+
+function renderStats(data) {
+    // Calculate stats from cards data
+    const cards = data.cards || [];
+    const activeCards = cards.filter(c => !c.sold_date && !c.sold_price);
+    const soldCards = cards.filter(c => c.sold_date || c.sold_price);
+
+    document.getElementById("statCards").textContent = activeCards.length;
+    document.getElementById("statInvested").textContent = "$" + (data.total_invested || 0).toFixed(2);
+    document.getElementById("statCurrent").textContent = "$" + (data.total_current || 0).toFixed(2);
+
+    const gl = data.unrealized_gain_loss || 0;
+    document.getElementById("statGainLoss").textContent = "$" + (gl >= 0 ? "+" : "") + gl.toFixed(2);
+    document.getElementById("statGainLoss").style.color = gl >= 0 ? "#00c853" : "#ff1744";
+    document.getElementById("statPct").textContent = "Unrealized (" + (gl >= 0 ? "+" : "") + (data.unrealized_pct || 0).toFixed(1) + "%)";
+
+    // Calculate realized gains from sold cards
+    document.getElementById("statSold").textContent = soldCards.length;
+    let realizedProfit = 0;
+    soldCards.forEach(c => {
+        if (c.sold_price && c.purchase_price) {
+            realizedProfit += c.sold_price - c.purchase_price;
+        }
+    });
+    document.getElementById("statRealized").textContent = "$" + (realizedProfit >= 0 ? "+" : "") + realizedProfit.toFixed(2);
+    document.getElementById("statRealized").style.color = realizedProfit >= 0 ? "#10b981" : "#ef4444";
+}
+
+function renderCards(cards) {
+    if (!cards.length) {
+        document.getElementById("cardsTable").innerHTML = "<p class='empty-state'>No cards yet. Click 'Add Card' above to get started.</p>";
+        return;
+    }
+    let html = '<table><tr><th>Player</th><th>Card</th><th>Purchased</th><th>Current/Sold</th><th>Gain/Loss</th><th>Status</th><th>Actions</th></tr>';
+    cards.forEach(c => {
+        const desc = c.description || "";
+        const purchase = c.purchase_price ? "$" + c.purchase_price.toFixed(2) : "-";
+        const t = c.trends || {};
+        const isSold = c.sold_date || c.sold_price;
+        const rowClass = isSold ? ' class="row-sold"' : '';
+
+        let priceHtml = "-";
+        let glHtml = "-";
+        let statusHtml = "";
+
+        if (isSold) {
+            priceHtml = c.sold_price ? "$" + c.sold_price.toFixed(2) : "-";
+            if (c.sold_price && c.purchase_price) {
+                const gl = c.sold_price - c.purchase_price;
+                const pct = (gl / c.purchase_price) * 100;
+                const cls = gl >= 0 ? "rising" : "falling";
+                glHtml = '<span class="' + cls + '">$' + (gl >= 0 ? "+" : "") + gl.toFixed(2) + ' (' + (pct >= 0 ? "+" : "") + pct.toFixed(1) + '%)</span>';
+            }
+            const soldDate = c.sold_date ? new Date(c.sold_date).toLocaleDateString() : "";
+            statusHtml = '<span class="badge badge-sold">SOLD</span>' + (soldDate ? '<br><small style="color:var(--text-muted)">' + soldDate + '</small>' : '');
+        } else {
+            priceHtml = t.current_price ? "$" + t.current_price.toFixed(2) : "-";
+            if (t.gain_loss != null) {
+                const gl = t.gain_loss;
+                const pct = t.gain_loss_pct || 0;
+                const cls = gl >= 0 ? "rising" : "falling";
+                glHtml = '<span class="' + cls + '">$' + (gl >= 0 ? "+" : "") + gl.toFixed(2) + ' (' + (pct >= 0 ? "+" : "") + pct.toFixed(1) + '%)</span>';
+            }
+            const sig = t.signal || "HOLD";
+            const sigCls = sig === "SELL" ? "badge-sell" : "badge-rising";
+            statusHtml = '<span class="badge ' + sigCls + '">' + sig + '</span>';
+        }
+
+        let actionsHtml = '';
+        if (!isSold) {
+            actionsHtml = '<button class="btn-sm btn-sold" onclick="openSoldModal(' + c.id + ', \'' + (c.player_name || "").replace(/'/g, "\\'") + ' - ' + desc.replace(/'/g, "\\'") + '\')">Sold</button>';
+        }
+        actionsHtml += '<button class="btn-sm btn-del" onclick="deleteCard(' + c.id + ')">Delete</button>';
+
+        html += '<tr' + rowClass + '><td class="player-name">' + (c.player_name || "") + '</td><td>' + desc +
+                '</td><td class="avg-rank">' + purchase + '</td><td class="avg-rank">' + priceHtml +
+                '</td><td>' + glHtml + '</td><td>' + statusHtml +
+                '</td><td>' + actionsHtml + '</td></tr>';
+    });
+    html += '</table>';
+    document.getElementById("cardsTable").innerHTML = html;
+}
+
+async function addCard() {
+    const btn = document.getElementById("addBtn");
+    btn.disabled = true; btn.textContent = "Submitting...";
+
+    const data = {
+        player_name: document.getElementById("player_name").value,
+        card_year: parseInt(document.getElementById("card_year").value),
+        manufacturer: document.getElementById("manufacturer").value,
+        set_name: document.getElementById("set_name").value,
+        card_number: document.getElementById("card_number").value,
+        parallel: document.getElementById("parallel").value || "Base",
+        is_numbered: document.getElementById("is_numbered").checked ? 1 : 0,
+        numbered_to: parseInt(document.getElementById("numbered_to").value) || null,
+        serial_number: parseInt(document.getElementById("serial_number").value) || null,
+        is_autograph: document.getElementById("is_autograph").checked ? 1 : 0,
+        is_rookie: document.getElementById("is_rookie").checked ? 1 : 0,
+        grade: getGradeValue(),
+        purchase_price: parseFloat(document.getElementById("purchase_price").value) || null,
+        purchase_date: document.getElementById("purchase_date").value || null,
+        notes: document.getElementById("notes").value || null,
+    };
+
+    try {
+        const res = await fetch(API + "/portfolio", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
+            body: JSON.stringify({action: "add_card", data: data})
+        });
+        const resp = await res.json();
+        btn.disabled = false; btn.textContent = "Add Card";
+        if (resp.error) showMsg("Error: " + resp.error, true);
+        else {
+            showMsg("Card submitted! It will appear after the next pipeline run.", false);
+            document.getElementById("player_name").value = "";
+            document.getElementById("set_name").value = "";
+            document.getElementById("card_number").value = "";
+            document.getElementById("notes").value = "";
+        }
+    } catch (e) {
+        btn.disabled = false; btn.textContent = "Add Card";
+        showMsg("Network error: " + e.message, true);
+    }
+}
+
+async function deleteCard(cardId) {
+    if (!confirm("Delete this card from your portfolio?")) return;
+    try {
+        const res = await fetch(API + "/portfolio", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
+            body: JSON.stringify({action: "delete_card", card_id: cardId})
+        });
+        const resp = await res.json();
+        if (resp.error) alert("Error: " + resp.error);
+        else loadPortfolio();
+    } catch (e) { alert("Network error: " + e.message); }
+}
+
+// Mark as Sold functionality
+let soldCardId = null;
+
+function openSoldModal(cardId, cardName) {
+    soldCardId = cardId;
+    document.getElementById("soldCardName").textContent = cardName;
+    document.getElementById("salePrice").value = "";
+    document.getElementById("saleDate").value = new Date().toISOString().split("T")[0];
+    document.getElementById("soldModal").classList.add("visible");
+}
+
+function closeSoldModal() {
+    document.getElementById("soldModal").classList.remove("visible");
+    soldCardId = null;
+}
+
+async function submitSold() {
+    if (!soldCardId) return;
+
+    const salePrice = parseFloat(document.getElementById("salePrice").value);
+    const saleDate = document.getElementById("saleDate").value;
+
+    if (!salePrice || salePrice <= 0) {
+        alert("Please enter a valid sale price");
+        return;
+    }
+
+    try {
+        const res = await fetch(API + "/portfolio", {
+            method: "POST",
+            headers: {"Content-Type": "application/json", "Authorization": "Bearer " + token},
+            body: JSON.stringify({
+                action: "mark_sold",
+                card_id: soldCardId,
+                sold_price: salePrice,
+                sold_date: saleDate
+            })
+        });
+        const resp = await res.json();
+        if (resp.error) {
+            alert("Error: " + resp.error);
+        } else {
+            closeSoldModal();
+            loadPortfolio();
+        }
+    } catch (e) {
+        alert("Network error: " + e.message);
+    }
+}
+
+// Close modal when clicking outside
+document.getElementById("soldModal").addEventListener("click", function(e) {
+    if (e.target === this) closeSoldModal();
+});
+
+// Set default purchase date to today
+document.getElementById("purchase_date").value = new Date().toISOString().split("T")[0];
+</script>
+</body>
+</html>

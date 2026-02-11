@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.collectorstream.trigger-poll</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/toddwallace/agents/sports-card-scout/poll_trigger.sh</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/toddwallace/agents/sports-card-scout</string>
+    <key>StartInterval</key>
+    <integer>120</integer>
+    <key>StandardOutPath</key>
+    <string>/Users/toddwallace/Desktop/WNBA-Scout/logs/trigger-poll.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/toddwallace/Desktop/WNBA-Scout/logs/trigger-poll.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+    </dict>
+</dict>
+</plist>

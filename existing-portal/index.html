@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CollectorStream — Know Who to Buy Before the Market Moves</title>
+    <meta name="description" content="Predictive intelligence for sports card investors. We aggregate mock drafts, scouting reports, and real-time card prices to find breakout players early.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* CollectorStream - Landing Page Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --border-hover: #2a2a2a;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Top accent bar */
+.top-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.logo svg {
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+}
+
+.logo span:last-child {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+    color: var(--text-primary);
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 48px 40px;
+    min-height: 500px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 24px;
+}
+
+.hero-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+.hero h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero h1 .highlight {
+    color: var(--accent);
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.7;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 48px;
+}
+
+.hero-stat {
+    text-align: left;
+}
+
+.hero-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.hero-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-image {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ticker */
+.ticker-container {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 12px 0;
+}
+
+.ticker {
+    display: flex;
+    animation: ticker 40s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    border-right: 1px solid var(--border);
+}
+
+.ticker-sport {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.ticker-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ticker-pos {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.ticker-mock {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.ticker-mock.down {
+    color: var(--danger);
+}
+
+.ticker-price {
+    color: var(--text-secondary);
+}
+
+/* Section styling */
+.section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 48px;
+}
+
+.section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 48px;
+}
+
+/* How It Works */
+.how-it-works {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.2s;
+}
+
+.step-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.step-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+}
+
+.step-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Today's Picks Table */
+.picks-table-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 32px;
+}
+
+.picks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.picks-table th {
+    text-align: left;
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.picks-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.picks-table tr:last-child td {
+    border-bottom: none;
+}
+
+.picks-table tr:hover {
+    background: rgba(16, 185, 129, 0.02);
+}
+
+.player-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-cell-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.player-cell-pos {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.sport-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.mock-change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mock-change.up {
+    color: var(--success);
+}
+
+.mock-change.down {
+    color: var(--danger);
+}
+
+.mock-change svg {
+    width: 14px;
+    height: 14px;
+}
+
+.price-change {
+    font-weight: 600;
+}
+
+.price-change.positive {
+    color: var(--success);
+}
+
+.price-change.negative {
+    color: var(--danger);
+}
+
+.signal-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.signal-strong-buy {
+    background: var(--success);
+    color: #000;
+}
+
+.signal-buy {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.signal-hold {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+}
+
+.signal-sell {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* Draft Gap Chart */
+.chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 48px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.chart-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot.mock {
+    background: var(--warning);
+}
+
+.legend-dot.price {
+    background: var(--accent);
+}
+
+.buy-window-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.buy-window-alert svg {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+}
+
+.buy-window-alert strong {
+    color: var(--accent);
+}
+
+/* League Selector - Primary Navigation */
+.league-selector {
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 56px;
+}
+
+.league-selector-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    text-align: center;
+}
+
+.league-selector h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.league-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+}
+
+.league-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 1100px) {
+    .league-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .league-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .league-selector-inner {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 500px) {
+    .league-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.league-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.league-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.league-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.league-logo {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.league-logo svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+/* Legacy support for league-icon */
+.league-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.league-wnba .league-icon { background: linear-gradient(135deg, #ff6b35 0%, #e85a24 100%); }
+.league-nba .league-icon { background: linear-gradient(135deg, #1d428a 0%, #c8102e 100%); }
+.league-nfl .league-icon { background: linear-gradient(135deg, #013369 0%, #d50a0a 100%); }
+.league-mlb .league-icon { background: linear-gradient(135deg, #002d72 0%, #bf0d3e 100%); }
+.league-nhl .league-icon { background: linear-gradient(135deg, #111 0%, #333 100%); }
+
+.league-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.league-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.year-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.year-btn {
+    flex: 1;
+    min-width: 50px;
+    padding: 10px 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.year-btn:hover {
+    background: var(--bg-primary);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.year-btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.year-btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+    color: #000;
+}
+
+/* Compact Hero (when league selector is primary) */
+.hero-compact {
+    min-height: auto;
+    padding: 48px 48px 32px;
+}
+
+.hero-compact .hero-content {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.hero-compact h1 {
+    font-size: 40px;
+}
+
+.hero-compact .hero-stats {
+    justify-content: center;
+}
+
+.hero-compact .hero-badge {
+    display: inline-flex;
+}
+
+/* Legacy Sports Grid (kept for compatibility) */
+.sports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.sport-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.sport-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+.sport-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.sport-card-wnba .sport-card-icon { background: #ff6b35; }
+.sport-card-nba .sport-card-icon { background: #1d428a; }
+.sport-card-nfl .sport-card-icon { background: #013369; }
+.sport-card-mlb .sport-card-icon { background: #002d72; }
+.sport-card-nhl .sport-card-icon { background: #000; }
+
+.sport-card-info {
+    flex: 1;
+}
+
+.sport-card-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.sport-card-info p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.sport-card-years {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.sport-card-arrow {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.sport-card:hover .sport-card-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+
+.sport-card-arrow svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sport-card-coming {
+    opacity: 0.6;
+}
+
+.sport-card-coming .sport-card-years {
+    color: var(--text-muted);
+}
+
+.sport-card-coming:hover {
+    border-color: var(--border-hover);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.2s;
+}
+
+.feature-card:hover {
+    border-color: var(--border-hover);
+}
+
+.feature-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.cta-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.cta-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+}
+
+.cta-section h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.cta-section p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cta-fine-print {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 64px 48px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+.footer-column h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.footer-column a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.footer-column a:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-copyright {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.footer-social {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-social a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.footer-social a:hover {
+    color: var(--text-primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero-cta {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .how-it-works,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 16px 24px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .section {
+        padding: 48px 24px;
+    }
+
+    .hero {
+        padding: 40px 24px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+}
+</style>
+</head>
+<body>
+    <div class="top-bar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>Collector</span><span>Stream</span>
+        </a>
+        <nav class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#picks">Today's Picks</a>
+            <a href="#draft-gap">The Draft Gap</a>
+        </nav>
+        <div class="nav-auth" id="navAuth">
+            <a href="login.html" class="btn btn-ghost">Sign In</a>
+            <a href="signup.html" class="btn btn-primary">Sign Up Free</a>
+        </div>
+        <div class="nav-auth nav-auth-loggedin" id="navAuthLoggedIn" style="display: none;">
+            <a href="portfolio.html" class="btn btn-ghost">Portfolio</a>
+            <a href="profile.html" class="profile-btn" title="Account settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <!-- League Selector - Primary Navigation -->
+    <section class="league-selector" id="sports">
+        <div class="league-selector-inner">
+            <h2>Choose Your League & Draft Year</h2>
+            <p class="league-subtitle">Track prospects, mock drafts, and card prices across all major sports</p>
+
+            <div class="league-grid">
+                <!-- WNBA -->
+                <div class="league-card league-wnba">
+                    <div class="league-header">
+                        <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" fill="#ff6b35"/>
+        <ellipse cx="24" cy="24" rx="22" ry="8" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M24 2 L24 46" stroke="#fff" stroke-width="2"/>
+        <path d="M8 18 L14 30 L20 18 L26 30 L32 18 L38 30 L44 18" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></div>
+                        <div class="league-info">
+                            <h3>WNBA</h3>
+                            <span>Women's Basketball</span>
+                        </div>
+                    </div>
+                    <div class="year-buttons">
+                        <a href="players-2026.html" class="year-btn year-btn-primary">2026</a>
+                        <a href="players-2027.html" class="year-btn">2027</a>
+                        <a href="players-2028.html" class="year-btn">2028</a>
+                        <a href="players-2029.html" class="year-btn">2029</a>
+                        <a href="players-2030.html" class="year-btn">2030</a>
+                    </div>
+                </div>
+
+                <!-- NBA -->
+                <div class="league-card league-nba">
+                    <div class="league-header">
+                        <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#1d428a"/>
+        <circle cx="24" cy="24" r="16" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M24 8 L24 40" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="24" cy="24" rx="16" ry="6" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <circle cx="32" cy="16" r="3" fill="#c8102e"/>
+        <path d="M18 20 Q24 28 30 20" stroke="#fff" stroke-width="2" fill="none"/>
+    </svg></div>
+                        <div class="league-info">
+                            <h3>NBA</h3>
+                            <span>Men's Basketball</span>
+                        </div>
+                    </div>
+                    <div class="year-buttons">
+                        <a href="nba-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                        <a href="nba-players-2027.html" class="year-btn">2027</a>
+                        <a href="nba-players-2028.html" class="year-btn">2028</a>
+                    </div>
+                </div>
+
+                <!-- NFL -->
+                <div class="league-card league-nfl">
+                    <div class="league-header">
+                        <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#013369"/>
+        <ellipse cx="24" cy="24" rx="18" ry="10" fill="#8B4513" stroke="#fff" stroke-width="1.5"/>
+        <path d="M24 14 L24 34" stroke="#fff" stroke-width="2"/>
+        <path d="M20 17 L28 17" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 21 L28 21" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 27 L28 27" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 31 L28 31" stroke="#fff" stroke-width="1.5"/>
+        <path d="M19 24 L29 24" stroke="#fff" stroke-width="1.5"/>
+    </svg></div>
+                        <div class="league-info">
+                            <h3>NFL</h3>
+                            <span>Football</span>
+                        </div>
+                    </div>
+                    <div class="year-buttons">
+                        <a href="nfl-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                        <a href="nfl-players-2027.html" class="year-btn">2027</a>
+                    </div>
+                </div>
+
+                <!-- MLB -->
+                <div class="league-card league-mlb">
+                    <div class="league-header">
+                        <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#002d72"/>
+        <circle cx="24" cy="24" r="16" fill="#fff"/>
+        <path d="M12 18 Q18 24 12 30" stroke="#bf0d3e" stroke-width="2" fill="none"/>
+        <path d="M36 18 Q30 24 36 30" stroke="#bf0d3e" stroke-width="2" fill="none"/>
+        <path d="M14 16 L16 18" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 20 L16 22" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 28 L16 26" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 32 L16 30" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 16 L32 18" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 20 L32 22" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 28 L32 26" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 32 L32 30" stroke="#bf0d3e" stroke-width="1.5"/>
+    </svg></div>
+                        <div class="league-info">
+                            <h3>MLB</h3>
+                            <span>Baseball</span>
+                        </div>
+                    </div>
+                    <div class="year-buttons">
+                        <a href="mlb-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                        <a href="mlb-players-2027.html" class="year-btn">2027</a>
+                    </div>
+                </div>
+
+                <!-- NHL -->
+                <div class="league-card league-nhl">
+                    <div class="league-header">
+                        <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#111"/>
+        <ellipse cx="24" cy="30" rx="14" ry="6" fill="#333" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="24" cy="28" rx="14" ry="6" fill="#222"/>
+        <path d="M10 12 L22 28" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+        <path d="M22 28 L20 32 L26 28" stroke="#8B4513" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="36" cy="14" r="5" fill="#111" stroke="#fff" stroke-width="1.5"/>
+    </svg></div>
+                        <div class="league-info">
+                            <h3>NHL</h3>
+                            <span>Hockey</span>
+                        </div>
+                    </div>
+                    <div class="year-buttons">
+                        <a href="nhl-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                        <a href="nhl-players-2027.html" class="year-btn">2027</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero - Now secondary -->
+    <section class="hero hero-compact">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                Predictive intelligence for card investors
+            </div>
+            <h1>Know Who to Buy <span class="highlight">Before the Market Moves</span></h1>
+            <p class="hero-subtitle">
+                We aggregate mock drafts, scouting reports, and real-time card prices to find breakout players early — and tell you when to sell before the hype fades.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">100+</div>
+                    <div class="hero-stat-label">MOCK DRAFTS TRACKED</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Daily</div>
+                    <div class="hero-stat-label">BUY / SELL SIGNALS</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">Free</div>
+                    <div class="hero-stat-label">PORTFOLIO TRACKING</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker-container">
+        <div class="ticker">
+            
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+        </div>
+    </div>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works">
+        <div class="section-label">HOW IT WORKS</div>
+        <h2 class="section-title">From Mock Draft to Smart Trade</h2>
+        <p class="section-subtitle">
+            CollectorStream turns publicly available scouting data into actionable buy and sell signals — so you're always a step ahead.
+        </p>
+
+        <div class="how-it-works">
+            <div class="step-card">
+                <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 2a10 10 0 0 1 7.07 17.07"/><circle cx="12" cy="12" r="2"/></svg></div>
+                <h3>We Scan the Noise</h3>
+                <p>Our engine monitors 100+ mock drafts, scouting reports, combine results, and social buzz daily across NFL, NBA, and MLB prospects.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                <h3>We Find the Gap</h3>
+                <p>We compare each player's rising draft stock against their current card prices to identify the "Draft Gap" — the window where cards are still undervalued.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+                <h3>You Buy & Sell Smarter</h3>
+                <p>Get clear Buy and Sell signals based on real data. Buy early before the market catches on, and sell at peak hype moments like Draft Day or breakout games.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Today's Picks -->
+    <section class="section" id="picks">
+        <div class="section-label">TODAY'S PICKS</div>
+        <h2 class="section-title">Top Prospects to Watch</h2>
+        <p class="section-subtitle">
+            Players with the biggest gap between mock draft momentum and current card prices. Updated daily.
+        </p>
+
+        <div class="picks-table-container">
+            <table class="picks-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Player</th>
+                        <th>Sport</th>
+                        <th>Avg Mock</th>
+                        <th>Mock Δ</th>
+                        <th>Floor Price</th>
+                        <th>7D Price</th>
+                        <th>Signal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+        <tr>
+            <td>1</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">JuJu Watkins</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#1</td>
+            <td><span class="mock-change">— —</span></td>
+            <td>$125.00</td>
+            <td><span class="price-change positive">+8.7%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Paige Bueckers</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#2</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +1</span></td>
+            <td>$89.00</td>
+            <td><span class="price-change positive">+5.2%</span></td>
+            <td><span class="signal-badge signal-buy">Buy</span></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Lauren Betts</span>
+                    <span class="player-cell-pos">C</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#3</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +2</span></td>
+            <td>$45.00</td>
+            <td><span class="price-change positive">+3.1%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Azzi Fudd</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#4</td>
+            <td><span class="mock-change">— —</span></td>
+            <td>$62.00</td>
+            <td><span class="price-change positive">+1.8%</span></td>
+            <td><span class="signal-badge signal-hold">Hold</span></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Awa Fam</span>
+                    <span class="player-cell-pos">F</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#5</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +3</span></td>
+            <td>$28.00</td>
+            <td><span class="price-change positive">+12.4%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Flau&#x27;Jae Johnson</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#6</td>
+            <td><span class="mock-change down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg> -1</span></td>
+            <td>$35.00</td>
+            <td><span class="price-change negative">-2.1%</span></td>
+            <td><span class="signal-badge signal-hold">Hold</span></td>
+        </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 16px;">
+            Mock data for demonstration · <a href="login.html" style="color: var(--accent);">Sign up free</a> to see live signals
+        </p>
+    </section>
+
+    <!-- Draft Gap -->
+    <section class="section" id="draft-gap">
+        <div class="section-label">THE DRAFT GAP</div>
+        <h2 class="section-title">When Draft Hype Outpaces Card Prices — That's Your Window</h2>
+        <p class="section-subtitle">
+            This chart shows a typical "Draft Gap" pattern: a player's mock draft stock rises weeks before card prices catch up. We find these gaps every day.
+        </p>
+
+        <div class="chart-container">
+            <div class="chart-header">
+                <div>
+                    <div class="chart-title">Example: Rising WNBA Prospect</div>
+                    <div class="chart-subtitle">Mock rank vs. card floor price over 12 weeks</div>
+                </div>
+                <div class="chart-legend">
+                    <div class="legend-item"><span class="legend-dot mock"></span> Mock Rank (inverted)</div>
+                    <div class="legend-item"><span class="legend-dot price"></span> Card Price</div>
+                </div>
+            </div>
+            <div class="buy-window-alert">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                <strong>Buy Window</strong> Weeks 2-5: Mock rank climbing fast, card price still flat — the ideal entry point.
+            </div>
+            <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px; border: 1px solid var(--border); border-radius: 8px;">
+                <!-- Simple CSS chart visualization -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 30px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W1</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 35px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W2</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 40px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W3</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 50px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W4</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 70px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W5</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 90px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W6</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 110px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W7</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 130px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W8</span>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                    <div style="width: 40px; height: 150px; background: var(--accent); border-radius: 4px;"></div>
+                    <span style="font-size: 11px; color: var(--text-muted);">W9</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+        <h2 class="section-title">Predictive Tools for Smarter Collecting</h2>
+        <p class="section-subtitle">
+            Everything you need to find undervalued prospects, time your trades, and grow your collection's value — all free to use.
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 2a10 10 0 0 1 7.07 17.07"/><circle cx="12" cy="12" r="2"/></svg></div>
+                <h3>Mock Draft Aggregator</h3>
+                <p>We scan 100+ mock drafts daily across NFL, NBA, and MLB to track which prospects are rising and falling in real time.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                <h3>Buy Early Signals</h3>
+                <p>Identify players whose draft stock is climbing but card prices haven't caught up yet. Get in before the market moves.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                <h3>Event-Driven Sell Alerts</h3>
+                <p>Know when to sell. We flag peak-hype moments — Draft Day, combine standouts, award announcements — so you can lock in profits.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                <h3>Draft Gap Analysis</h3>
+                <p>See the "Draft Gap" — the spread between a player's mock draft momentum and their current card market price — updated daily.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+                <h3>Free Portfolio Tracking</h3>
+                <p>Sign up to add your cards and track their value over time. See how your collection performs against the market with daily updates.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                <h3>Multi-Sport Coverage</h3>
+                <p>NFL, NBA, WNBA, and MLB prospects all in one place. Whether it's football rookies or baseball call-ups, we've got you covered.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <h2>Start Collecting Smarter — For Free</h2>
+        <p>Create a free account to unlock portfolio tracking, save your favorite prospects, and get daily buy/sell signals delivered to your dashboard.</p>
+        <div class="cta-buttons">
+            <a href="signup.html" class="btn btn-primary">Create Free Account <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+            <a href="players-2026.html" class="btn btn-outline">Explore Without Signing Up</a>
+        </div>
+        <p class="cta-fine-print">No credit card required · Free forever · Premium features coming soon</p>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    <span>Collector</span><span>Stream</span>
+                </a>
+                <p>Predictive intelligence for sports card investors. We turn mock draft data into actionable buy and sell signals — free to use.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Product</h4>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#picks">Today's Picks</a>
+                <a href="#draft-gap">Draft Gap Chart</a>
+                <a href="portfolio.html">Portfolio Tracker</a>
+            </div>
+            <div class="footer-column">
+                <h4>Resources</h4>
+                <a href="#">Blog</a>
+                <a href="#">FAQ</a>
+                <a href="#">Contact</a>
+                <a href="#">Feedback</a>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-copyright">© 2026 CollectorStream. All rights reserved.</div>
+            <div class="footer-social">
+                <a href="#">Twitter</a>
+                <a href="#">Instagram</a>
+                <a href="#">Discord</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Check if user is logged in and update header
+    (function() {
+        const token = localStorage.getItem("token");
+        if (token) {
+            document.getElementById("navAuth").style.display = "none";
+            document.getElementById("navAuthLoggedIn").style.display = "flex";
+        }
+    })();
+    </script>
+
+    <style>
+    .profile-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--bg-card, #151515);
+        border: 1px solid var(--border, #1f1f1f);
+        transition: all 0.2s;
+    }
+    .profile-btn:hover {
+        border-color: var(--accent, #10b981);
+        background: rgba(16, 185, 129, 0.1);
+    }
+    .profile-btn svg {
+        color: var(--text-secondary, #9ca3af);
+    }
+    .profile-btn:hover svg {
+        color: var(--accent, #10b981);
+    }
+    .nav-auth-loggedin {
+        gap: 12px;
+    }
+    </style>
+</body>
+</html>

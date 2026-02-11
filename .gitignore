@@ -1,0 +1,33 @@
+# Environment and secrets
+.env
+*.env.local
+
+# Python
+data/
+*.pyc
+__pycache__/
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# iOS/Xcode
+*.xcuserstate
+*.xcuserdatad
+xcuserdata/
+DerivedData/
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+.DS_Store
+*.swp
+*.lock
+
+# Uploads directory (images)
+uploads/
+
+# Temporary files
+*.log
+*.tmp

@@ -1,0 +1,4777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CollectorStream — Know Who to Buy Before the Market Moves</title>
+    <meta name="description" content="Predictive intelligence for sports card investors. We aggregate mock drafts, scouting reports, and real-time card prices to find breakout players early.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* CollectorStream - Landing Page Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --border-hover: #2a2a2a;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Top accent bar */
+.top-bar {
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%);
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.logo svg {
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+}
+
+.logo span:last-child {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--text-primary);
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #000;
+}
+
+.btn-primary:hover {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+    color: var(--text-primary);
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+    position: relative;
+}
+
+.profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-btn:hover {
+    border-color: var(--accent);
+}
+
+.profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.profile-chevron {
+    width: 16px;
+    height: 16px;
+    color: var(--text-secondary);
+}
+
+.profile-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    min-width: 240px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+.profile-menu.active {
+    display: block;
+}
+
+.profile-menu-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.profile-menu-email {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.profile-menu-item:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.profile-menu-item svg {
+    width: 18px;
+    height: 18px;
+}
+
+.profile-menu-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+.admin-section {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.admin-label {
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 48px 40px;
+    min-height: 500px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 24px;
+}
+
+.hero-badge svg {
+    width: 16px;
+    height: 16px;
+}
+
+.hero h1 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero h1 .highlight {
+    color: var(--accent);
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    line-height: 1.7;
+}
+
+.hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 48px;
+}
+
+.hero-stat {
+    text-align: left;
+}
+
+.hero-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+.hero-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-image {
+    flex: 1;
+    max-width: 500px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Ticker */
+.ticker-container {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 12px 0;
+}
+
+.ticker {
+    display: flex;
+    animation: ticker 40s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+.ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 24px;
+    border-right: 1px solid var(--border);
+}
+
+.ticker-sport {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.ticker-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.ticker-pos {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.ticker-mock {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.ticker-mock.down {
+    color: var(--danger);
+}
+
+.ticker-price {
+    color: var(--text-secondary);
+}
+
+/* Section styling */
+.section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 48px;
+}
+
+.section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 40px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.section-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 48px;
+}
+
+/* How It Works */
+.how-it-works {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    transition: all 0.2s;
+}
+
+.step-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.step-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.step-icon svg {
+    width: 24px;
+    height: 24px;
+    color: var(--accent);
+}
+
+.step-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.step-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Today's Picks Table */
+.picks-table-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 32px;
+}
+
+.picks-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.picks-table th {
+    text-align: left;
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.picks-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.picks-table tr:last-child td {
+    border-bottom: none;
+}
+
+.picks-table tr:hover {
+    background: rgba(16, 185, 129, 0.02);
+}
+
+.player-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-cell-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.player-cell-pos {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.sport-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.mock-change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mock-change.up {
+    color: var(--success);
+}
+
+.mock-change.down {
+    color: var(--danger);
+}
+
+.mock-change svg {
+    width: 14px;
+    height: 14px;
+}
+
+.price-change {
+    font-weight: 600;
+}
+
+.price-change.positive {
+    color: var(--success);
+}
+
+.price-change.negative {
+    color: var(--danger);
+}
+
+.signal-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.signal-strong-buy {
+    background: var(--success);
+    color: #000;
+}
+
+.signal-buy {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.signal-hold {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+}
+
+.signal-sell {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* Draft Gap Chart */
+.chart-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 48px;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.chart-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.chart-legend {
+    display: flex;
+    gap: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.legend-dot.mock {
+    background: var(--warning);
+}
+
+.legend-dot.price {
+    background: var(--accent);
+}
+
+.buy-window-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 14px;
+}
+
+.buy-window-alert svg {
+    width: 16px;
+    height: 16px;
+    color: var(--accent);
+}
+
+.buy-window-alert strong {
+    color: var(--accent);
+}
+
+/* League Selector - Primary Navigation */
+.league-selector {
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 56px;
+}
+
+.league-selector-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+    text-align: center;
+}
+
+.league-selector h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.league-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+}
+
+.league-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 1100px) {
+    .league-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .league-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .league-selector-inner {
+        padding: 0 24px;
+    }
+}
+
+@media (max-width: 500px) {
+    .league-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.league-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.league-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+.league-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.league-logo {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.league-logo svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+
+.league-info h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.league-info span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.year-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.year-btn {
+    flex: 1;
+    min-width: 50px;
+    padding: 10px 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.year-btn:hover {
+    background: var(--bg-primary);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.year-btn-primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.year-btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+    color: #000;
+}
+
+/* Compact Hero (when league selector is primary) */
+.hero-compact {
+    min-height: auto;
+    padding: 48px 48px 32px;
+}
+
+.hero-compact .hero-content {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.hero-compact h1 {
+    font-size: 40px;
+}
+
+.hero-compact .hero-stats {
+    justify-content: center;
+}
+
+.hero-compact .hero-badge {
+    display: inline-flex;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.2s;
+}
+
+.feature-card:hover {
+    border-color: var(--border-hover);
+}
+
+.feature-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--accent);
+}
+
+.feature-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.cta-section {
+    max-width: 800px;
+    margin: 80px auto;
+    padding: 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.cta-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+}
+
+.cta-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+}
+
+.cta-section h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.cta-section p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cta-fine-print {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Footer */
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 64px 48px 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 16px;
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+.footer-column h4 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.footer-column a {
+    display: block;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.footer-column a:hover {
+    color: var(--text-primary);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+}
+
+.footer-copyright {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.footer-social {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-social a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+}
+
+.footer-social a:hover {
+    color: var(--text-primary);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 450px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content.wide {
+    max-width: 600px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-title {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    border-color: var(--accent);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.modal-close svg {
+    width: 18px;
+    height: 18px;
+    color: var(--text-secondary);
+}
+
+/* Admin Tables */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+}
+
+.admin-table thead tr {
+    background: var(--bg-secondary);
+    border-bottom: 2px solid var(--border);
+}
+
+.admin-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--bg-secondary);
+}
+
+.admin-table td {
+    padding: 16px;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.admin-table .action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-table .btn-small {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.form-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.form-success {
+    color: var(--success);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.form-actions .btn {
+    flex: 1;
+}
+
+textarea.form-input {
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+}
+
+/* Portfolio Section */
+.portfolio-section {
+    display: none;
+}
+
+.portfolio-section.active {
+    display: block;
+}
+
+.portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+/* Enhanced Top Dashboard Stats */
+.portfolio-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.portfolio-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+}
+
+.portfolio-stat-card:hover {
+    border-color: var(--border-hover);
+}
+
+.portfolio-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.portfolio-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.portfolio-stat-value.positive {
+    color: var(--success);
+}
+
+.portfolio-stat-value.negative {
+    color: var(--danger);
+}
+
+.top-performer-card {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 12px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.top-performer-img {
+    width: 60px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: var(--border);
+}
+
+.top-performer-info {
+    flex: 1;
+}
+
+.top-performer-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.top-performer-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.top-performer-change {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.top-performer-change.positive {
+    color: var(--success);
+}
+
+.top-performer-change.negative {
+    color: var(--danger);
+}
+
+/* View Controls */
+.view-controls {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 32px;
+}
+
+.controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.control-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.control-select,
+.control-input {
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.control-select:hover,
+.control-input:hover {
+    border-color: var(--accent);
+}
+
+.control-input {
+    min-width: 250px;
+}
+
+.control-input::placeholder {
+    color: var(--text-muted);
+}
+
+.view-mode-btns {
+    display: flex;
+    gap: 8px;
+    background: var(--bg-secondary);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.view-mode-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-mode-btn:hover {
+    color: var(--text-primary);
+}
+
+.view-mode-btn.active {
+    background: var(--accent);
+    color: #000;
+}
+
+/* Performance Dashboard */
+.performance-dashboard {
+    display: none;
+}
+
+.performance-dashboard.active {
+    display: block;
+}
+
+.performance-section {
+    margin-bottom: 48px;
+}
+
+.performance-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.performance-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.performance-section-icon {
+    font-size: 20px;
+}
+
+.sport-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.sport-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.sport-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.sport-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.sport-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.sport-card-arrow {
+    color: var(--accent);
+    font-size: 14px;
+}
+
+.sport-stats {
+    display: flex;
+    gap: 20px;
+}
+
+.sport-stat {
+    flex: 1;
+}
+
+.sport-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sport-stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Cards Grid */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.card-tile {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.card-tile:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+.card-tile-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.card-tile-content {
+    padding: 16px;
+}
+
+.card-tile-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.card-tile-set {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.card-tile-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+}
+
+.card-tile-values {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.card-tile-profit {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.card-tile-profit.positive {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.card-tile-profit.negative {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.card-tile-profit.neutral {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+}
+
+.card-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-badge.buy {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success);
+}
+
+.card-badge.hold {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+}
+
+.card-badge.sell {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger);
+}
+
+/* Grouped View */
+.grouped-view {
+    display: none;
+}
+
+.grouped-view.active {
+    display: block;
+}
+
+.group-section {
+    margin-bottom: 32px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--bg-card);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.group-header:hover {
+    background: var(--bg-secondary);
+}
+
+.group-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.group-toggle {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: transform 0.3s;
+}
+
+.group-section.collapsed .group-toggle {
+    transform: rotate(-90deg);
+}
+
+.group-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.group-stats {
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.group-content {
+    padding: 20px;
+    background: var(--bg-primary);
+    max-height: 2000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s;
+}
+
+.group-section.collapsed .group-content {
+    max-height: 0;
+    padding: 0 20px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.pagination-btn {
+    padding: 8px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+}
+
+.pagination-info {
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 0 16px;
+}
+
+/* Refresh Progress */
+.refresh-progress {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.refresh-progress.active {
+    display: flex;
+}
+
+.refresh-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.refresh-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Search Results */
+.search-results-info {
+    padding: 12px 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-results-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.clear-search-btn {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.clear-search-btn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+}
+
+.empty-state-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-state-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.empty-state-text {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Admin Section */
+.admin-page {
+    display: none;
+}
+
+.admin-page.active {
+    display: block;
+}
+
+/* Page Visibility Control */
+.main-content {
+    display: block;
+}
+
+.main-content.hidden {
+    display: none;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero-cta {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .hero-image {
+        display: none;
+    }
+
+    .how-it-works,
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .portfolio-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 16px 24px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .section {
+        padding: 48px 24px;
+    }
+
+    .hero {
+        padding: 40px 24px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .portfolio-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .control-input {
+        min-width: 100%;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sport-breakdown {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .portfolio-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Thumbnail Card Styles */
+.card-thumb {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-thumb:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-thumb-image {
+    width: 100%;
+    aspect-ratio: 5/7; /* Standard card ratio */
+    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-thumb-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-thumb-info {
+    padding: 12px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+}
+
+.card-thumb-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-thumb-year {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+}
+
+.card-thumb-manufacturer {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="#" class="logo" onclick="showHome(); return false;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <span>Collector</span><span>Stream</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#features">Features</a>
+            <a href="#picks">Today's Picks</a>
+            <a href="#draft-gap">The Draft Gap</a>
+        </nav>
+
+        <div class="nav-auth">
+            <div id="authButtons" style="display: flex; gap: 16px;">
+                <button class="btn btn-ghost" onclick="openLoginModal()">Log In</button>
+                <button class="btn btn-primary" onclick="openSignupModal()">Sign Up Free</button>
+            </div>
+
+            <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                <div class="profile-btn" onclick="toggleProfileMenu()">
+                    <div class="profile-avatar" id="profileAvatar">U</div>
+                    <svg class="profile-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="profile-menu" id="profileMenu">
+                    <div class="profile-menu-header">
+                        <div class="profile-menu-email" id="profileEmail">user@example.com</div>
+                    </div>
+                    <div class="profile-menu-item" onclick="showPortfolio()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                        My Portfolio
+                    </div>
+                    <div class="profile-menu-item" onclick="showHome()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                        Home
+                    </div>
+                    <div class="profile-menu-divider"></div>
+                    <div class="admin-section" id="adminMenuSection" style="display: none;">
+                        <div class="admin-label">Admin</div>
+                        <div class="profile-menu-item" onclick="showAdminDashboard()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            Admin Dashboard
+                        </div>
+                        <div class="profile-menu-divider"></div>
+                    </div>
+                    <div class="profile-menu-item" onclick="logout()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Log Out
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN LANDING PAGE CONTENT -->
+    <div id="mainContent" class="main-content">
+        <!-- League Selector - Primary Navigation -->
+        <section class="league-selector" id="sports">
+            <div class="league-selector-inner">
+                <h2>Choose Your League & Draft Year</h2>
+                <p class="league-subtitle">Track prospects, mock drafts, and card prices across all major sports</p>
+
+                <div class="league-grid">
+                    <!-- WNBA -->
+                    <div class="league-card league-wnba">
+                        <div class="league-header">
+                            <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="22" fill="#ff6b35"/>
+        <ellipse cx="24" cy="24" rx="22" ry="8" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M24 2 L24 46" stroke="#fff" stroke-width="2"/>
+        <path d="M8 18 L14 30 L20 18 L26 30 L32 18 L38 30 L44 18" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg></div>
+                            <div class="league-info">
+                                <h3>WNBA</h3>
+                                <span>Women's Basketball</span>
+                            </div>
+                        </div>
+                        <div class="year-buttons">
+                            <a href="players-2026.html" class="year-btn year-btn-primary">2026</a>
+                            <a href="players-2027.html" class="year-btn">2027</a>
+                            <a href="players-2028.html" class="year-btn">2028</a>
+                            <a href="players-2029.html" class="year-btn">2029</a>
+                            <a href="players-2030.html" class="year-btn">2030</a>
+                        </div>
+                    </div>
+
+                    <!-- NBA -->
+                    <div class="league-card league-nba">
+                        <div class="league-header">
+                            <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#1d428a"/>
+        <circle cx="24" cy="24" r="16" stroke="#fff" stroke-width="2" fill="none"/>
+        <path d="M24 8 L24 40" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="24" cy="24" rx="16" ry="6" stroke="#fff" stroke-width="1.5" fill="none"/>
+        <circle cx="32" cy="16" r="3" fill="#c8102e"/>
+        <path d="M18 20 Q24 28 30 20" stroke="#fff" stroke-width="2" fill="none"/>
+    </svg></div>
+                            <div class="league-info">
+                                <h3>NBA</h3>
+                                <span>Men's Basketball</span>
+                            </div>
+                        </div>
+                        <div class="year-buttons">
+                            <a href="nba-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                            <a href="nba-players-2027.html" class="year-btn">2027</a>
+                            <a href="nba-players-2028.html" class="year-btn">2028</a>
+                        </div>
+                    </div>
+
+                    <!-- NFL -->
+                    <div class="league-card league-nfl">
+                        <div class="league-header">
+                            <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#013369"/>
+        <ellipse cx="24" cy="24" rx="18" ry="10" fill="#8B4513" stroke="#fff" stroke-width="1.5"/>
+        <path d="M24 14 L24 34" stroke="#fff" stroke-width="2"/>
+        <path d="M20 17 L28 17" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 21 L28 21" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 27 L28 27" stroke="#fff" stroke-width="1.5"/>
+        <path d="M20 31 L28 31" stroke="#fff" stroke-width="1.5"/>
+        <path d="M19 24 L29 24" stroke="#fff" stroke-width="1.5"/>
+    </svg></div>
+                            <div class="league-info">
+                                <h3>NFL</h3>
+                                <span>Football</span>
+                            </div>
+                        </div>
+                        <div class="year-buttons">
+                            <a href="nfl-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                            <a href="nfl-players-2027.html" class="year-btn">2027</a>
+                        </div>
+                    </div>
+
+                    <!-- MLB -->
+                    <div class="league-card league-mlb">
+                        <div class="league-header">
+                            <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#002d72"/>
+        <circle cx="24" cy="24" r="16" fill="#fff"/>
+        <path d="M12 18 Q18 24 12 30" stroke="#bf0d3e" stroke-width="2" fill="none"/>
+        <path d="M36 18 Q30 24 36 30" stroke="#bf0d3e" stroke-width="2" fill="none"/>
+        <path d="M14 16 L16 18" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 20 L16 22" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 28 L16 26" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M14 32 L16 30" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 16 L32 18" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 20 L32 22" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 28 L32 26" stroke="#bf0d3e" stroke-width="1.5"/>
+        <path d="M34 32 L32 30" stroke="#bf0d3e" stroke-width="1.5"/>
+    </svg></div>
+                            <div class="league-info">
+                                <h3>MLB</h3>
+                                <span>Baseball</span>
+                            </div>
+                        </div>
+                        <div class="year-buttons">
+                            <a href="mlb-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                            <a href="mlb-players-2027.html" class="year-btn">2027</a>
+                        </div>
+                    </div>
+
+                    <!-- NHL -->
+                    <div class="league-card league-nhl">
+                        <div class="league-header">
+                            <div class="league-logo"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2" width="44" height="44" rx="6" fill="#111"/>
+        <ellipse cx="24" cy="30" rx="14" ry="6" fill="#333" stroke="#fff" stroke-width="1.5"/>
+        <ellipse cx="24" cy="28" rx="14" ry="6" fill="#222"/>
+        <path d="M10 12 L22 28" stroke="#8B4513" stroke-width="4" stroke-linecap="round"/>
+        <path d="M22 28 L20 32 L26 28" stroke="#8B4513" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="36" cy="14" r="5" fill="#111" stroke="#fff" stroke-width="1.5"/>
+    </svg></div>
+                            <div class="league-info">
+                                <h3>NHL</h3>
+                                <span>Hockey</span>
+                            </div>
+                        </div>
+                        <div class="year-buttons">
+                            <a href="nhl-players-2026.html" class="year-btn year-btn-primary">2026</a>
+                            <a href="nhl-players-2027.html" class="year-btn">2027</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero - Now secondary -->
+        <section class="hero hero-compact">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Predictive intelligence for card investors
+                </div>
+                <h1>Know Who to Buy <span class="highlight">Before the Market Moves</span></h1>
+                <p class="hero-subtitle">
+                    We aggregate mock drafts, scouting reports, and real-time card prices to find breakout players early — and tell you when to sell before the hype fades.
+                </p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">100+</div>
+                        <div class="hero-stat-label">MOCK DRAFTS TRACKED</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">Daily</div>
+                        <div class="hero-stat-label">BUY / SELL SIGNALS</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">Free</div>
+                        <div class="hero-stat-label">PORTFOLIO TRACKING</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ticker -->
+        <div class="ticker-container">
+            <div class="ticker">
+
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">JuJu Watkins</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +2</span>
+            <span class="ticker-price">$125.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Paige Bueckers</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: +1</span>
+            <span class="ticker-price">$89.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Lauren Betts</span>
+            <span class="ticker-pos">C</span>
+            <span class="ticker-mock ">Mock: +3</span>
+            <span class="ticker-price">$45.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Azzi Fudd</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock ">Mock: —</span>
+            <span class="ticker-price">$62.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Awa Fam</span>
+            <span class="ticker-pos">F</span>
+            <span class="ticker-mock ">Mock: +5</span>
+            <span class="ticker-price">$28.00</span>
+        </div>
+        <div class="ticker-item">
+            <span class="ticker-sport">WNBA</span>
+            <span class="ticker-name">Flau'Jae Johnson</span>
+            <span class="ticker-pos">G</span>
+            <span class="ticker-mock down">Mock: -2</span>
+            <span class="ticker-price">$35.00</span>
+        </div>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <section class="section" id="how-it-works">
+            <div class="section-label">HOW IT WORKS</div>
+            <h2 class="section-title">From Mock Draft to Smart Trade</h2>
+            <p class="section-subtitle">
+                CollectorStream turns publicly available scouting data into actionable buy and sell signals — so you're always a step ahead.
+            </p>
+
+            <div class="how-it-works">
+                <div class="step-card">
+                    <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 2a10 10 0 0 1 7.07 17.07"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h3>We Scan the Noise</h3>
+                    <p>Our engine monitors 100+ mock drafts, scouting reports, combine results, and social buzz daily across NFL, NBA, and MLB prospects.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h3>We Find the Gap</h3>
+                    <p>We compare each player's rising draft stock against their current card prices to identify the "Draft Gap" — the window where cards are still undervalued.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+                    <h3>You Buy & Sell Smarter</h3>
+                    <p>Get clear Buy and Sell signals based on real data. Buy early before the market catches on, and sell at peak hype moments like Draft Day or breakout games.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Today's Picks -->
+        <section class="section" id="picks">
+            <div class="section-label">TODAY'S PICKS</div>
+            <h2 class="section-title">Top Prospects to Watch</h2>
+            <p class="section-subtitle">
+                Players with the biggest gap between mock draft momentum and current card prices. Updated daily.
+            </p>
+
+            <div class="picks-table-container">
+                <table class="picks-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Sport</th>
+                            <th>Avg Mock</th>
+                            <th>Mock Δ</th>
+                            <th>Floor Price</th>
+                            <th>7D Price</th>
+                            <th>Signal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+        <tr>
+            <td>1</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">JuJu Watkins</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#1</td>
+            <td><span class="mock-change">— —</span></td>
+            <td>$125.00</td>
+            <td><span class="price-change positive">+8.7%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Paige Bueckers</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#2</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +1</span></td>
+            <td>$89.00</td>
+            <td><span class="price-change positive">+5.2%</span></td>
+            <td><span class="signal-badge signal-buy">Buy</span></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Lauren Betts</span>
+                    <span class="player-cell-pos">C</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#3</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +2</span></td>
+            <td>$45.00</td>
+            <td><span class="price-change positive">+3.1%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Azzi Fudd</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#4</td>
+            <td><span class="mock-change">— —</span></td>
+            <td>$62.00</td>
+            <td><span class="price-change positive">+1.8%</span></td>
+            <td><span class="signal-badge signal-hold">Hold</span></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Awa Fam</span>
+                    <span class="player-cell-pos">F</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#5</td>
+            <td><span class="mock-change up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> +3</span></td>
+            <td>$28.00</td>
+            <td><span class="price-change positive">+12.4%</span></td>
+            <td><span class="signal-badge signal-strong-buy">Strong Buy</span></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>
+                <div class="player-cell">
+                    <span class="player-cell-name">Flau'Jae Johnson</span>
+                    <span class="player-cell-pos">G</span>
+                </div>
+            </td>
+            <td><span class="sport-badge">WNBA</span></td>
+            <td>#6</td>
+            <td><span class="mock-change down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg> -1</span></td>
+            <td>$35.00</td>
+            <td><span class="price-change negative">-2.1%</span></td>
+            <td><span class="signal-badge signal-hold">Hold</span></td>
+        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 16px;">
+                Mock data for demonstration · <a href="#" onclick="openSignupModal(); return false;" style="color: var(--accent);">Sign up free</a> to see live signals
+            </p>
+        </section>
+
+        <!-- Draft Gap -->
+        <section class="section" id="draft-gap">
+            <div class="section-label">THE DRAFT GAP</div>
+            <h2 class="section-title">When Draft Hype Outpaces Card Prices — That's Your Window</h2>
+            <p class="section-subtitle">
+                This chart shows a typical "Draft Gap" pattern: a player's mock draft stock rises weeks before card prices catch up. We find these gaps every day.
+            </p>
+
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div>
+                        <div class="chart-title">Example: Rising WNBA Prospect</div>
+                        <div class="chart-subtitle">Mock rank vs. card floor price over 12 weeks</div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><span class="legend-dot mock"></span> Mock Rank (inverted)</div>
+                        <div class="legend-item"><span class="legend-dot price"></span> Card Price</div>
+                    </div>
+                </div>
+                <div class="buy-window-alert">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    <strong>Buy Window</strong> Weeks 2-5: Mock rank climbing fast, card price still flat — the ideal entry point.
+                </div>
+                <div style="height: 200px; display: flex; align-items: flex-end; justify-content: space-around; padding: 20px; border: 1px solid var(--border); border-radius: 8px;">
+                    <!-- Simple CSS chart visualization -->
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 30px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W1</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 35px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W2</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 40px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W3</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 50px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W4</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 70px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W5</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 90px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W6</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 110px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W7</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 130px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W8</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                        <div style="width: 40px; height: 150px; background: var(--accent); border-radius: 4px;"></div>
+                        <span style="font-size: 11px; color: var(--text-muted);">W9</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="section" id="features">
+            <h2 class="section-title">Predictive Tools for Smarter Collecting</h2>
+            <p class="section-subtitle">
+                Everything you need to find undervalued prospects, time your trades, and grow your collection's value — all free to use.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 2a10 10 0 0 1 7.07 17.07"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h3>Mock Draft Aggregator</h3>
+                    <p>We scan 100+ mock drafts daily across NFL, NBA, and MLB to track which prospects are rising and falling in real time.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+                    <h3>Buy Early Signals</h3>
+                    <p>Identify players whose draft stock is climbing but card prices haven't caught up yet. Get in before the market moves.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div>
+                    <h3>Event-Driven Sell Alerts</h3>
+                    <p>Know when to sell. We flag peak-hype moments — Draft Day, combine standouts, award announcements — so you can lock in profits.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                    <h3>Draft Gap Analysis</h3>
+                    <p>See the "Draft Gap" — the spread between a player's mock draft momentum and their current card market price — updated daily.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+                    <h3>Free Portfolio Tracking</h3>
+                    <p>Sign up to add your cards and track their value over time. See how your collection performs against the market with daily updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3>Multi-Sport Coverage</h3>
+                    <p>NFL, NBA, WNBA, and MLB prospects all in one place. Whether it's football rookies or baseball call-ups, we've got you covered.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <div class="cta-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <h2>Start Collecting Smarter — For Free</h2>
+            <p>Create a free account to unlock portfolio tracking, save your favorite prospects, and get daily buy/sell signals delivered to your dashboard.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="openSignupModal()">Create Free Account <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+                <a href="players-2026.html" class="btn btn-outline">Explore Without Signing Up</a>
+            </div>
+            <p class="cta-fine-print">No credit card required · Free forever · Premium features coming soon</p>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo" onclick="showHome(); return false;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <span>Collector</span><span>Stream</span>
+                    </a>
+                    <p>Predictive intelligence for sports card investors. We turn mock draft data into actionable buy and sell signals — free to use.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <a href="#how-it-works">How It Works</a>
+                    <a href="#picks">Today's Picks</a>
+                    <a href="#draft-gap">Draft Gap Chart</a>
+                    <a href="#" onclick="showPortfolio(); return false;">Portfolio Tracker</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="#">Blog</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Feedback</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copyright">© 2026 CollectorStream. All rights reserved.</div>
+                <div class="footer-social">
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">Discord</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- PORTFOLIO SECTION (Hidden by default) -->
+    <div id="portfolioContent" class="portfolio-section">
+        <section class="section">
+            <div class="portfolio-header">
+                <div>
+                    <div class="section-label">YOUR PORTFOLIO</div>
+                    <h2 class="section-title">Card Collection</h2>
+                </div>
+                <button class="btn btn-primary" onclick="refreshAllMarketValues()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    Refresh Market Values
+                </button>
+            </div>
+
+            <!-- Refresh Progress -->
+            <div id="refreshProgress" class="refresh-progress">
+                <div class="refresh-spinner"></div>
+                <div class="refresh-text" id="refreshProgressText">Refreshing market values...</div>
+            </div>
+
+            <!-- Top Dashboard Stats -->
+            <div class="portfolio-stats" id="portfolioStats">
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">Total Value</div>
+                    <div class="portfolio-stat-value" id="totalValue">$0.00</div>
+                </div>
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">Total Invested</div>
+                    <div class="portfolio-stat-value" id="totalInvested">$0.00</div>
+                </div>
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">Total Profit/Loss</div>
+                    <div class="portfolio-stat-value" id="totalProfit">$0.00</div>
+                </div>
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">ROI</div>
+                    <div class="portfolio-stat-value" id="totalROI">0%</div>
+                </div>
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">Top Performer</div>
+                    <div id="topPerformer"></div>
+                </div>
+                <div class="portfolio-stat-card">
+                    <div class="portfolio-stat-label">Biggest Loser</div>
+                    <div id="biggestLoser"></div>
+                </div>
+            </div>
+
+            <!-- View Controls -->
+            <div class="view-controls">
+                <div class="controls-row">
+                    <div class="control-group">
+                        <div class="control-label">View:</div>
+                        <div class="view-mode-btns">
+                            <button class="view-mode-btn active" data-view="performance" onclick="changeView('performance')">Performance</button>
+                            <button class="view-mode-btn" data-view="all" onclick="changeView('all')">All Cards</button>
+                            <button class="view-mode-btn" data-view="grouped" onclick="changeView('grouped')">Grouped</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group" id="groupByControl" style="display: none;">
+                        <div class="control-label">Group By:</div>
+                        <select class="control-select" id="groupBySelect" onchange="changeGroupBy(this.value)">
+                            <option value="sport">Sport</option>
+                            <option value="team">Team</option>
+                            <option value="player">Player</option>
+                            <option value="year">Year</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-label">Sort:</div>
+                        <select class="control-select" id="sortSelect" onchange="changeSorting(this.value)">
+                            <option value="profitPercent">Profit %</option>
+                            <option value="profitAmount">Profit Amount</option>
+                            <option value="currentValue">Current Value</option>
+                            <option value="purchaseDate">Recent</option>
+                            <option value="playerName">Player Name</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group" style="flex: 1;">
+                        <input type="text" class="control-input" id="searchInput" placeholder="Search by player, team, set, or card number..." onkeyup="handleSearch(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Results Info -->
+            <div id="searchResultsInfo" style="display: none;" class="search-results-info">
+                <div class="search-results-text" id="searchResultsText"></div>
+                <button class="clear-search-btn" onclick="clearSearch()">Clear Search</button>
+            </div>
+
+            <!-- Performance Dashboard View -->
+            <div id="performanceView" class="performance-dashboard active">
+                <!-- Hot Right Now -->
+                <div class="performance-section">
+                    <div class="performance-section-header">
+                        <span class="performance-section-icon">🔥</span>
+                        <h3 class="performance-section-title">Hot Right Now (Top 5 Gainers)</h3>
+                    </div>
+                    <div class="cards-grid" id="hotCards"></div>
+                </div>
+
+                <!-- Declining -->
+                <div class="performance-section">
+                    <div class="performance-section-header">
+                        <span class="performance-section-icon">⚠️</span>
+                        <h3 class="performance-section-title">Declining (Top 5 Losers)</h3>
+                    </div>
+                    <div class="cards-grid" id="decliningCards"></div>
+                </div>
+
+                <!-- By Sport -->
+                <div class="performance-section">
+                    <div class="performance-section-header">
+                        <span class="performance-section-icon">📊</span>
+                        <h3 class="performance-section-title">By Sport</h3>
+                    </div>
+                    <div class="sport-breakdown" id="sportBreakdown"></div>
+                </div>
+            </div>
+
+            <!-- All Cards Grid View -->
+            <div id="allCardsView" style="display: none;">
+                <div class="cards-grid" id="allCardsGrid"></div>
+                <div id="pagination" class="pagination"></div>
+            </div>
+
+            <!-- Grouped View -->
+            <div id="groupedView" class="grouped-view">
+                <div id="groupedContent"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ADMIN SECTION (Hidden by default) -->
+    <div id="adminContent" class="admin-page">
+        <section class="section">
+            <div class="section-label">ADMIN DASHBOARD</div>
+            <h2 class="section-title">System Management</h2>
+
+            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; text-align: center;">
+                <h3 style="font-size: 24px; margin-bottom: 16px;">Admin Dashboard</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 32px;">Full admin implementation with user management, scraper controls, and system stats</p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 32px;">
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px;">
+                        <div style="font-size: 28px; font-weight: 700; color: var(--accent);" id="adminTotalUsers">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-top: 8px;">Total Users</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px;">
+                        <div style="font-size: 28px; font-weight: 700; color: var(--accent);" id="adminTotalCards">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-top: 8px;">Total Cards</div>
+                    </div>
+                    <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px;">
+                        <div style="font-size: 28px; font-weight: 700; color: var(--accent);" id="adminActiveScrapers">0</div>
+                        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; margin-top: 8px;">Active Scrapers</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-outline" onclick="toggleUserManagement()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Manage Users
+                    </button>
+                    <button class="btn btn-outline" onclick="toggleAdminManagement()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2L2 7l10 5 10-5-10-5z"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        Manage Admins
+                    </button>
+                    <button class="btn btn-outline" onclick="loadAdminScrapers()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="M12 2a10 10 0 0 1 7.07 17.07"/><circle cx="12" cy="12" r="2"/></svg>
+                        Manage Scrapers
+                    </button>
+                    <button class="btn btn-primary" onclick="refreshAdminStats()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        Refresh Stats
+                    </button>
+                </div>
+            </div>
+
+            <!-- User Management Section -->
+            <div id="userManagementSection" style="display: none; margin-top: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3 style="font-size: 20px; margin: 0;">User Management</h3>
+                    <div style="flex: 1; max-width: 300px; margin: 0 16px;">
+                        <input type="text" id="userSearchInput" placeholder="Search users..."
+                            style="width: 100%; padding: 8px 12px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 14px;">
+                    </div>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Created Date</th>
+                                <th>Total Cards</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                    Loading users...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Management Section -->
+            <div id="adminManagementSection" style="display: none; margin-top: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3 style="font-size: 20px; margin: 0;">Admin Management</h3>
+                    <button class="btn btn-primary" onclick="openAddAdminModal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Admin
+                    </button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Added Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody">
+                            <tr>
+                                <td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                    Loading admins...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Log In</h3>
+                <button class="modal-close" onclick="closeLoginModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                </div>
+                <div class="form-error" id="loginError" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Log In</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 14px;">
+                Don't have an account? <a href="#" onclick="closeLoginModal(); openSignupModal(); return false;" style="color: var(--accent);">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Account</h3>
+                <button class="modal-close" onclick="closeSignupModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="signupPassword" required>
+                </div>
+                <div class="form-error" id="signupError" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Create Account</button>
+            </form>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 14px;">
+                Already have an account? <a href="#" onclick="closeSignupModal(); openLoginModal(); return false;" style="color: var(--accent);">Log in</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Edit Card Modal -->
+    <div id="editCardModal" class="modal">
+        <div class="modal-content wide">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Card</h3>
+                <button class="modal-close" onclick="closeEditCardModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="editCardForm" onsubmit="saveCardEdits(event)">
+                <input type="hidden" id="editCardId">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Player Name</label>
+                        <input type="text" class="form-input" id="editPlayerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Team</label>
+                        <input type="text" class="form-input" id="editTeam">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Sport</label>
+                        <input type="text" class="form-input" id="editSport">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Year</label>
+                        <input type="text" class="form-input" id="editYear">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Card Set</label>
+                        <input type="text" class="form-input" id="editSetName">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-input" id="editCardNumber">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Manufacturer</label>
+                        <input type="text" class="form-input" id="editManufacturer">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Condition</label>
+                        <input type="text" class="form-input" id="editCondition">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Grading Company</label>
+                        <input type="text" class="form-input" id="editGradingCompany">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Grading Grade</label>
+                        <input type="text" class="form-input" id="editGradingGrade">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Purchase Price</label>
+                        <input type="number" step="0.01" class="form-input" id="editPurchasePrice" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estimated Value</label>
+                        <input type="number" step="0.01" class="form-input" id="editEstimatedValue" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-input" id="editNotes" rows="3"></textarea>
+                </div>
+
+                <div class="form-error" id="editCardError" style="display: none;"></div>
+                <div class="form-success" id="editCardSuccess" style="display: none;"></div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="refreshSingleCardValue()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        Refresh Value
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="deleteCard()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Delete
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit User</h3>
+                <button class="modal-close" onclick="closeEditUserModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="editUserForm" onsubmit="saveUserEdits(event)">
+                <input type="hidden" id="editUserId">
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="editUserEmail" required>
+                </div>
+
+                <div class="form-error" id="editUserError" style="display: none;"></div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-outline" onclick="closeEditUserModal()" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div id="resetPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Reset Password</h3>
+                <button class="modal-close" onclick="closeResetPasswordModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="resetPasswordForm" onsubmit="handlePasswordReset(event)">
+                <input type="hidden" id="resetPasswordUserId">
+                <input type="hidden" id="resetPasswordUserEmail">
+
+                <div class="form-group">
+                    <label class="form-label">User Email</label>
+                    <input type="email" class="form-input" id="resetPasswordDisplayEmail" disabled style="background-color: var(--bg-secondary); cursor: not-allowed;">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Reset Method</label>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; transition: all 0.2s;" id="manualPasswordOption">
+                            <input type="radio" name="resetMethod" value="manual" onchange="togglePasswordResetMethod()" checked style="cursor: pointer;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; margin-bottom: 4px;">Set Password Manually</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">Enter a new password for the user</div>
+                            </div>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 12px; border: 2px solid var(--border-color); border-radius: 8px; transition: all 0.2s;" id="emailResetOption">
+                            <input type="radio" name="resetMethod" value="email" onchange="togglePasswordResetMethod()" style="cursor: pointer;">
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; margin-bottom: 4px;">Email Reset Link</div>
+                                <div style="font-size: 12px; color: var(--text-muted);">Send a password reset email to the user</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="manualPasswordFields">
+                    <label class="form-label">New Password</label>
+                    <input type="password" class="form-input" id="newPassword" minlength="8" placeholder="Minimum 8 characters">
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                        Password must be at least 8 characters long
+                    </div>
+                </div>
+
+                <div id="emailResetConfirmation" style="display: none; padding: 16px; background-color: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--primary);">
+                    <div style="font-weight: 600; margin-bottom: 4px;">Email will be sent to:</div>
+                    <div id="emailResetTarget" style="color: var(--text-muted);"></div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+                        The user will receive an email with instructions to reset their password.
+                    </div>
+                </div>
+
+                <div class="form-error" id="resetPasswordError" style="display: none;"></div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-outline" onclick="closeResetPasswordModal()" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="resetPasswordSubmitBtn" style="flex: 1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Reset Password
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Admin Modal -->
+    <div id="addAdminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Admin</h3>
+                <button class="modal-close" onclick="closeAddAdminModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="addAdminForm" onsubmit="saveAddAdmin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="addAdminEmail" required placeholder="user@example.com">
+                </div>
+
+                <div class="form-error" id="addAdminError" style="display: none;"></div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-outline" onclick="closeAddAdminModal()" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Admin
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirmTitle">Confirm Action</h3>
+                <button class="modal-close" onclick="closeConfirmModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <p id="confirmMessage" style="color: var(--text-secondary); margin-bottom: 24px;">Are you sure you want to proceed?</p>
+            <div style="display: flex; gap: 12px;">
+                <button type="button" class="btn btn-outline" onclick="closeConfirmModal()" style="flex: 1;">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmButton" style="flex: 1;">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+// ============================================================================
+// COLLECTORSTREAM INTEGRATED DASHBOARD - JAVASCRIPT
+// ============================================================================
+
+// API Configuration
+const API_BASE_URL = 'https://api.collectorstream.com';
+const TOKEN_KEY = 'authToken';
+const ADMIN_EMAIL = 'todd@fluxzi.com';
+
+// Global State
+let currentUser = null;
+let allCards = [];
+let filteredCards = [];
+let currentView = 'performance';
+let currentGroupBy = 'sport';
+let currentSort = 'profitPercent';
+
+// ============================================================================
+// AUTHENTICATION & INITIALIZATION
+// ============================================================================
+
+// Initialize app on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    await verifyToken();
+
+    // Close modals when clicking outside
+    window.onclick = (event) => {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    };
+
+    // Close profile menu when clicking outside
+    document.addEventListener('click', (event) => {
+        const profileDropdown = document.getElementById('profileDropdown');
+        const profileMenu = document.getElementById('profileMenu');
+        if (profileDropdown && profileMenu && !profileDropdown.contains(event.target)) {
+            profileMenu.classList.remove('active');
+        }
+    });
+});
+
+// Verify authentication token
+async function verifyToken() {
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if (!token) {
+        showLoggedOutState();
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/auth/validate`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            currentUser = data.user || data;
+            showLoggedInState(currentUser);
+        } else {
+            localStorage.removeItem(TOKEN_KEY);
+            showLoggedOutState();
+        }
+    } catch (error) {
+        console.error('Token verification failed:', error);
+        localStorage.removeItem(TOKEN_KEY);
+        showLoggedOutState();
+    }
+}
+
+// Show logged out state
+function showLoggedOutState() {
+    document.getElementById('authButtons').style.display = 'flex';
+    document.getElementById('profileDropdown').style.display = 'none';
+    document.getElementById('adminMenuSection').style.display = 'none';
+}
+
+// Show logged in state
+function showLoggedInState(user) {
+    document.getElementById('authButtons').style.display = 'none';
+    document.getElementById('profileDropdown').style.display = 'block';
+
+    // Set user info
+    const email = user.email || user.username || 'User';
+    document.getElementById('profileEmail').textContent = email;
+
+    // Set avatar initial
+    const initial = email.charAt(0).toUpperCase();
+    document.getElementById('profileAvatar').textContent = initial;
+
+    // Show admin menu if user is admin
+    if (email === ADMIN_EMAIL) {
+        document.getElementById('adminMenuSection').style.display = 'block';
+    } else {
+        document.getElementById('adminMenuSection').style.display = 'none';
+    }
+}
+
+// Handle login form submission
+async function handleLogin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const errorDiv = document.getElementById('loginError');
+
+    errorDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/auth/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.token) {
+            localStorage.setItem(TOKEN_KEY, data.token);
+            currentUser = data.user || { email };
+            closeLoginModal();
+            showLoggedInState(currentUser);
+            showPortfolio();
+        } else {
+            errorDiv.textContent = data.error || data.message || 'Login failed. Please check your credentials.';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        errorDiv.textContent = 'Network error. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Handle signup form submission
+async function handleSignup(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const errorDiv = document.getElementById('signupError');
+
+    errorDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/auth/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.token) {
+            localStorage.setItem(TOKEN_KEY, data.token);
+            currentUser = data.user || { email };
+            closeSignupModal();
+            showLoggedInState(currentUser);
+            showPortfolio();
+        } else {
+            errorDiv.textContent = data.error || data.message || 'Signup failed. Please try again.';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Signup error:', error);
+        errorDiv.textContent = 'Network error. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Logout user
+function logout() {
+    localStorage.removeItem(TOKEN_KEY);
+    currentUser = null;
+    allCards = [];
+    filteredCards = [];
+    showLoggedOutState();
+    showHome();
+}
+
+// ============================================================================
+// MODAL FUNCTIONS
+// ============================================================================
+
+function openLoginModal() {
+    document.getElementById('loginModal').style.display = 'flex';
+    document.getElementById('loginEmail').value = '';
+    document.getElementById('loginPassword').value = '';
+    document.getElementById('loginError').style.display = 'none';
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').style.display = 'none';
+}
+
+function openSignupModal() {
+    document.getElementById('signupModal').style.display = 'flex';
+    document.getElementById('signupEmail').value = '';
+    document.getElementById('signupPassword').value = '';
+    document.getElementById('signupError').style.display = 'none';
+}
+
+function closeSignupModal() {
+    document.getElementById('signupModal').style.display = 'none';
+}
+
+function openEditCardModal(cardId) {
+    document.getElementById('editCardModal').style.display = 'flex';
+    if (cardId) {
+        loadCardForEdit(cardId);
+    }
+}
+
+function closeEditCardModal() {
+    document.getElementById('editCardModal').style.display = 'none';
+    document.getElementById('editCardError').style.display = 'none';
+    document.getElementById('editCardSuccess').style.display = 'none';
+}
+
+// ============================================================================
+// NAVIGATION FUNCTIONS
+// ============================================================================
+
+function showHome() {
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('portfolioContent').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'none';
+
+    // Close profile menu
+    const profileMenu = document.getElementById('profileMenu');
+    if (profileMenu) {
+        profileMenu.classList.remove('active');
+    }
+}
+
+function showPortfolio() {
+    if (!currentUser) {
+        openLoginModal();
+        return;
+    }
+
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('portfolioContent').style.display = 'block';
+    document.getElementById('adminContent').style.display = 'none';
+
+    // Close profile menu
+    const profileMenu = document.getElementById('profileMenu');
+    if (profileMenu) {
+        profileMenu.classList.remove('active');
+    }
+
+    loadUserCards();
+}
+
+function showAdminDashboard() {
+    if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+        alert('Access denied. Admin privileges required.');
+        return;
+    }
+
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('portfolioContent').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+
+    // Close profile menu
+    const profileMenu = document.getElementById('profileMenu');
+    if (profileMenu) {
+        profileMenu.classList.remove('active');
+    }
+
+    refreshAdminStats();
+}
+
+function toggleProfileMenu() {
+    const profileMenu = document.getElementById('profileMenu');
+    profileMenu.classList.toggle('active');
+}
+
+// ============================================================================
+// PORTFOLIO FUNCTIONS
+// ============================================================================
+
+// Load user's cards from API
+async function loadUserCards() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+        openLoginModal();
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            allCards = data.cards || data || [];
+            filteredCards = [...allCards];
+            renderCards();
+            updatePortfolioStats();
+        } else {
+            console.error('Failed to load cards:', response.status);
+        }
+    } catch (error) {
+        console.error('Error loading cards:', error);
+    }
+}
+
+// Update portfolio statistics
+function updatePortfolioStats() {
+    if (allCards.length === 0) {
+        document.getElementById('totalValue').textContent = '$0.00';
+        document.getElementById('totalInvested').textContent = '$0.00';
+        document.getElementById('totalProfit').textContent = '$0.00';
+        document.getElementById('totalROI').textContent = '0%';
+        document.getElementById('topPerformer').innerHTML = '<div style="color: var(--text-muted); font-size: 12px;">No cards</div>';
+        document.getElementById('biggestLoser').innerHTML = '<div style="color: var(--text-muted); font-size: 12px;">No cards</div>';
+        return;
+    }
+
+    let totalValue = 0;
+    let totalInvested = 0;
+    let topGainer = null;
+    let topGainerPercent = -Infinity;
+    let biggestLoser = null;
+    let biggestLoserPercent = Infinity;
+
+    allCards.forEach(card => {
+        const currentValue = parseFloat(card.estimated_value || card.estimatedValue || 0);
+        const purchasePrice = parseFloat(card.purchase_price || card.purchasePrice || 0);
+
+        totalValue += currentValue;
+        totalInvested += purchasePrice;
+
+        if (purchasePrice > 0) {
+            const profitPercent = ((currentValue - purchasePrice) / purchasePrice) * 100;
+
+            if (profitPercent > topGainerPercent) {
+                topGainerPercent = profitPercent;
+                topGainer = card;
+            }
+
+            if (profitPercent < biggestLoserPercent) {
+                biggestLoserPercent = profitPercent;
+                biggestLoser = card;
+            }
+        }
+    });
+
+    const totalProfit = totalValue - totalInvested;
+    const roi = totalInvested > 0 ? (totalProfit / totalInvested) * 100 : 0;
+
+    document.getElementById('totalValue').textContent = '$' + totalValue.toFixed(2);
+    document.getElementById('totalInvested').textContent = '$' + totalInvested.toFixed(2);
+
+    const profitElement = document.getElementById('totalProfit');
+    profitElement.textContent = '$' + totalProfit.toFixed(2);
+    profitElement.className = 'portfolio-stat-value ' + (totalProfit >= 0 ? 'positive' : 'negative');
+
+    const roiElement = document.getElementById('totalROI');
+    roiElement.textContent = roi.toFixed(1) + '%';
+    roiElement.className = 'portfolio-stat-value ' + (roi >= 0 ? 'positive' : 'negative');
+
+    // Top performer
+    if (topGainer) {
+        document.getElementById('topPerformer').innerHTML = `
+            <div style="font-weight: 600; font-size: 14px;">${topGainer.player_name || topGainer.playerName}</div>
+            <div style="color: var(--success); font-size: 12px;">+${topGainerPercent.toFixed(1)}%</div>
+        `;
+    }
+
+    // Biggest loser
+    if (biggestLoser) {
+        document.getElementById('biggestLoser').innerHTML = `
+            <div style="font-weight: 600; font-size: 14px;">${biggestLoser.player_name || biggestLoser.playerName}</div>
+            <div style="color: var(--danger); font-size: 12px;">${biggestLoserPercent.toFixed(1)}%</div>
+        `;
+    }
+}
+
+// Render cards based on current view
+function renderCards() {
+    if (currentView === 'performance') {
+        renderPerformanceView();
+    } else if (currentView === 'all') {
+        renderAllCardsView();
+    } else if (currentView === 'grouped') {
+        renderGroupedView();
+    }
+}
+
+// Render performance dashboard view
+function renderPerformanceView() {
+    document.getElementById('performanceView').style.display = 'block';
+    document.getElementById('allCardsView').style.display = 'none';
+    document.getElementById('groupedView').style.display = 'none';
+    document.getElementById('groupByControl').style.display = 'none';
+
+    // Sort by profit percent
+    const sortedCards = [...filteredCards].map(card => ({
+        ...card,
+        profitPercent: calculateProfitPercent(card)
+    })).sort((a, b) => b.profitPercent - a.profitPercent);
+
+    // Hot cards (top 5 gainers)
+    const hotCards = sortedCards.slice(0, 5);
+    document.getElementById('hotCards').innerHTML = hotCards.map(card => renderCardHTML(card)).join('');
+
+    // Declining cards (top 5 losers)
+    const decliningCards = sortedCards.slice(-5).reverse();
+    document.getElementById('decliningCards').innerHTML = decliningCards.map(card => renderCardHTML(card)).join('');
+
+    // Sport breakdown
+    renderSportBreakdown();
+}
+
+// Render all cards view
+function renderAllCardsView() {
+    document.getElementById('performanceView').style.display = 'none';
+    document.getElementById('allCardsView').style.display = 'block';
+    document.getElementById('groupedView').style.display = 'none';
+    document.getElementById('groupByControl').style.display = 'none';
+
+    const sorted = sortCards(filteredCards);
+    document.getElementById('allCardsGrid').innerHTML = sorted.map(card => renderCardHTML(card)).join('');
+}
+
+// Render grouped view
+function renderGroupedView() {
+    document.getElementById('performanceView').style.display = 'none';
+    document.getElementById('allCardsView').style.display = 'none';
+    document.getElementById('groupedView').style.display = 'block';
+    document.getElementById('groupByControl').style.display = 'flex';
+
+    const grouped = groupCards(filteredCards, currentGroupBy);
+    const groupedHTML = Object.entries(grouped).map(([groupName, cards]) => {
+        const sorted = sortCards(cards);
+        return `
+            <div class="card-group">
+                <div class="card-group-header">
+                    <h3 class="card-group-title">${groupName || 'Unknown'}</h3>
+                    <span class="card-group-count">${cards.length} card${cards.length !== 1 ? 's' : ''}</span>
+                </div>
+                <div class="cards-grid">
+                    ${sorted.map(card => renderCardHTML(card)).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('groupedView').innerHTML = groupedHTML;
+}
+
+// Render sport breakdown
+function renderSportBreakdown() {
+    const sportGroups = groupCards(filteredCards, 'sport');
+    const sportHTML = Object.entries(sportGroups).map(([sport, cards]) => {
+        const totalValue = cards.reduce((sum, card) => sum + parseFloat(card.estimated_value || card.estimatedValue || 0), 0);
+        const totalInvested = cards.reduce((sum, card) => sum + parseFloat(card.purchase_price || card.purchasePrice || 0), 0);
+        const profit = totalValue - totalInvested;
+        const roi = totalInvested > 0 ? (profit / totalInvested) * 100 : 0;
+
+        return `
+            <div class="sport-card">
+                <div class="sport-name">${sport || 'Unknown'}</div>
+                <div class="sport-stats">
+                    <div class="sport-stat">
+                        <div class="sport-stat-label">Cards</div>
+                        <div class="sport-stat-value">${cards.length}</div>
+                    </div>
+                    <div class="sport-stat">
+                        <div class="sport-stat-label">Value</div>
+                        <div class="sport-stat-value">$${totalValue.toFixed(2)}</div>
+                    </div>
+                    <div class="sport-stat">
+                        <div class="sport-stat-label">ROI</div>
+                        <div class="sport-stat-value ${roi >= 0 ? 'positive' : 'negative'}">${roi.toFixed(1)}%</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('sportBreakdown').innerHTML = sportHTML || '<div style="color: var(--text-muted); padding: 20px; text-align: center;">No cards found</div>';
+}
+
+// Render individual card HTML
+function renderCardHTML(card) {
+    const playerName = card.player_name || card.playerName || 'Unknown Player';
+    const year = card.year || '';
+    const manufacturer = card.set_name || card.setName || card.brand || 'Unknown Set';
+    const frontImage = card.front_image_url || card.frontImageUrl || '/api/placeholder/200/280';
+
+    return `
+        <div class="card-thumb" onclick="openEditCardModal(${card.id})" title="Click to edit card details">
+            <div class="card-thumb-image">
+                <img src="${frontImage}" alt="${playerName}" onerror="this.src='/api/placeholder/200/280'">
+            </div>
+            <div class="card-thumb-info">
+                <div class="card-thumb-name">${playerName}</div>
+                <div class="card-thumb-year">${year}</div>
+                <div class="card-thumb-manufacturer">${manufacturer}</div>
+            </div>
+        </div>
+    `;
+}
+
+// Calculate profit percent for a card
+function calculateProfitPercent(card) {
+    const currentValue = parseFloat(card.estimated_value || card.estimatedValue || 0);
+    const purchasePrice = parseFloat(card.purchase_price || card.purchasePrice || 0);
+    return purchasePrice > 0 ? ((currentValue - purchasePrice) / purchasePrice) * 100 : 0;
+}
+
+// Sort cards based on current sort option
+function sortCards(cards) {
+    const sorted = [...cards];
+
+    switch (currentSort) {
+        case 'profitPercent':
+            sorted.sort((a, b) => calculateProfitPercent(b) - calculateProfitPercent(a));
+            break;
+        case 'profitAmount':
+            sorted.sort((a, b) => {
+                const profitA = (parseFloat(a.estimated_value || a.estimatedValue || 0) - parseFloat(a.purchase_price || a.purchasePrice || 0));
+                const profitB = (parseFloat(b.estimated_value || b.estimatedValue || 0) - parseFloat(b.purchase_price || b.purchasePrice || 0));
+                return profitB - profitA;
+            });
+            break;
+        case 'currentValue':
+            sorted.sort((a, b) => parseFloat(b.estimated_value || b.estimatedValue || 0) - parseFloat(a.estimated_value || a.estimatedValue || 0));
+            break;
+        case 'purchaseDate':
+            sorted.sort((a, b) => new Date(b.created_at || b.createdAt || 0) - new Date(a.created_at || a.createdAt || 0));
+            break;
+        case 'playerName':
+            sorted.sort((a, b) => (a.player_name || a.playerName || '').localeCompare(b.player_name || b.playerName || ''));
+            break;
+    }
+
+    return sorted;
+}
+
+// Group cards by specified field
+function groupCards(cards, groupBy) {
+    const grouped = {};
+
+    cards.forEach(card => {
+        let key;
+        switch (groupBy) {
+            case 'sport':
+                key = card.sport || 'Unknown';
+                break;
+            case 'team':
+                key = card.team || 'Unknown';
+                break;
+            case 'player':
+                key = card.player_name || card.playerName || 'Unknown';
+                break;
+            case 'year':
+                key = card.year || 'Unknown';
+                break;
+            default:
+                key = 'Unknown';
+        }
+
+        if (!grouped[key]) {
+            grouped[key] = [];
+        }
+        grouped[key].push(card);
+    });
+
+    return grouped;
+}
+
+// Change view mode
+function changeView(view) {
+    currentView = view;
+
+    // Update active button
+    document.querySelectorAll('.view-mode-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.view === view) {
+            btn.classList.add('active');
+        }
+    });
+
+    renderCards();
+}
+
+// Change grouping option
+function changeGroupBy(groupBy) {
+    currentGroupBy = groupBy;
+    renderCards();
+}
+
+// Change sorting option
+function changeSorting(sort) {
+    currentSort = sort;
+    renderCards();
+}
+
+// Handle search input
+function handleSearch(query) {
+    const searchTerm = query.toLowerCase().trim();
+
+    if (!searchTerm) {
+        filteredCards = [...allCards];
+        document.getElementById('searchResultsInfo').style.display = 'none';
+    } else {
+        filteredCards = allCards.filter(card => {
+            const playerName = (card.player_name || card.playerName || '').toLowerCase();
+            const team = (card.team || '').toLowerCase();
+            const setName = (card.set_name || card.setName || '').toLowerCase();
+            const cardNumber = (card.card_number || card.cardNumber || '').toLowerCase();
+
+            return playerName.includes(searchTerm) ||
+                   team.includes(searchTerm) ||
+                   setName.includes(searchTerm) ||
+                   cardNumber.includes(searchTerm);
+        });
+
+        document.getElementById('searchResultsInfo').style.display = 'flex';
+        document.getElementById('searchResultsText').textContent = `Found ${filteredCards.length} card${filteredCards.length !== 1 ? 's' : ''} matching "${query}"`;
+    }
+
+    renderCards();
+    updatePortfolioStats();
+}
+
+// Clear search
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    filteredCards = [...allCards];
+    document.getElementById('searchResultsInfo').style.display = 'none';
+    renderCards();
+    updatePortfolioStats();
+}
+
+// Refresh all market values
+async function refreshAllMarketValues() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || allCards.length === 0) return;
+
+    const progressDiv = document.getElementById('refreshProgress');
+    const progressText = document.getElementById('refreshProgressText');
+    progressDiv.style.display = 'flex';
+
+    let completed = 0;
+    const total = allCards.length;
+
+    for (const card of allCards) {
+        try {
+            await refreshMarketValue(card.id);
+            completed++;
+            progressText.textContent = `Refreshing market values... ${completed}/${total}`;
+        } catch (error) {
+            console.error(`Failed to refresh card ${card.id}:`, error);
+        }
+    }
+
+    progressDiv.style.display = 'none';
+    await loadUserCards();
+}
+
+// Refresh market value for a single card
+async function refreshMarketValue(cardId) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}/market-value`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to refresh market value');
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error refreshing market value:', error);
+        throw error;
+    }
+}
+
+// Refresh single card value from edit modal
+async function refreshSingleCardValue() {
+    const cardId = document.getElementById('editCardId').value;
+    if (!cardId) return;
+
+    const errorDiv = document.getElementById('editCardError');
+    const successDiv = document.getElementById('editCardSuccess');
+
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+
+    try {
+        await refreshMarketValue(cardId);
+        await loadCardForEdit(cardId);
+        successDiv.textContent = 'Market value refreshed successfully!';
+        successDiv.style.display = 'block';
+
+        setTimeout(() => {
+            successDiv.style.display = 'none';
+        }, 3000);
+    } catch (error) {
+        errorDiv.textContent = 'Failed to refresh market value. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Load card details for editing
+async function loadCardForEdit(cardId) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const card = await response.json();
+
+            // Populate form fields
+            document.getElementById('editCardId').value = card.id;
+            document.getElementById('editPlayerName').value = card.player_name || card.playerName || '';
+            document.getElementById('editTeam').value = card.team || '';
+            document.getElementById('editSport').value = card.sport || '';
+            document.getElementById('editYear').value = card.year || '';
+            document.getElementById('editSetName').value = card.set_name || card.setName || '';
+            document.getElementById('editCardNumber').value = card.card_number || card.cardNumber || '';
+            document.getElementById('editManufacturer').value = card.manufacturer || '';
+            document.getElementById('editCondition').value = card.condition || '';
+            document.getElementById('editGradingCompany').value = card.grading_company || card.gradingCompany || '';
+            document.getElementById('editGradingGrade').value = card.grading_grade || card.gradingGrade || '';
+            document.getElementById('editPurchasePrice').value = card.purchase_price || card.purchasePrice || '';
+            document.getElementById('editEstimatedValue').value = card.estimated_value || card.estimatedValue || '';
+            document.getElementById('editNotes').value = card.notes || '';
+        }
+    } catch (error) {
+        console.error('Error loading card:', error);
+    }
+}
+
+// Save card edits
+async function saveCardEdits(event) {
+    event.preventDefault();
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    const cardId = document.getElementById('editCardId').value;
+    const errorDiv = document.getElementById('editCardError');
+    const successDiv = document.getElementById('editCardSuccess');
+
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+
+    const cardData = {
+        player_name: document.getElementById('editPlayerName').value,
+        team: document.getElementById('editTeam').value,
+        sport: document.getElementById('editSport').value,
+        year: document.getElementById('editYear').value,
+        set_name: document.getElementById('editSetName').value,
+        card_number: document.getElementById('editCardNumber').value,
+        manufacturer: document.getElementById('editManufacturer').value,
+        condition: document.getElementById('editCondition').value,
+        grading_company: document.getElementById('editGradingCompany').value,
+        grading_grade: document.getElementById('editGradingGrade').value,
+        purchase_price: parseFloat(document.getElementById('editPurchasePrice').value),
+        estimated_value: parseFloat(document.getElementById('editEstimatedValue').value),
+        notes: document.getElementById('editNotes').value
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(cardData)
+        });
+
+        if (response.ok) {
+            successDiv.textContent = 'Card updated successfully!';
+            successDiv.style.display = 'block';
+            await loadUserCards();
+
+            setTimeout(() => {
+                closeEditCardModal();
+            }, 1500);
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || data.message || 'Failed to update card. Please try again.';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error saving card:', error);
+        errorDiv.textContent = 'Network error. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Delete card
+async function deleteCard() {
+    if (!confirm('Are you sure you want to delete this card? This action cannot be undone.')) {
+        return;
+    }
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    const cardId = document.getElementById('editCardId').value;
+    const errorDiv = document.getElementById('editCardError');
+
+    errorDiv.style.display = 'none';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            closeEditCardModal();
+            await loadUserCards();
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || data.message || 'Failed to delete card. Please try again.';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error deleting card:', error);
+        errorDiv.textContent = 'Network error. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// ============================================================================
+// ADMIN FUNCTIONS
+// ============================================================================
+
+// Refresh admin statistics
+async function refreshAdminStats() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || !currentUser || currentUser.email !== ADMIN_EMAIL) {
+        return;
+    }
+
+    try {
+        // Fetch admin stats
+        const statsResponse = await fetch(`${API_BASE_URL}/v1/admin/stats`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (statsResponse.ok) {
+            const stats = await statsResponse.json();
+            document.getElementById('adminTotalUsers').textContent = stats.total_users || stats.totalUsers || 0;
+            document.getElementById('adminTotalCards').textContent = stats.total_cards || stats.totalCards || 0;
+            document.getElementById('adminActiveScrapers').textContent = stats.active_scrapers || stats.activeScrapers || 0;
+        }
+    } catch (error) {
+        console.error('Error fetching admin stats:', error);
+    }
+}
+
+// ============================================================================
+// USER MANAGEMENT
+// ============================================================================
+
+let allUsers = [];
+let filteredUsers = [];
+
+// Toggle user management section
+function toggleUserManagement() {
+    const section = document.getElementById('userManagementSection');
+    const adminSection = document.getElementById('adminManagementSection');
+
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        adminSection.style.display = 'none';
+        loadAdminUsers();
+    } else {
+        section.style.display = 'none';
+    }
+}
+
+// Load admin users
+async function loadAdminUsers() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || !currentUser || currentUser.email !== ADMIN_EMAIL) {
+        return;
+    }
+
+    const tbody = document.getElementById('usersTableBody');
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">Loading users...</td></tr>';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/users`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            allUsers = data.users || data || [];
+            filteredUsers = [...allUsers];
+            renderUsersTable();
+        } else {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--danger);">Failed to load users</td></tr>';
+        }
+    } catch (error) {
+        console.error('Error loading admin users:', error);
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--danger);">Error loading users</td></tr>';
+    }
+}
+
+// Render users table
+function renderUsersTable() {
+    const tbody = document.getElementById('usersTableBody');
+
+    if (filteredUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">No users found</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = filteredUsers.map(user => `
+        <tr>
+            <td>${user.email || 'N/A'}</td>
+            <td>${formatDate(user.created_at || user.createdAt)}</td>
+            <td>${user.total_cards || user.totalCards || 0}</td>
+            <td>${formatDate(user.last_login || user.lastLogin) || 'Never'}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-outline btn-small" onclick="openEditUserModal('${user.id}', '${user.email}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="btn btn-outline btn-small" onclick="openResetPasswordModal('${user.id}', '${user.email}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                        Reset Password
+                    </button>
+                    <button class="btn btn-danger btn-small" onclick="confirmDeleteUser('${user.id}', '${user.email}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Delete
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Search users
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('userSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredUsers = allUsers.filter(user =>
+                (user.email || '').toLowerCase().includes(searchTerm)
+            );
+            renderUsersTable();
+        });
+    }
+});
+
+// Open edit user modal
+function openEditUserModal(userId, email) {
+    document.getElementById('editUserId').value = userId;
+    document.getElementById('editUserEmail').value = email;
+    document.getElementById('editUserError').style.display = 'none';
+    document.getElementById('editUserModal').style.display = 'flex';
+}
+
+// Close edit user modal
+function closeEditUserModal() {
+    document.getElementById('editUserModal').style.display = 'none';
+    document.getElementById('editUserForm').reset();
+}
+
+// Save user edits
+async function saveUserEdits(event) {
+    event.preventDefault();
+
+    const userId = document.getElementById('editUserId').value;
+    const email = document.getElementById('editUserEmail').value;
+    const errorDiv = document.getElementById('editUserError');
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+
+        if (response.ok) {
+            closeEditUserModal();
+            showSuccessMessage('User updated successfully');
+            loadAdminUsers();
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || 'Failed to update user';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        errorDiv.textContent = 'Error updating user. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Confirm delete user
+function confirmDeleteUser(userId, email) {
+    showConfirmModal(
+        'Delete User',
+        `Are you sure you want to delete user "${email}"? This action cannot be undone.`,
+        () => deleteUser(userId)
+    );
+}
+
+// Delete user
+async function deleteUser(userId) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            showSuccessMessage('User deleted successfully');
+            loadAdminUsers();
+        } else {
+            const data = await response.json();
+            alert(data.error || 'Failed to delete user');
+        }
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('Error deleting user. Please try again.');
+    }
+}
+
+// Open reset password modal
+function openResetPasswordModal(userId, email) {
+    document.getElementById('resetPasswordUserId').value = userId;
+    document.getElementById('resetPasswordUserEmail').value = email;
+    document.getElementById('resetPasswordDisplayEmail').value = email;
+    document.getElementById('emailResetTarget').textContent = email;
+    document.getElementById('resetPasswordError').style.display = 'none';
+
+    // Reset form to manual method
+    const manualRadio = document.querySelector('input[name="resetMethod"][value="manual"]');
+    if (manualRadio) manualRadio.checked = true;
+    togglePasswordResetMethod();
+
+    document.getElementById('resetPasswordModal').style.display = 'flex';
+}
+
+// Close reset password modal
+function closeResetPasswordModal() {
+    document.getElementById('resetPasswordModal').style.display = 'none';
+    document.getElementById('resetPasswordForm').reset();
+    document.getElementById('newPassword').value = '';
+}
+
+// Toggle password reset method display
+function togglePasswordResetMethod() {
+    const method = document.querySelector('input[name="resetMethod"]:checked').value;
+    const manualFields = document.getElementById('manualPasswordFields');
+    const emailConfirmation = document.getElementById('emailResetConfirmation');
+    const submitBtn = document.getElementById('resetPasswordSubmitBtn');
+    const manualOption = document.getElementById('manualPasswordOption');
+    const emailOption = document.getElementById('emailResetOption');
+    const passwordInput = document.getElementById('newPassword');
+
+    if (method === 'manual') {
+        manualFields.style.display = 'block';
+        emailConfirmation.style.display = 'none';
+        submitBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Set Password
+        `;
+        passwordInput.required = true;
+        manualOption.style.borderColor = 'var(--primary)';
+        manualOption.style.backgroundColor = 'rgba(79, 70, 229, 0.05)';
+        emailOption.style.borderColor = 'var(--border-color)';
+        emailOption.style.backgroundColor = 'transparent';
+    } else {
+        manualFields.style.display = 'none';
+        emailConfirmation.style.display = 'block';
+        submitBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Send Reset Email
+        `;
+        passwordInput.required = false;
+        manualOption.style.borderColor = 'var(--border-color)';
+        manualOption.style.backgroundColor = 'transparent';
+        emailOption.style.borderColor = 'var(--primary)';
+        emailOption.style.backgroundColor = 'rgba(79, 70, 229, 0.05)';
+    }
+}
+
+// Handle password reset form submission
+async function handlePasswordReset(event) {
+    event.preventDefault();
+
+    const userId = document.getElementById('resetPasswordUserId').value;
+    const userEmail = document.getElementById('resetPasswordUserEmail').value;
+    const method = document.querySelector('input[name="resetMethod"]:checked').value;
+    const errorDiv = document.getElementById('resetPasswordError');
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if (!token) return;
+
+    errorDiv.style.display = 'none';
+
+    try {
+        if (method === 'manual') {
+            const password = document.getElementById('newPassword').value;
+
+            if (password.length < 8) {
+                errorDiv.textContent = 'Password must be at least 8 characters long';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            await setUserPasswordManually(userId, password, errorDiv);
+        } else {
+            await sendPasswordResetEmail(userId, userEmail, errorDiv);
+        }
+    } catch (error) {
+        console.error('Error resetting password:', error);
+        errorDiv.textContent = 'Error resetting password. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Set user password manually
+async function setUserPasswordManually(userId, password, errorDiv) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/users/${userId}/set-password`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password })
+        });
+
+        if (response.ok) {
+            closeResetPasswordModal();
+            showSuccessMessage('Password updated successfully');
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || 'Failed to set password';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error setting password:', error);
+        errorDiv.textContent = 'Error setting password. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Send password reset email
+async function sendPasswordResetEmail(userId, userEmail, errorDiv) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/users/${userId}/reset-password`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            closeResetPasswordModal();
+            showSuccessMessage(`Password reset email sent to ${userEmail}`);
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || 'Failed to send reset email';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error sending reset email:', error);
+        errorDiv.textContent = 'Error sending reset email. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// ============================================================================
+// ADMIN MANAGEMENT
+// ============================================================================
+
+let allAdmins = [];
+
+// Toggle admin management section
+function toggleAdminManagement() {
+    const section = document.getElementById('adminManagementSection');
+    const userSection = document.getElementById('userManagementSection');
+
+    if (section.style.display === 'none') {
+        section.style.display = 'block';
+        userSection.style.display = 'none';
+        loadAdminAdmins();
+    } else {
+        section.style.display = 'none';
+    }
+}
+
+// Load admins
+async function loadAdminAdmins() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || !currentUser || currentUser.email !== ADMIN_EMAIL) {
+        return;
+    }
+
+    const tbody = document.getElementById('adminsTableBody');
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">Loading admins...</td></tr>';
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/admins`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            allAdmins = data.admins || data || [];
+            renderAdminsTable();
+        } else {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--danger);">Failed to load admins</td></tr>';
+        }
+    } catch (error) {
+        console.error('Error loading admins:', error);
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--danger);">Error loading admins</td></tr>';
+    }
+}
+
+// Render admins table
+function renderAdminsTable() {
+    const tbody = document.getElementById('adminsTableBody');
+
+    if (allAdmins.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">No admins found</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = allAdmins.map(admin => `
+        <tr>
+            <td>${admin.email || 'N/A'}</td>
+            <td>${formatDate(admin.created_at || admin.createdAt || admin.addedAt)}</td>
+            <td>
+                <div class="action-buttons">
+                    <button class="btn btn-danger btn-small" onclick="confirmRemoveAdmin('${admin.id}', '${admin.email}')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+                            <polyline points="3 6 5 6 21 6"/>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                        Remove
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Open add admin modal
+function openAddAdminModal() {
+    document.getElementById('addAdminEmail').value = '';
+    document.getElementById('addAdminError').style.display = 'none';
+    document.getElementById('addAdminModal').style.display = 'flex';
+}
+
+// Close add admin modal
+function closeAddAdminModal() {
+    document.getElementById('addAdminModal').style.display = 'none';
+    document.getElementById('addAdminForm').reset();
+}
+
+// Save add admin
+async function saveAddAdmin(event) {
+    event.preventDefault();
+
+    const email = document.getElementById('addAdminEmail').value;
+    const errorDiv = document.getElementById('addAdminError');
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/admins`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email })
+        });
+
+        if (response.ok) {
+            closeAddAdminModal();
+            showSuccessMessage('Admin added successfully');
+            loadAdminAdmins();
+        } else {
+            const data = await response.json();
+            errorDiv.textContent = data.error || 'Failed to add admin';
+            errorDiv.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Error adding admin:', error);
+        errorDiv.textContent = 'Error adding admin. Please try again.';
+        errorDiv.style.display = 'block';
+    }
+}
+
+// Confirm remove admin
+function confirmRemoveAdmin(adminId, email) {
+    showConfirmModal(
+        'Remove Admin',
+        `Are you sure you want to remove admin privileges from "${email}"?`,
+        () => removeAdmin(adminId)
+    );
+}
+
+// Remove admin
+async function removeAdmin(adminId) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/admins/${adminId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            showSuccessMessage('Admin removed successfully');
+            loadAdminAdmins();
+        } else {
+            const data = await response.json();
+            alert(data.error || 'Failed to remove admin');
+        }
+    } catch (error) {
+        console.error('Error removing admin:', error);
+        alert('Error removing admin. Please try again.');
+    }
+}
+
+// ============================================================================
+// CONFIRMATION MODAL
+// ============================================================================
+
+let confirmCallback = null;
+
+function showConfirmModal(title, message, callback) {
+    document.getElementById('confirmTitle').textContent = title;
+    document.getElementById('confirmMessage').textContent = message;
+    confirmCallback = callback;
+
+    const confirmBtn = document.getElementById('confirmButton');
+    confirmBtn.onclick = () => {
+        if (confirmCallback) {
+            confirmCallback();
+        }
+        closeConfirmModal();
+    };
+
+    document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeConfirmModal() {
+    document.getElementById('confirmModal').style.display = 'none';
+    confirmCallback = null;
+}
+
+// Show success message
+function showSuccessMessage(message) {
+    // Create a simple toast notification
+    const toast = document.createElement('div');
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--success);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Load admin scrapers
+async function loadAdminScrapers() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || !currentUser || currentUser.email !== ADMIN_EMAIL) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/admin/scrapers`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const scrapers = data.scrapers || data || [];
+            console.log('Admin scrapers loaded:', scrapers);
+            alert(`Loaded ${scrapers.length} scrapers. Check console for details.`);
+        }
+    } catch (error) {
+        console.error('Error loading admin scrapers:', error);
+        alert('Failed to load scrapers. Check console for details.');
+    }
+}
+
+// ============================================================================
+// UTILITY FUNCTIONS
+// ============================================================================
+
+// Format currency
+function formatCurrency(value) {
+    return '$' + parseFloat(value || 0).toFixed(2);
+}
+
+// Format percentage
+function formatPercentage(value) {
+    const num = parseFloat(value || 0);
+    return (num >= 0 ? '+' : '') + num.toFixed(1) + '%';
+}
+
+// Format date
+function formatDate(dateString) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+    </script>
+</body>
+</html>

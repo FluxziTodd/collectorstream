@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — CollectorStream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-secondary: #111111;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-secondary);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+.logo svg { width: 20px; height: 20px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.header-nav { display: flex; gap: 8px; }
+.header-nav a {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.header-nav a:hover { color: var(--text-primary); background: var(--bg-card); }
+.header-nav a.active { color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+.container { max-width: 1400px; margin: 0 auto; padding: 32px; }
+h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 32px; }
+h2 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.stat-value { font-size: 28px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+.scraper-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.scraper-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    transition: border-color 0.2s;
+}
+.scraper-card:hover { border-color: var(--accent); }
+.scraper-name { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.scraper-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.scraper-controls { display: flex; gap: 8px; }
+.scraper-controls select {
+    flex: 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+}
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    background: var(--accent);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn:hover { background: var(--accent-dark); }
+.btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-secondary { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+.btn-danger { background: var(--danger); color: white; }
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th {
+    text-align: left;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+}
+tr:hover { background: rgba(16, 185, 129, 0.02); }
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.badge-success { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+.badge-danger { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.badge-admin { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.msg {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+.msg-success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--success); color: var(--success); }
+.msg-error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); }
+.hidden { display: none; }
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal.visible { display: flex; }
+.modal-content {
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    border: 1px solid var(--border);
+}
+.modal-content h3 { margin-bottom: 16px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; }
+.form-group input, .form-group select {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.modal-buttons { display: flex; gap: 12px; margin-top: 20px; }
+.modal-buttons .btn { flex: 1; }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<header class="header">
+    <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Collector</span><span>Stream</span>
+    </a>
+    <nav class="header-nav">
+        <a href="/">Home</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="admin.html" class="active">Admin</a>
+    </nav>
+</header>
+
+<div class="container">
+
+<h1>⚙️ Admin Dashboard</h1>
+<p class="subtitle">System management, user administration, and scraper control</p>
+
+<div id="errorMsg" class="msg msg-error hidden"></div>
+<div id="successMsg" class="msg msg-success hidden"></div>
+
+<!-- System Stats -->
+<div class="stats-grid" id="statsGrid">
+    <div class="stat-card"><div class="stat-value" id="statTotalUsers">0</div><div class="stat-label">Total Users</div></div>
+    <div class="stat-card"><div class="stat-value" id="statActiveUsers">0</div><div class="stat-label">Active Users</div></div>
+    <div class="stat-card"><div class="stat-value" id="statTotalCards">0</div><div class="stat-label">Total Cards</div></div>
+    <div class="stat-card"><div class="stat-value" id="statNewUsers">0</div><div class="stat-label">New This Week</div></div>
+    <div class="stat-card"><div class="stat-value" id="statCardsWeek">0</div><div class="stat-label">Cards This Week</div></div>
+</div>
+
+<!-- Scraper Management -->
+<h2>🤖 Scraper Management</h2>
+<div class="section">
+    <div id="scrapersLoading" class="loading">Loading scrapers...</div>
+    <div id="scrapersGrid" class="scraper-grid hidden"></div>
+</div>
+
+<!-- User Management -->
+<h2>👥 User Management</h2>
+<div class="section">
+    <div id="usersLoading" class="loading">Loading users...</div>
+    <div id="usersTable" class="table-container hidden"></div>
+</div>
+
+</div>
+
+<!-- Edit User Modal -->
+<div id="editUserModal" class="modal">
+    <div class="modal-content">
+        <h3>Edit User</h3>
+        <div id="modalError" class="msg msg-error hidden"></div>
+        <form id="editUserForm">
+            <input type="hidden" id="editUserId">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="editEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="editUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="editActive">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                </select>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                <button type="submit" class="btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="resetPasswordModal" class="modal">
+    <div class="modal-content">
+        <h3>Reset Password</h3>
+        <div id="resetError" class="msg msg-error hidden"></div>
+        <form id="resetPasswordForm">
+            <input type="hidden" id="resetUserId">
+            <div class="form-group">
+                <label>New Password</label>
+                <input type="password" id="newPassword" required minlength="8">
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPassword" required minlength="8">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn btn-secondary" onclick="closeResetModal()">Cancel</button>
+                <button type="submit" class="btn">Reset Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const API_BASE = 'https://api.collectorstream.com/v1';
+let authToken = localStorage.getItem('authToken');
+
+if (!authToken) {
+    window.location.href = 'login.html';
+}
+
+// Load initial data
+loadSystemStats();
+loadScrapers();
+loadUsers();
+
+async function loadSystemStats() {
+    try {
+        const response = await fetch(`${API_BASE}/admin/stats`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load stats');
+
+        const data = await response.json();
+
+        document.getElementById('statTotalUsers').textContent = data.users.total;
+        document.getElementById('statActiveUsers').textContent = data.users.active;
+        document.getElementById('statTotalCards').textContent = data.cards.total;
+        document.getElementById('statNewUsers').textContent = data.users.newLastWeek;
+        document.getElementById('statCardsWeek').textContent = data.cards.addedLastWeek;
+    } catch (error) {
+        showError('Failed to load system stats');
+    }
+}
+
+async function loadScrapers() {
+    try {
+        const response = await fetch(`${API_BASE}/admin/scrapers`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load scrapers');
+
+        const data = await response.json();
+
+        const grid = document.getElementById('scrapersGrid');
+        grid.innerHTML = data.scrapers.map(scraper => `
+            <div class="scraper-card">
+                <div class="scraper-name">${scraper.name}</div>
+                <div class="scraper-desc">${scraper.description}</div>
+                <div class="scraper-controls">
+                    <select id="${scraper.id}_sport">
+                        <option value="basketball">Basketball</option>
+                        <option value="baseball">Baseball</option>
+                        <option value="football">Football</option>
+                        <option value="hockey">Hockey</option>
+                    </select>
+                    <select id="${scraper.id}_year">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                    </select>
+                    <button class="btn btn-sm" onclick="runScraper('${scraper.id}')">Run</button>
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('scrapersLoading').classList.add('hidden');
+        grid.classList.remove('hidden');
+    } catch (error) {
+        showError('Failed to load scrapers');
+    }
+}
+
+async function runScraper(scraperId) {
+    const sport = document.getElementById(`${scraperId}_sport`).value;
+    const year = parseInt(document.getElementById(`${scraperId}_year`).value);
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/scrapers/run`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ scraper: scraperId, sport, year })
+        });
+
+        if (!response.ok) throw new Error('Failed to start scraper');
+
+        const data = await response.json();
+        showSuccess(`Scraper ${scraperId} started (PID: ${data.pid})`);
+    } catch (error) {
+        showError(`Failed to start scraper: ${error.message}`);
+    }
+}
+
+async function loadUsers() {
+    try {
+        const response = await fetch(`${API_BASE}/admin/users?per_page=100`, {
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to load users');
+
+        const data = await response.json();
+
+        const table = document.getElementById('usersTable');
+        table.innerHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Created</th>
+                        <th>Status</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.users.map(user => `
+                        <tr>
+                            <td>${user.email}</td>
+                            <td>${user.username}</td>
+                            <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                            <td>${user.isActive ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>'}</td>
+                            <td>${user.isAdmin ? '<span class="badge badge-admin">Admin</span>' : 'User'}</td>
+                            <td>
+                                <button class="btn-sm btn-secondary" onclick='editUser(${JSON.stringify(user)})'>Edit</button>
+                                <button class="btn-sm btn-secondary" onclick="resetPassword('${user.id}', '${user.email}')">Reset Password</button>
+                                ${!user.isAdmin ? `<button class="btn-sm btn-danger" onclick="deleteUser('${user.id}', '${user.email}')">Delete</button>` : ''}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+
+        document.getElementById('usersLoading').classList.add('hidden');
+        table.classList.remove('hidden');
+    } catch (error) {
+        showError('Failed to load users');
+    }
+}
+
+function editUser(user) {
+    document.getElementById('editUserId').value = user.id;
+    document.getElementById('editEmail').value = user.email;
+    document.getElementById('editUsername').value = user.username;
+    document.getElementById('editActive').value = user.isActive ? '1' : '0';
+    document.getElementById('editUserModal').classList.add('visible');
+}
+
+function closeEditModal() {
+    document.getElementById('editUserModal').classList.remove('visible');
+    document.getElementById('modalError').classList.add('hidden');
+}
+
+document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const userId = document.getElementById('editUserId').value;
+    const updates = {
+        email: document.getElementById('editEmail').value,
+        username: document.getElementById('editUsername').value,
+        is_active: document.getElementById('editActive').value === '1'
+    };
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updates)
+        });
+
+        if (!response.ok) throw new Error('Failed to update user');
+
+        showSuccess('User updated successfully');
+        closeEditModal();
+        loadUsers();
+    } catch (error) {
+        document.getElementById('modalError').textContent = error.message;
+        document.getElementById('modalError').classList.remove('hidden');
+    }
+});
+
+function resetPassword(userId, email) {
+    document.getElementById('resetUserId').value = userId;
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+    document.getElementById('resetPasswordModal').classList.add('visible');
+}
+
+function closeResetModal() {
+    document.getElementById('resetPasswordModal').classList.remove('visible');
+    document.getElementById('resetError').classList.add('hidden');
+}
+
+document.getElementById('resetPasswordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        document.getElementById('resetError').textContent = 'Passwords do not match';
+        document.getElementById('resetError').classList.remove('hidden');
+        return;
+    }
+
+    const userId = document.getElementById('resetUserId').value;
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}/reset-password`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ new_password: newPassword })
+        });
+
+        if (!response.ok) throw new Error('Failed to reset password');
+
+        showSuccess('Password reset successfully');
+        closeResetModal();
+    } catch (error) {
+        document.getElementById('resetError').textContent = error.message;
+        document.getElementById('resetError').classList.remove('hidden');
+    }
+});
+
+async function deleteUser(userId, email) {
+    if (!confirm(`Are you sure you want to delete user ${email}? This will also delete all their cards.`)) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${authToken}` }
+        });
+
+        if (!response.ok) throw new Error('Failed to delete user');
+
+        showSuccess('User deleted successfully');
+        loadUsers();
+    } catch (error) {
+        showError(`Failed to delete user: ${error.message}`);
+    }
+}
+
+function showError(message) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = message;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 5000);
+}
+
+function showSuccess(message) {
+    const el = document.getElementById('successMsg');
+    el.textContent = message;
+    el.classList.remove('hidden');
+    setTimeout(() => el.classList.add('hidden'), 5000);
+}
+</script>
+</body>
+</html>

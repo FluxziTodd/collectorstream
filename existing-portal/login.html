@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign In — CollectorStream</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-primary: #0a0a0a;
+    --bg-card: #151515;
+    --border: #1f1f1f;
+    --accent: #10b981;
+    --accent-dark: #059669;
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --danger: #ef4444;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, var(--accent-dark) 100%); }
+.auth-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+.auth-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+.logo svg { width: 28px; height: 28px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.auth-title {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin: 24px 0 8px;
+}
+.auth-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-bottom: 32px;
+}
+.auth-subtitle a { color: var(--accent); text-decoration: none; }
+.auth-subtitle a:hover { text-decoration: underline; }
+.form-group {
+    margin-bottom: 20px;
+}
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+.form-group input {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+.form-group input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+.form-group input::placeholder { color: var(--text-muted); }
+.btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000;
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+.btn:hover { background: var(--accent-dark); }
+.btn:disabled { background: var(--text-muted); cursor: not-allowed; }
+.msg {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    display: none;
+}
+.msg.visible { display: block; }
+.msg-success { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); }
+.msg-error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); }
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 24px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+.divider span { padding: 0 16px; }
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-decoration: none;
+}
+.back-link:hover { color: var(--text-primary); }
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="auth-wrapper">
+<div class="auth-card">
+    <a href="/" class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span>Collector</span><span>Stream</span>
+    </a>
+
+    <h1 class="auth-title">Welcome back</h1>
+    <p class="auth-subtitle">Don't have an account? <a href="signup.html">Sign up free</a></p>
+
+    <div id="msg" class="msg"></div>
+
+    <form onsubmit="login(event)">
+        <div class="form-group">
+            <label>Email address</label>
+            <input type="email" id="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn">Sign In</button>
+    </form>
+
+    <a href="/" class="back-link">← Back to home</a>
+</div>
+</div>
+
+<script>
+const API = "https://api.collectorstream.com/v1";
+
+// Check if already logged in
+if (localStorage.getItem("token")) {
+    const redirect = new URLSearchParams(location.search).get("redirect") || "/portfolio.html";
+    location.href = redirect;
+}
+
+function showMsg(text, isError) {
+    const el = document.getElementById("msg");
+    el.className = "msg visible " + (isError ? "msg-error" : "msg-success");
+    el.textContent = text;
+}
+
+async function login(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const res = await fetch(API + "/auth/login", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email, password})
+        });
+        const data = await res.json();
+        if (!res.ok) { showMsg(data.error || "Invalid email or password", true); return; }
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("role", data.role || "user");
+        const redirect = new URLSearchParams(location.search).get("redirect") || "/portfolio.html";
+        location.href = redirect;
+    } catch (e) {
+        showMsg("Network error. Please try again.", true);
+    }
+}
+</script>
+</body>
+</html>
