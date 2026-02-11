@@ -15,6 +15,7 @@ from auth import router as auth_router
 from cards import router as cards_router
 from images import router as images_router
 from admin import router as admin_router
+from recommendations import router as recommendations_router
 from database import init_db
 
 @asynccontextmanager
@@ -45,6 +46,7 @@ app.include_router(auth_router, prefix="/v1/auth", tags=["Authentication"])
 app.include_router(cards_router, prefix="/v1/cards", tags=["Cards"])
 app.include_router(images_router, prefix="/v1/images", tags=["Images"])
 app.include_router(admin_router, prefix="/v1/admin", tags=["Admin"])
+app.include_router(recommendations_router, prefix="/v1/cards", tags=["Recommendations"])
 
 # Serve uploaded images
 uploads_dir = os.path.join(os.path.dirname(__file__), "..", "uploads")

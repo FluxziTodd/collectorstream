@@ -1076,6 +1076,10 @@ body {
     max-width: 600px;
 }
 
+.modal-content.extra-wide {
+    max-width: 900px;
+}
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -1221,6 +1225,377 @@ textarea.form-input {
     min-height: 80px;
     resize: vertical;
     font-family: inherit;
+}
+
+/* Card Detail Modal */
+.card-detail-container {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 32px;
+}
+
+.card-detail-image-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card-detail-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5/7;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.card-detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-image-toggle {
+    display: flex;
+    gap: 8px;
+}
+
+.card-image-toggle button {
+    flex: 1;
+    padding: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.card-image-toggle button.active {
+    background: var(--accent);
+    color: var(--text-primary);
+    border-color: var(--accent);
+}
+
+.card-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card-detail-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.card-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.card-detail-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-detail-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.card-detail-stat {
+    background: var(--bg-secondary);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.card-detail-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.card-detail-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.card-detail-stat-value.positive {
+    color: var(--success);
+}
+
+.card-detail-stat-value.negative {
+    color: var(--danger);
+}
+
+.card-detail-chart-section {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.chart-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.chart-timeframes {
+    display: flex;
+    gap: 8px;
+}
+
+.timeframe-btn {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.timeframe-btn.active {
+    background: var(--accent);
+    color: var(--text-primary);
+    border-color: var(--accent);
+}
+
+.chart-wrapper {
+    position: relative;
+    height: 300px;
+}
+
+.recommendation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.recommendation-badge.buy-more {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid var(--success);
+}
+
+.recommendation-badge.hold {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--warning);
+    border: 1px solid var(--warning);
+}
+
+.recommendation-badge.sell {
+    background: rgba(96, 165, 250, 0.15);
+    color: #60a5fa;
+    border: 1px solid #60a5fa;
+}
+
+.recommendation-badge.cut-loss {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+}
+
+.recommendation-reasoning {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.recommendation-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.metric-item {
+    background: var(--bg-card);
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.metric-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+/* Portfolio Intelligence Dashboard */
+.intelligence-dashboard {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.intelligence-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.intelligence-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.intelligence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.intelligence-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.intelligence-card-title {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+}
+
+.action-signals {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.action-signal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+}
+
+.action-signal-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.action-signal-value.buy { color: var(--success); }
+.action-signal-value.hold { color: var(--warning); }
+.action-signal-value.sell { color: #60a5fa; }
+.action-signal-value.cut { color: var(--danger); }
+
+.action-signal-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.opportunity-list, .attention-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.opportunity-item, .attention-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.opportunity-item:hover, .attention-item:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.item-meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.item-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.item-badge.buy { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+.item-badge.sell { background: rgba(96, 165, 250, 0.15); color: #60a5fa; }
+.item-badge.cut { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+
+.strategy-chart-wrapper {
+    position: relative;
+    height: 200px;
+}
+
+.empty-intelligence {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+}
+
+.empty-intelligence svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
 }
 
 /* Portfolio Section */
@@ -1502,7 +1877,7 @@ textarea.form-input {
 /* Cards Grid */
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 20px;
     margin-bottom: 32px;
 }
@@ -1525,7 +1900,7 @@ textarea.form-input {
 
 .card-tile-img {
     width: 100%;
-    height: 180px;
+    height: 168px;
     object-fit: cover;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border);
@@ -1736,9 +2111,9 @@ textarea.form-input {
 /* Refresh Progress */
 .refresh-progress {
     display: none;
-    align-items: center;
+    flex-direction: column;
     gap: 12px;
-    padding: 12px 16px;
+    padding: 16px;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -1747,6 +2122,12 @@ textarea.form-input {
 
 .refresh-progress.active {
     display: flex;
+}
+
+.refresh-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .refresh-spinner {
@@ -1765,6 +2146,56 @@ textarea.form-input {
 .refresh-text {
     font-size: 14px;
     color: var(--text-secondary);
+}
+
+.refresh-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-secondary);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.refresh-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 10000;
+    animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+    border-color: var(--success);
+}
+
+.toast.error {
+    border-color: var(--danger);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 /* Search Results */
@@ -2035,6 +2466,7 @@ textarea.form-input {
     text-overflow: ellipsis;
 }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="top-bar"></div>
@@ -2712,8 +3144,13 @@ textarea.form-input {
 
             <!-- Refresh Progress -->
             <div id="refreshProgress" class="refresh-progress">
-                <div class="refresh-spinner"></div>
-                <div class="refresh-text" id="refreshProgressText">Refreshing market values...</div>
+                <div class="refresh-header">
+                    <div class="refresh-spinner"></div>
+                    <div class="refresh-text" id="refreshProgressText">Refreshing market values...</div>
+                </div>
+                <div class="refresh-progress-bar">
+                    <div class="refresh-progress-fill" id="refreshProgressFill" style="width: 0%"></div>
+                </div>
             </div>
 
             <!-- Top Dashboard Stats -->
@@ -2741,6 +3178,82 @@ textarea.form-input {
                 <div class="portfolio-stat-card">
                     <div class="portfolio-stat-label">Biggest Loser</div>
                     <div id="biggestLoser"></div>
+                </div>
+            </div>
+
+            <!-- Portfolio Intelligence Dashboard -->
+            <div id="intelligenceDashboard" class="intelligence-dashboard" style="display: none;">
+                <div class="intelligence-header">
+                    <h3 class="intelligence-title">Portfolio Intelligence</h3>
+                    <button class="btn btn-outline btn-sm" onclick="loadPortfolioIntelligence()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                            <polyline points="23 4 23 10 17 10"/>
+                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                        </svg>
+                        Refresh
+                    </button>
+                </div>
+
+                <div class="intelligence-grid">
+                    <!-- Action Signals -->
+                    <div class="intelligence-card">
+                        <div class="intelligence-card-title">Action Signals</div>
+                        <div class="action-signals">
+                            <div class="action-signal">
+                                <div class="action-signal-value buy" id="signalBuyMore">0</div>
+                                <div class="action-signal-label">Buy More</div>
+                            </div>
+                            <div class="action-signal">
+                                <div class="action-signal-value hold" id="signalHold">0</div>
+                                <div class="action-signal-label">Hold</div>
+                            </div>
+                            <div class="action-signal">
+                                <div class="action-signal-value sell" id="signalSell">0</div>
+                                <div class="action-signal-label">Sell</div>
+                            </div>
+                            <div class="action-signal">
+                                <div class="action-signal-value cut" id="signalCut">0</div>
+                                <div class="action-signal-label">Cut Loss</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Opportunities -->
+                    <div class="intelligence-card">
+                        <div class="intelligence-card-title">Top Opportunities</div>
+                        <div id="opportunitiesList" class="opportunity-list">
+                            <div class="empty-intelligence">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <path d="M12 6v6l4 2"/>
+                                </svg>
+                                <div>Loading opportunities...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Needs Attention -->
+                    <div class="intelligence-card">
+                        <div class="intelligence-card-title">Needs Attention</div>
+                        <div id="attentionList" class="attention-list">
+                            <div class="empty-intelligence">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                                <div>Loading attention items...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategy Mix -->
+                    <div class="intelligence-card">
+                        <div class="intelligence-card-title">Strategy Mix</div>
+                        <div class="strategy-chart-wrapper">
+                            <canvas id="strategyChart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -3101,6 +3614,101 @@ textarea.form-input {
         </div>
     </div>
 
+    <!-- Card Detail Modal -->
+    <div id="cardDetailModal" class="modal">
+        <div class="modal-content extra-wide">
+            <div class="modal-header">
+                <h3 class="modal-title">Card Details</h3>
+                <button class="modal-close" onclick="closeCardDetailModal()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+
+            <div class="card-detail-container">
+                <!-- Left: Card Image -->
+                <div class="card-detail-image-section">
+                    <div class="card-detail-image-wrapper">
+                        <img id="cardDetailImage" class="card-detail-image" src="" alt="Card">
+                    </div>
+                    <div class="card-image-toggle">
+                        <button class="active" onclick="toggleCardImageSide('front')">Front</button>
+                        <button onclick="toggleCardImageSide('back')">Back</button>
+                    </div>
+                </div>
+
+                <!-- Right: Card Info -->
+                <div class="card-detail-info">
+                    <div class="card-detail-header">
+                        <h2 id="cardDetailName"></h2>
+                        <div class="card-detail-meta">
+                            <span class="card-detail-meta-item" id="cardDetailYear"></span>
+                            <span class="card-detail-meta-item">•</span>
+                            <span class="card-detail-meta-item" id="cardDetailSet"></span>
+                            <span class="card-detail-meta-item">•</span>
+                            <span class="card-detail-meta-item" id="cardDetailSport"></span>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="card-detail-stats">
+                        <div class="card-detail-stat">
+                            <div class="card-detail-stat-label">Purchase Price</div>
+                            <div class="card-detail-stat-value" id="cardDetailPurchasePrice">$0.00</div>
+                        </div>
+                        <div class="card-detail-stat">
+                            <div class="card-detail-stat-label">Current Value</div>
+                            <div class="card-detail-stat-value" id="cardDetailCurrentValue">$0.00</div>
+                        </div>
+                        <div class="card-detail-stat">
+                            <div class="card-detail-stat-label">Profit/Loss</div>
+                            <div class="card-detail-stat-value" id="cardDetailProfit">$0.00</div>
+                        </div>
+                        <div class="card-detail-stat">
+                            <div class="card-detail-stat-label">ROI</div>
+                            <div class="card-detail-stat-value" id="cardDetailROI">0%</div>
+                        </div>
+                    </div>
+
+                    <!-- AI Recommendation -->
+                    <div id="cardRecommendationSection" style="display: none;">
+                        <div id="cardRecommendationBadge" class="recommendation-badge"></div>
+                        <div id="cardRecommendationReasoning" class="recommendation-reasoning"></div>
+                        <div id="cardRecommendationMetrics" class="recommendation-metrics"></div>
+                    </div>
+
+                    <!-- Price Chart -->
+                    <div class="card-detail-chart-section">
+                        <div class="chart-header">
+                            <div class="chart-title">Price History</div>
+                            <div class="chart-timeframes">
+                                <button class="timeframe-btn" onclick="changeTimeframe(7)">1W</button>
+                                <button class="timeframe-btn active" onclick="changeTimeframe(30)">1M</button>
+                                <button class="timeframe-btn" onclick="changeTimeframe(90)">3M</button>
+                                <button class="timeframe-btn" onclick="changeTimeframe(180)">6M</button>
+                                <button class="timeframe-btn" onclick="changeTimeframe(365)">1Y</button>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="form-actions">
+                        <button class="btn btn-outline" onclick="openEditCardModalFromDetail()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            Edit Card
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteCardFromDetail()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            Delete Card
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Edit User Modal -->
     <div id="editUserModal" class="modal">
         <div class="modal-content">
@@ -3262,9 +3870,9 @@ const ADMIN_EMAIL = 'todd@fluxzi.com';
 let currentUser = null;
 let allCards = [];
 let filteredCards = [];
-let currentView = 'performance';
+let currentView = 'all';
 let currentGroupBy = 'sport';
-let currentSort = 'profitPercent';
+let currentSort = 'purchaseDate';
 
 // ============================================================================
 // AUTHENTICATION & INITIALIZATION
@@ -3563,6 +4171,7 @@ async function loadUserCards() {
             filteredCards = [...allCards];
             renderCards();
             updatePortfolioStats();
+            loadPortfolioIntelligence();
         } else {
             console.error('Failed to load cards:', response.status);
         }
@@ -3753,18 +4362,23 @@ function renderSportBreakdown() {
 function renderCardHTML(card) {
     const playerName = card.player_name || card.playerName || 'Unknown Player';
     const year = card.year || '';
-    const manufacturer = card.set_name || card.setName || card.brand || 'Unknown Set';
+    const cardSet = card.card_set || card.set || card.set_name || card.setName || card.brand || 'Unknown Set';
     const frontImage = card.front_image_url || card.frontImageUrl || '/api/placeholder/200/280';
 
+    const purchasePrice = parseFloat(card.purchase_price || card.purchasePrice || 0);
+    const estimatedValue = parseFloat(card.estimated_value || card.estimatedValue || 0);
+    const hasValue = purchasePrice > 0 || estimatedValue > 0;
+
     return `
-        <div class="card-thumb" onclick="openEditCardModal(${card.id})" title="Click to edit card details">
+        <div class="card-thumb" onclick="openCardDetailModal('${card.id}')" title="Click to view card details">
             <div class="card-thumb-image">
                 <img src="${frontImage}" alt="${playerName}" onerror="this.src='/api/placeholder/200/280'">
             </div>
             <div class="card-thumb-info">
                 <div class="card-thumb-name">${playerName}</div>
                 <div class="card-thumb-year">${year}</div>
-                <div class="card-thumb-manufacturer">${manufacturer}</div>
+                <div class="card-thumb-manufacturer">${cardSet}</div>
+                ${!hasValue ? `<div class="card-thumb-no-value" style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">No market value</div>` : ''}
             </div>
         </div>
     `;
@@ -3902,30 +4516,585 @@ function clearSearch() {
     updatePortfolioStats();
 }
 
+// Show toast notification
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+            ${type === 'success' ? '<path d="M20 6L9 17l-5-5"/>' : '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'}
+        </svg>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// ============================================================================
+// CARD DETAIL MODAL
+// ============================================================================
+
+let currentDetailCard = null;
+let currentTimeframe = 30;
+let priceChartInstance = null;
+
+// Open card detail modal
+async function openCardDetailModal(cardId) {
+    const card = allCards.find(c => c.id === cardId);
+    if (!card) return;
+
+    currentDetailCard = card;
+
+    // Populate card details
+    const playerName = card.player_name || card.playerName || 'Unknown Player';
+    const year = card.year || 'Unknown Year';
+    const cardSet = card.card_set || card.set || card.set_name || card.setName || 'Unknown Set';
+    const sport = card.sport || 'Unknown Sport';
+    const frontImage = card.front_image_url || card.frontImageUrl || '/api/placeholder/200/280';
+
+    document.getElementById('cardDetailName').textContent = playerName;
+    document.getElementById('cardDetailYear').textContent = year;
+    document.getElementById('cardDetailSet').textContent = cardSet;
+    document.getElementById('cardDetailSport').textContent = sport;
+    document.getElementById('cardDetailImage').src = frontImage;
+
+    // Populate stats
+    const purchasePrice = parseFloat(card.purchase_price || card.purchasePrice || 0);
+    const estimatedValue = parseFloat(card.estimated_value || card.estimatedValue || 0);
+    const profit = estimatedValue - purchasePrice;
+    const roi = purchasePrice > 0 ? ((profit / purchasePrice) * 100) : 0;
+
+    document.getElementById('cardDetailPurchasePrice').textContent = `$${purchasePrice.toFixed(2)}`;
+    document.getElementById('cardDetailCurrentValue').textContent = `$${estimatedValue.toFixed(2)}`;
+
+    const profitEl = document.getElementById('cardDetailProfit');
+    profitEl.textContent = `$${Math.abs(profit).toFixed(2)}`;
+    profitEl.className = 'card-detail-stat-value';
+    if (profit > 0) profitEl.classList.add('positive');
+    if (profit < 0) profitEl.classList.add('negative');
+
+    const roiEl = document.getElementById('cardDetailROI');
+    roiEl.textContent = `${roi >= 0 ? '+' : ''}${roi.toFixed(1)}%`;
+    roiEl.className = 'card-detail-stat-value';
+    if (roi > 0) roiEl.classList.add('positive');
+    if (roi < 0) roiEl.classList.add('negative');
+
+    // Load price history and render chart
+    await loadPriceHistory(cardId, currentTimeframe);
+
+    // Load AI recommendation
+    await loadCardRecommendation(cardId);
+
+    // Show modal
+    document.getElementById('cardDetailModal').style.display = 'flex';
+}
+
+// Close card detail modal
+function closeCardDetailModal() {
+    document.getElementById('cardDetailModal').style.display = 'none';
+    currentDetailCard = null;
+    if (priceChartInstance) {
+        priceChartInstance.destroy();
+        priceChartInstance = null;
+    }
+}
+
+// Toggle card image side (front/back)
+function toggleCardImageSide(side) {
+    if (!currentDetailCard) return;
+
+    const imageUrl = side === 'front'
+        ? (currentDetailCard.front_image_url || currentDetailCard.frontImageUrl || '/api/placeholder/200/280')
+        : (currentDetailCard.back_image_url || currentDetailCard.backImageUrl || '/api/placeholder/200/280');
+
+    document.getElementById('cardDetailImage').src = imageUrl;
+
+    // Update active button
+    const buttons = document.querySelectorAll('.card-image-toggle button');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+// Load price history
+async function loadPriceHistory(cardId, days) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}/market-history?limit=${days}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to load price history');
+        }
+
+        const data = await response.json();
+        renderPriceChart(data.history || []);
+    } catch (error) {
+        console.error('Error loading price history:', error);
+        renderPriceChart([]);
+    }
+}
+
+// Render price chart
+function renderPriceChart(history) {
+    if (priceChartInstance) {
+        priceChartInstance.destroy();
+    }
+
+    const ctx = document.getElementById('priceChart').getContext('2d');
+
+    // Sort by date (oldest first for chart)
+    const sortedHistory = [...history].sort((a, b) =>
+        new Date(a.checked_at) - new Date(b.checked_at)
+    );
+
+    const labels = sortedHistory.map(h => {
+        const date = new Date(h.checked_at);
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+
+    const prices = sortedHistory.map(h => h.market_price || 0);
+
+    // Determine trend color
+    const firstPrice = prices[0] || 0;
+    const lastPrice = prices[prices.length - 1] || 0;
+    const lineColor = lastPrice >= firstPrice ? '#10b981' : '#ef4444';
+
+    priceChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Market Value',
+                data: prices,
+                borderColor: lineColor,
+                backgroundColor: lineColor + '20',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 3,
+                pointHoverRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function(context) {
+                            return '$' + context.parsed.y.toFixed(2);
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toFixed(0);
+                        },
+                        color: '#9ca3af'
+                    },
+                    grid: {
+                        color: '#1f1f1f'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#9ca3af',
+                        maxRotation: 45,
+                        minRotation: 45
+                    },
+                    grid: {
+                        color: '#1f1f1f'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Change timeframe
+async function changeTimeframe(days) {
+    if (!currentDetailCard) return;
+
+    currentTimeframe = days;
+
+    // Update active button
+    document.querySelectorAll('.timeframe-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+
+    // Reload chart
+    await loadPriceHistory(currentDetailCard.id, days);
+}
+
+// Open edit modal from detail modal
+function openEditCardModalFromDetail() {
+    if (!currentDetailCard) return;
+    closeCardDetailModal();
+    openEditCardModal(currentDetailCard.id);
+}
+
+// Delete card from detail modal
+async function deleteCardFromDetail() {
+    if (!currentDetailCard) return;
+
+    if (confirm('Are you sure you want to delete this card?')) {
+        closeCardDetailModal();
+        await deleteCard();
+    }
+}
+
+// Load AI recommendation for card
+async function loadCardRecommendation(cardId) {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}/recommendation`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to load recommendation');
+        }
+
+        const rec = await response.json();
+        displayCardRecommendation(rec);
+    } catch (error) {
+        console.error('Error loading recommendation:', error);
+        document.getElementById('cardRecommendationSection').style.display = 'none';
+    }
+}
+
+// Display AI recommendation
+function displayCardRecommendation(rec) {
+    const section = document.getElementById('cardRecommendationSection');
+    const badge = document.getElementById('cardRecommendationBadge');
+    const reasoning = document.getElementById('cardRecommendationReasoning');
+    const metrics = document.getElementById('cardRecommendationMetrics');
+
+    // Map action to badge class and text
+    const actionMap = {
+        'BUY_MORE': { class: 'buy-more', text: 'BUY MORE', icon: '↑' },
+        'HOLD': { class: 'hold', text: 'HOLD', icon: '→' },
+        'SELL': { class: 'sell', text: 'SELL', icon: '↗' },
+        'CUT_LOSS': { class: 'cut-loss', text: 'CUT LOSSES', icon: '↓' }
+    };
+
+    const action = actionMap[rec.action] || actionMap['HOLD'];
+    const confidence = Math.round(rec.confidence * 100);
+
+    badge.className = `recommendation-badge ${action.class}`;
+    badge.innerHTML = `
+        <span style="font-size: 18px;">${action.icon}</span>
+        <span>${action.text}</span>
+        <span style="font-size: 12px; opacity: 0.8;">(${confidence}% confidence)</span>
+    `;
+
+    reasoning.textContent = rec.reasoning;
+
+    // Display metrics
+    const m = rec.metrics;
+    metrics.innerHTML = `
+        <div class="metric-item">
+            <div class="metric-label">7-Day Trend</div>
+            <div class="metric-value" style="color: ${m.trend_7d >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                ${m.trend_7d >= 0 ? '+' : ''}${m.trend_7d.toFixed(1)}%
+            </div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-label">30-Day Trend</div>
+            <div class="metric-value" style="color: ${m.trend_30d >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                ${m.trend_30d >= 0 ? '+' : ''}${m.trend_30d.toFixed(1)}%
+            </div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-label">90-Day Trend</div>
+            <div class="metric-value" style="color: ${m.trend_90d >= 0 ? 'var(--success)' : 'var(--danger)'}">
+                ${m.trend_90d >= 0 ? '+' : ''}${m.trend_90d.toFixed(1)}%
+            </div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-label">Volatility</div>
+            <div class="metric-value">${m.volatility.toFixed(1)}%</div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-label">Momentum</div>
+            <div class="metric-value">${m.momentum}</div>
+        </div>
+        <div class="metric-item">
+            <div class="metric-label">Category</div>
+            <div class="metric-value">${rec.category.replace('_', ' ')}</div>
+        </div>
+    `;
+
+    section.style.display = 'block';
+}
+
+// ============================================================================
+// PORTFOLIO INTELLIGENCE DASHBOARD
+// ============================================================================
+
+let strategyChartInstance = null;
+
+// Load portfolio intelligence
+async function loadPortfolioIntelligence() {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token || allCards.length === 0) {
+        document.getElementById('intelligenceDashboard').style.display = 'none';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/cards/portfolio/recommendations`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to load portfolio intelligence');
+        }
+
+        const data = await response.json();
+        renderIntelligenceDashboard(data);
+    } catch (error) {
+        console.error('Error loading portfolio intelligence:', error);
+        document.getElementById('intelligenceDashboard').style.display = 'none';
+    }
+}
+
+// Render intelligence dashboard
+function renderIntelligenceDashboard(data) {
+    const dashboard = document.getElementById('intelligenceDashboard');
+    dashboard.style.display = 'block';
+
+    // Update action signals
+    document.getElementById('signalBuyMore').textContent = data.summary.buyMore || 0;
+    document.getElementById('signalHold').textContent = data.summary.hold || 0;
+    document.getElementById('signalSell').textContent = data.summary.sell || 0;
+    document.getElementById('signalCut').textContent = data.summary.cutLoss || 0;
+
+    // Render opportunities (BUY_MORE cards)
+    const opportunities = data.recommendations.filter(r => r.action === 'BUY_MORE').slice(0, 5);
+    renderOpportunities(opportunities);
+
+    // Render attention (SELL and CUT_LOSS cards)
+    const attention = data.recommendations.filter(r => r.action === 'SELL' || r.action === 'CUT_LOSS').slice(0, 5);
+    renderAttention(attention);
+
+    // Render strategy chart
+    renderStrategyChart(data);
+}
+
+// Render opportunities list
+function renderOpportunities(opportunities) {
+    const list = document.getElementById('opportunitiesList');
+
+    if (opportunities.length === 0) {
+        list.innerHTML = `
+            <div class="empty-intelligence">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                </svg>
+                <div>No buy opportunities at this time</div>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = opportunities.map(opp => `
+        <div class="opportunity-item" onclick="openCardDetailModal('${opp.cardId}')">
+            <div class="item-info">
+                <div class="item-name">${opp.playerName || 'Unknown'}</div>
+                <div class="item-meta">${opp.year || ''} ${opp.set || ''}</div>
+            </div>
+            <div class="item-badge buy">${Math.round(opp.confidence * 100)}%</div>
+        </div>
+    `).join('');
+}
+
+// Render attention list
+function renderAttention(attention) {
+    const list = document.getElementById('attentionList');
+
+    if (attention.length === 0) {
+        list.innerHTML = `
+            <div class="empty-intelligence">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+                <div>All cards look good!</div>
+            </div>
+        `;
+        return;
+    }
+
+    list.innerHTML = attention.map(att => `
+        <div class="attention-item" onclick="openCardDetailModal('${att.cardId}')">
+            <div class="item-info">
+                <div class="item-name">${att.playerName || 'Unknown'}</div>
+                <div class="item-meta">${att.year || ''} ${att.set || ''}</div>
+            </div>
+            <div class="item-badge ${att.action === 'SELL' ? 'sell' : 'cut'}">
+                ${att.action === 'SELL' ? 'SELL' : 'CUT LOSS'}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Render strategy mix chart
+function renderStrategyChart(data) {
+    if (strategyChartInstance) {
+        strategyChartInstance.destroy();
+    }
+
+    const ctx = document.getElementById('strategyChart').getContext('2d');
+
+    // Count categories
+    const categoryCounts = {};
+    data.recommendations.forEach(rec => {
+        const category = rec.category || 'UNKNOWN';
+        categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+    });
+
+    const labels = Object.keys(categoryCounts);
+    const values = Object.values(categoryCounts);
+
+    const colors = {
+        'QUICK_FLIP': '#60a5fa',
+        'LONG_HOLD': '#10b981',
+        'MOMENTUM': '#f59e0b',
+        'CUT_LOSS': '#ef4444',
+        'RECOVERY': '#8b5cf6',
+        'TAKE_PROFIT': '#06b6d4',
+        'STEADY': '#6b7280',
+        'UNKNOWN': '#4b5563'
+    };
+
+    const backgroundColors = labels.map(label => colors[label] || '#6b7280');
+
+    strategyChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels.map(l => l.replace('_', ' ')),
+            datasets: [{
+                data: values,
+                backgroundColor: backgroundColors,
+                borderWidth: 2,
+                borderColor: '#151515'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        color: '#9ca3af',
+                        font: {
+                            size: 11
+                        },
+                        padding: 10,
+                        boxWidth: 12
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = Math.round((context.parsed / total) * 100);
+                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 // Refresh all market values
 async function refreshAllMarketValues() {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token || allCards.length === 0) return;
+    if (!token || allCards.length === 0) {
+        showToast('No cards to refresh', 'error');
+        return;
+    }
 
     const progressDiv = document.getElementById('refreshProgress');
     const progressText = document.getElementById('refreshProgressText');
+    const progressFill = document.getElementById('refreshProgressFill');
     progressDiv.style.display = 'flex';
 
     let completed = 0;
+    let updated = 0;
     const total = allCards.length;
 
     for (const card of allCards) {
         try {
-            await refreshMarketValue(card.id);
+            const result = await refreshMarketValue(card.id);
+            if (result && result.marketValue) {
+                // Update card in memory
+                const cardIndex = allCards.findIndex(c => c.id === card.id);
+                if (cardIndex !== -1) {
+                    allCards[cardIndex].estimated_value = result.marketValue.currentValue;
+                    updated++;
+                }
+            }
             completed++;
-            progressText.textContent = `Refreshing market values... ${completed}/${total}`;
+
+            const percent = Math.round((completed / total) * 100);
+            progressFill.style.width = `${percent}%`;
+            progressText.textContent = `Refreshing market values... ${completed}/${total} (${updated} updated)`;
+
+            // Re-render UI every 5 cards for visual feedback
+            if (completed % 5 === 0) {
+                filteredCards = allCards;
+                renderCards();
+                updatePortfolioStats();
+            }
         } catch (error) {
             console.error(`Failed to refresh card ${card.id}:`, error);
+            completed++;
         }
     }
 
     progressDiv.style.display = 'none';
-    await loadUserCards();
+
+    // Final re-render
+    filteredCards = allCards;
+    renderCards();
+    updatePortfolioStats();
+
+    showToast(`Refresh complete! ${updated} of ${total} cards updated.`, 'success');
 }
 
 // Refresh market value for a single card
