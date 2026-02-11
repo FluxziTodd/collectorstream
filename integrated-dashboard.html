@@ -2327,6 +2327,21 @@ textarea.form-input {
     border-color: var(--danger);
 }
 
+.toast.warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
 @keyframes slideIn {
     from {
         transform: translateX(400px);
@@ -3928,6 +3943,27 @@ textarea.form-input {
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label">
+                        Update Market Value Manually
+                        <span style="font-size: 11px; color: var(--text-muted);"> (if eBay refresh fails)</span>
+                    </label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number"
+                               class="form-input"
+                               id="manualMarketValue"
+                               placeholder="Enter current market value"
+                               step="0.01"
+                               min="0">
+                        <button type="button"
+                                class="btn btn-outline"
+                                onclick="setManualMarketValue()"
+                                style="white-space: nowrap;">
+                            Set Value
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Notes</label>
                     <textarea class="form-input" id="editNotes" rows="3"></textarea>
                 </div>
@@ -5515,65 +5551,120 @@ function renderStrategyChart(data) {
 // Refresh all market values
 async function refreshAllMarketValues() {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token || allCards.length === 0) {
-        showToast('No cards to refresh', 'error');
+
+    // Better validation
+    if (!token) {
+        showToast('Please log in to refresh market values', 'error');
         return;
+    }
+
+    if (!allCards || allCards.length === 0) {
+        showToast('No cards found in your collection', 'error');
+        return;
+    }
+
+    // Add loading state to button
+    const refreshBtn = document.querySelector('button[onclick="refreshAllMarketValues()"]');
+    if (refreshBtn) {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<span class="spinner"></span> Refreshing...';
     }
 
     const progressDiv = document.getElementById('refreshProgress');
     const progressText = document.getElementById('refreshProgressText');
     const progressFill = document.getElementById('refreshProgressFill');
+
+    if (!progressDiv) {
+        showToast('Progress indicator not found', 'error');
+        return;
+    }
+
     progressDiv.style.display = 'flex';
 
     let completed = 0;
     let updated = 0;
+    let errors = 0;
     const total = allCards.length;
+
+    console.log(`Starting refresh for ${total} cards...`);
 
     for (const card of allCards) {
         try {
+            console.log(`Refreshing card ${card.id} (${card.player_name})...`);
+
             const result = await refreshMarketValue(card.id);
-            if (result && result.marketValue) {
+
+            console.log('Refresh result:', result);
+
+            if (result && result.marketPrice !== undefined) {
                 // Update card in memory
                 const cardIndex = allCards.findIndex(c => c.id === card.id);
                 if (cardIndex !== -1) {
-                    allCards[cardIndex].estimated_value = result.marketValue.currentValue;
+                    allCards[cardIndex].estimated_value = result.marketPrice;
+                    allCards[cardIndex].estimatedValue = result.marketPrice;
                     updated++;
+                    console.log(`Updated ${card.player_name} to $${result.marketPrice}`);
                 }
+            } else {
+                console.warn(`No market price found for ${card.player_name}`);
             }
+
             completed++;
-
-            const percent = Math.round((completed / total) * 100);
-            progressFill.style.width = `${percent}%`;
-            progressText.textContent = `Refreshing market values... ${completed}/${total} (${updated} updated)`;
-
-            // Re-render UI every 5 cards for visual feedback
-            if (completed % 5 === 0) {
-                filteredCards = allCards;
-                renderCards();
-                updatePortfolioStats();
-            }
         } catch (error) {
-            console.error(`Failed to refresh card ${card.id}:`, error);
+            console.error(`Failed to refresh card ${card.id} (${card.player_name}):`, error);
+            errors++;
             completed++;
+        }
+
+        const percent = Math.round((completed / total) * 100);
+        progressFill.style.width = `${percent}%`;
+        progressText.textContent = `Refreshing... ${completed}/${total} (${updated} updated, ${errors} errors)`;
+
+        // Re-render UI every 5 cards
+        if (completed % 5 === 0 || completed === total) {
+            filteredCards = [...allCards];
+            renderCards();
+            updatePortfolioStats();
         }
     }
 
     progressDiv.style.display = 'none';
 
+    // Re-enable button
+    if (refreshBtn) {
+        refreshBtn.disabled = false;
+        refreshBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Refresh Market Values
+        `;
+    }
+
     // Final re-render
-    filteredCards = allCards;
+    filteredCards = [...allCards];
     renderCards();
     updatePortfolioStats();
 
-    showToast(`Refresh complete! ${updated} of ${total} cards updated.`, 'success');
+    if (errors > 0) {
+        showToast(`Refresh complete! ${updated} updated, ${errors} failed. Check console for details.`, 'warning');
+    } else {
+        showToast(`Refresh complete! ${updated} of ${total} cards updated.`, 'success');
+    }
+
+    console.log(`Refresh complete: ${updated} updated, ${errors} errors`);
 }
 
 // Refresh market value for a single card
 async function refreshMarketValue(cardId) {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) return;
+    if (!token) {
+        throw new Error('No authentication token');
+    }
 
     try {
+        console.log(`Calling API: POST ${API_BASE_URL}/v1/cards/${cardId}/market-value`);
+
         const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}/market-value`, {
             method: 'POST',
             headers: {
@@ -5582,13 +5673,20 @@ async function refreshMarketValue(cardId) {
             }
         });
 
+        console.log(`API response status: ${response.status}`);
+
         if (!response.ok) {
-            throw new Error('Failed to refresh market value');
+            const errorText = await response.text();
+            console.error('API error response:', errorText);
+            throw new Error(`API returned ${response.status}: ${errorText}`);
         }
 
-        return await response.json();
+        const result = await response.json();
+        console.log('API response data:', result);
+
+        return result;
     } catch (error) {
-        console.error('Error refreshing market value:', error);
+        console.error('Error in refreshMarketValue:', error);
         throw error;
     }
 }
@@ -5616,6 +5714,69 @@ async function refreshSingleCardValue() {
     } catch (error) {
         errorDiv.textContent = 'Failed to refresh market value. Please try again.';
         errorDiv.style.display = 'block';
+    }
+}
+
+// Set manual market value from edit modal
+async function setManualMarketValue() {
+    const cardId = document.getElementById('editCardId').value;
+    const manualValue = parseFloat(document.getElementById('manualMarketValue').value);
+
+    if (!cardId) {
+        showToast('No card selected', 'error');
+        return;
+    }
+
+    if (isNaN(manualValue) || manualValue < 0) {
+        showToast('Please enter a valid market value', 'error');
+        return;
+    }
+
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+        showToast('Please log in', 'error');
+        return;
+    }
+
+    try {
+        // Update the estimated_value field directly
+        const response = await fetch(`${API_BASE_URL}/v1/cards/${cardId}`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                estimated_value: manualValue
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update market value');
+        }
+
+        // Update in memory
+        const cardIndex = allCards.findIndex(c => c.id === cardId);
+        if (cardIndex !== -1) {
+            allCards[cardIndex].estimated_value = manualValue;
+            allCards[cardIndex].estimatedValue = manualValue;
+        }
+
+        // Update the form display
+        document.getElementById('editEstimatedValue').value = manualValue.toFixed(2);
+        document.getElementById('manualMarketValue').value = '';
+
+        // Refresh display
+        filteredCards = [...allCards];
+        renderCards();
+        updatePortfolioStats();
+
+        showToast(`Market value set to $${manualValue.toFixed(2)}`, 'success');
+
+        console.log(`Manually set market value for card ${cardId} to $${manualValue}`);
+    } catch (error) {
+        console.error('Error setting manual market value:', error);
+        showToast('Failed to update market value', 'error');
     }
 }
 
