@@ -33,12 +33,17 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware for iOS app
+# CORS middleware - restricted to production domains
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict to your domain
+    allow_origins=[
+        "https://collectorstream.com",
+        "https://www.collectorstream.com",
+        "https://api.collectorstream.com",
+        "http://localhost:3000",  # For local development
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH"],
     allow_headers=["*"],
 )
 

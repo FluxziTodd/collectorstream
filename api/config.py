@@ -15,7 +15,9 @@ class Config:
     DEBUG = os.environ.get("API_DEBUG", "true").lower() == "true"
 
     # Security
-    JWT_SECRET = os.environ.get("JWT_SECRET", "change-this-in-production-use-a-long-random-string")
+    JWT_SECRET = os.environ.get("JWT_SECRET")
+    if not JWT_SECRET:
+        raise ValueError("JWT_SECRET environment variable must be set in production!")
     JWT_ALGORITHM = "HS256"
     JWT_EXPIRATION_HOURS = 24 * 7  # 1 week
 
