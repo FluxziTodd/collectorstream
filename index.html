@@ -1110,14 +1110,22 @@ body {
     <!-- Header -->
     <header class="header">
         <a href="/" class="logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <!-- L-shaped axis -->
+                <line x1="4" y1="6" x2="4" y2="20" />
+                <line x1="4" y1="20" x2="20" y2="20" />
+                <!-- Stock price line zigzag -->
+                <polyline points="6,18 9,14 12,16 15,10 18,8" fill="none" />
+                <!-- Right arrow > -->
+                <polygon points="18,8 20,6 20,10" fill="currentColor" />
+            </svg>
             <span>Collector</span><span>Stream</span>
         </a>
         <nav class="nav-links">
-            <a href="#how-it-works">How It Works</a>
-            <a href="#features">Features</a>
-            <a href="#picks">Today's Picks</a>
-            <a href="#draft-gap">The Draft Gap</a>
+            <a href="/#how-it-works">How It Works</a>
+            <a href="/#features">Features</a>
+            <a href="/#picks">Today's Picks</a>
+            <a href="/#draft-gap">The Draft Gap</a>
             <a href="/portal/">Portfolio</a>
         </nav>
         <div class="nav-auth" id="navAuth">
@@ -1719,7 +1727,7 @@ body {
             </div>
             <div class="footer-column">
                 <h4>Legal</h4>
-                <a href="#">Privacy Policy</a>
+                <a href="privacy.html">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
                 <a href="#">Cookie Policy</a>
             </div>
