@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FAQ — CollectorStream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg-primary: #0a0a0a; --bg-card: #151515; --border: #1f1f1f; --accent: #10b981; --text-primary: #ffffff; --text-secondary: #9ca3af; --text-muted: #6b7280; }
+body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, #059669 100%); }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; max-width: 1400px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--text-primary); text-decoration: none; }
+.logo svg { width: 24px; height: 24px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+.subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 48px; }
+.faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+.faq-question { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.faq-answer { color: var(--text-secondary); font-size: 16px; line-height: 1.7; }
+.category-title { font-size: 28px; font-weight: 600; margin-top: 48px; margin-bottom: 24px; color: var(--accent); }
+.btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-weight: 500; transition: all 0.2s; margin-bottom: 32px; }
+.btn-back:hover { border-color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+.footer { border-top: 1px solid var(--border); padding: 24px 48px; text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 64px; }
+a { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+    <header class="header">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="4" y2="20"></line>
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <polyline points="6,18 9,14 12,16 15,10 18,8" fill="none"></polyline>
+                <polygon points="18,8 20,6 20,10" fill="currentColor"></polygon>
+            </svg>
+            <span>Collector</span><span>Stream</span>
+        </a>
+    </header>
+
+    <div class="container">
+        <a href="/" class="btn-back">← Back to Home</a>
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">Everything you need to know about CollectorStream</p>
+
+        <h2 class="category-title">Getting Started</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">What is CollectorStream?</div>
+            <div class="faq-answer">
+                CollectorStream is a sports card portfolio management platform that combines mock draft intelligence with AI-powered card scanning. We help collectors and investors make smarter decisions by tracking draft prospects before the market catches on.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is CollectorStream free?</div>
+            <div class="faq-answer">
+                Yes! CollectorStream is currently free to use. All core features including draft boards, card scanning, and portfolio tracking are available at no cost. We may introduce premium features in the future, but the free tier will always exist.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Which sports are supported?</div>
+            <div class="faq-answer">
+                We cover all major sports: WNBA, NBA, NFL, MLB, and NHL. Our draft boards aggregate mock drafts from dozens of sources across all these sports.
+            </div>
+        </div>
+
+        <h2 class="category-title">Draft Boards & Mock Drafts</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">How often are draft boards updated?</div>
+            <div class="faq-answer">
+                Daily! We continuously aggregate new mock drafts from ESPN, The Athletic, Sports Illustrated, and other major sources. When draft season heats up, we update multiple times per day.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What is the "Draft Gap"?</div>
+            <div class="faq-answer">
+                The Draft Gap is the difference between a player's rising draft stock and their current card market price. When a player moves up in mocks but their cards haven't increased yet, that's an opportunity. Our system automatically identifies these gaps.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I trust mock draft predictions?</div>
+            <div class="faq-answer">
+                Mock drafts are predictions, not guarantees. However, they're created by professional scouts and analysts with inside information. Historically, top-10 picks in major sports have a strong correlation between mock position and actual draft position. Use mocks as one input in your investment decisions, not the only input.
+            </div>
+        </div>
+
+        <h2 class="category-title">Card Scanning & Portfolio</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">How does the AI card scanner work?</div>
+            <div class="faq-answer">
+                Point your phone camera at any sports card, and our AI instantly recognizes the player, year, set, brand, and card number. The technology uses advanced computer vision and is trained on millions of sports cards from the 1950s to present.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What card brands does it recognize?</div>
+            <div class="faq-answer">
+                We recognize all major brands: Panini, Topps, Upper Deck, Bowman, Prizm, Donruss, Fleer, Score, and many more. If it's a mainstream sports card from 1950-2026, we can likely identify it.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I track card values over time?</div>
+            <div class="faq-answer">
+                Yes! Every card in your portfolio shows real-time market value, purchase price, profit/loss, and historical price trends. You'll see exactly how your investment is performing.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is my card collection private?</div>
+            <div class="faq-answer">
+                Absolutely. Your collection is private and only visible to you. We never share your collection data with other users or third parties.
+            </div>
+        </div>
+
+        <h2 class="category-title">Market Data & Pricing</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">Where do card prices come from?</div>
+            <div class="faq-answer">
+                We aggregate market data from eBay sold listings, PWCC Marketplace, COMC, and other major marketplaces. Prices represent the average recent selling price for each card in similar condition.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Are price estimates guaranteed accurate?</div>
+            <div class="faq-answer">
+                No. Card prices fluctuate constantly based on player performance, market sentiment, and supply/demand. We provide estimates based on recent sales data, but actual prices may vary. Always verify current market prices before buying or selling.
+            </div>
+        </div>
+
+        <h2 class="category-title">Account & Privacy</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">What data do you collect?</div>
+            <div class="faq-answer">
+                We collect your email address for login, card images you scan, and collection data you add. We do NOT sell your data, use it for advertising, or track you across other websites. See our <a href="/privacy">Privacy Policy</a> for details.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I delete my account?</div>
+            <div class="faq-answer">
+                Yes. Go to Profile > Settings > Delete Account. All your data will be permanently deleted within 30 days. You can also email <a href="mailto:support@collectorstream.com">support@collectorstream.com</a> to request deletion.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is CollectorStream safe to use?</div>
+            <div class="faq-answer">
+                Yes. We use industry-standard encryption for all data in transit and at rest. Your password is hashed and never stored in plain text. We undergo regular security audits.
+            </div>
+        </div>
+
+        <h2 class="category-title">Mobile App</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">Is there an iOS app?</div>
+            <div class="faq-answer">
+                Yes! Search for "CollectorStream" in the App Store or download at <a href="https://apps.apple.com">apps.apple.com</a>.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is there an Android app?</div>
+            <div class="faq-answer">
+                Not yet, but it's coming soon! Sign up at <a href="/">collectorstream.com</a> and we'll notify you when Android launches.
+            </div>
+        </div>
+
+        <h2 class="category-title">Support</h2>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I contact support?</div>
+            <div class="faq-answer">
+                Email us at <a href="mailto:support@collectorstream.com">support@collectorstream.com</a> or use the <a href="/contact">contact form</a>. We typically respond within 24 hours.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I suggest a feature?</div>
+            <div class="faq-answer">
+                Absolutely! We love feedback. Use our <a href="/feedback">feedback form</a> or email <a href="mailto:support@collectorstream.com">support@collectorstream.com</a> with your ideas.
+            </div>
+        </div>
+
+        <div style="text-align: center; padding: 48px 0; color: var(--text-secondary);">
+            <p>Still have questions? <a href="/contact" style="color: var(--accent); font-weight: 600;">Contact us</a> — we're here to help!</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 CollectorStream. All rights reserved. | <a href="/">Home</a> | <a href="/faq">FAQ</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+</body>
+</html>

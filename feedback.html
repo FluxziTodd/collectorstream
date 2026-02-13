@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Feedback — CollectorStream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg-primary: #0a0a0a; --bg-card: #151515; --border: #1f1f1f; --accent: #10b981; --text-primary: #ffffff; --text-secondary: #9ca3af; --text-muted: #6b7280; }
+body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, #059669 100%); }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; max-width: 1400px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--text-primary); text-decoration: none; }
+.logo svg { width: 24px; height: 24px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.container { max-width: 700px; margin: 0 auto; padding: 48px 24px; }
+h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+.subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 48px; }
+.form-group { margin-bottom: 24px; }
+label { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 8px; }
+input, textarea, select { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 16px; transition: all 0.2s; }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); background: rgba(16, 185, 129, 0.05); }
+textarea { min-height: 150px; resize: vertical; }
+.btn-submit { background: var(--accent); color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%; }
+.btn-submit:hover { background: #059669; transform: translateY(-1px); }
+.btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-weight: 500; transition: all 0.2s; margin-bottom: 32px; }
+.btn-back:hover { border-color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+.footer { border-top: 1px solid var(--border); padding: 24px 48px; text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 64px; }
+.success-message { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 16px; border-radius: 8px; margin-bottom: 24px; text-align: center; display: none; }
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+    <header class="header">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="4" y2="20"></line>
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <polyline points="6,18 9,14 12,16 15,10 18,8" fill="none"></polyline>
+                <polygon points="18,8 20,6 20,10" fill="currentColor"></polygon>
+            </svg>
+            <span>Collector</span><span>Stream</span>
+        </a>
+    </header>
+
+    <div class="container">
+        <a href="/" class="btn-back">← Back to Home</a>
+        <h1>Send Us Feedback</h1>
+        <p class="subtitle">Help us improve CollectorStream with your ideas and suggestions.</p>
+
+        <div id="successMessage" class="success-message">
+            ✓ Thank you! Your feedback has been sent.
+        </div>
+
+        <form id="feedbackForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <div class="form-group">
+                <label for="feedback_type">Type of Feedback</label>
+                <select id="feedback_type" name="feedback_type" required>
+                    <option value="">Select type...</option>
+                    <option value="feature">💡 Feature Request</option>
+                    <option value="improvement">📈 Improvement Suggestion</option>
+                    <option value="bug">🐛 Bug Report</option>
+                    <option value="design">🎨 Design Feedback</option>
+                    <option value="praise">❤️ Something You Love</option>
+                    <option value="complaint">😞 Something That Needs Work</option>
+                    <option value="other">💬 Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email (optional)</label>
+                <input type="email" id="email" name="email" placeholder="email@example.com (we'll only use this to follow up)">
+            </div>
+
+            <div class="form-group">
+                <label for="feedback">Your Feedback</label>
+                <textarea id="feedback" name="feedback" required placeholder="Tell us what you think..."></textarea>
+            </div>
+
+            <input type="hidden" name="_subject" value="CollectorStream Feedback">
+            <input type="hidden" name="_replyto" value="support@collectorstream.com">
+
+            <button type="submit" class="btn-submit">Submit Feedback</button>
+        </form>
+
+        <div style="margin-top: 48px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">
+            <h3 style="color: var(--accent); margin-bottom: 12px;">We Read Every Message</h3>
+            <p style="color: var(--text-secondary);">Your feedback directly shapes CollectorStream's future. Many of our best features came from user suggestions. Thank you for helping us build a better product!</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 CollectorStream. All rights reserved. | <a href="/">Home</a> | <a href="/feedback">Feedback</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+
+    <script>
+    document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+        setTimeout(function() {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('feedbackForm').reset();
+        }, 500);
+    });
+    </script>
+</body>
+</html>

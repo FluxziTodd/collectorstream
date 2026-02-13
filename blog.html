@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Blog — CollectorStream</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --bg-primary: #0a0a0a; --bg-card: #151515; --border: #1f1f1f; --accent: #10b981; --text-primary: #ffffff; --text-secondary: #9ca3af; --text-muted: #6b7280; }
+body { font-family: 'Inter', sans-serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.6; }
+.top-bar { height: 3px; background: linear-gradient(90deg, var(--accent) 0%, #059669 100%); }
+.header { display: flex; justify-content: space-between; align-items: center; padding: 16px 48px; max-width: 1400px; margin: 0 auto; }
+.logo { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--text-primary); text-decoration: none; }
+.logo svg { width: 24px; height: 24px; color: var(--accent); }
+.logo span:last-child { color: var(--accent); }
+.container { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+h1 { font-size: 48px; font-weight: 700; margin-bottom: 16px; }
+.subtitle { color: var(--text-muted); font-size: 18px; margin-bottom: 48px; }
+.blog-post { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 32px; transition: all 0.2s; }
+.blog-post:hover { border-color: var(--accent); }
+.post-meta { display: flex; gap: 16px; color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+.post-title { font-size: 32px; font-weight: 600; margin-bottom: 12px; color: var(--text-primary); }
+.post-excerpt { color: var(--text-secondary); margin-bottom: 16px; font-size: 16px; line-height: 1.7; }
+.post-content { color: var(--text-secondary); margin-bottom: 16px; font-size: 16px; line-height: 1.7; }
+h2 { font-size: 24px; font-weight: 600; margin-top: 32px; margin-bottom: 16px; color: var(--text-primary); }
+h3 { font-size: 20px; font-weight: 600; margin-top: 24px; margin-bottom: 12px; color: var(--accent); }
+p { margin-bottom: 16px; }
+.read-more { color: var(--accent); font-weight: 500; text-decoration: none; }
+.read-more:hover { text-decoration: underline; }
+.btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); text-decoration: none; font-weight: 500; transition: all 0.2s; margin-bottom: 32px; }
+.btn-back:hover { border-color: var(--accent); background: rgba(16, 185, 129, 0.1); }
+.footer { border-top: 1px solid var(--border); padding: 24px 48px; text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 64px; }
+.highlight-box { background: rgba(16, 185, 129, 0.1); border: 1px solid var(--accent); border-radius: 8px; padding: 20px; margin: 24px 0; }
+blockquote { border-left: 3px solid var(--accent); padding-left: 20px; margin: 24px 0; font-style: italic; color: var(--text-secondary); }
+    </style>
+</head>
+<body>
+    <div class="top-bar"></div>
+    <header class="header">
+        <a href="/" class="logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="4" y2="20"></line>
+                <line x1="4" y1="20" x2="20" y2="20"></line>
+                <polyline points="6,18 9,14 12,16 15,10 18,8" fill="none"></polyline>
+                <polygon points="18,8 20,6 20,10" fill="currentColor"></polygon>
+            </svg>
+            <span>Collector</span><span>Stream</span>
+        </a>
+    </header>
+
+    <div class="container">
+        <a href="/" class="btn-back">← Back to Home</a>
+        <h1>CollectorStream Blog</h1>
+        <p class="subtitle">Insights on sports card investing, mock draft analysis, and market trends</p>
+
+        <article class="blog-post">
+            <div class="post-meta">
+                <span>📅 February 13, 2026</span>
+                <span>•</span>
+                <span>⏱️ 8 min read</span>
+                <span>•</span>
+                <span>📊 Mock Draft Analysis</span>
+            </div>
+
+            <h1 class="post-title">How Mock Drafts Predict Sports Card Value (And How to Use Them)</h1>
+
+            <div class="post-content">
+                <p>If you've been collecting sports cards for any length of time, you know the feeling: a player you've never heard of suddenly explodes in value overnight. By the time you learn their name, their rookie cards are already 10x what they cost a month ago.</p>
+
+                <p>What if I told you there's a way to spot these players before the market catches on? That's exactly what mock drafts can do—if you know how to read them.</p>
+
+                <h2>What Are Mock Drafts?</h2>
+
+                <p>Mock drafts are expert predictions of how upcoming professional sports drafts will unfold. Published by sports analysts, scouts, and media outlets, they forecast which players will be selected and in what order.</p>
+
+                <p>For sports card investors, mock drafts are a crystal ball. They reveal which college and international players the experts think will succeed at the professional level—weeks or months before those players actually prove anything on the field.</p>
+
+                <h3>Why Mock Drafts Matter for Card Collectors</h3>
+
+                <p>Here's the key insight: <strong>mock draft position correlates strongly with card value, but the market takes time to react.</strong></p>
+
+                <p>When a player rises in mock drafts, it signals two things:</p>
+                <ol style="list-style-position: inside; color: var(--text-secondary); margin-bottom: 16px;">
+                    <li style="margin-bottom: 8px;"><strong>Professional scouts believe in them</strong> — These are the same people NFL, NBA, and MLB teams trust with million-dollar decisions</li>
+                    <li style="margin-bottom: 8px;"><strong>Their cards haven't priced it in yet</strong> — The card market moves slower than draft boards. This creates opportunity.</li>
+                </ol>
+
+                <h2>The Draft Gap: Your Edge in the Market</h2>
+
+                <p>We call this the <strong>Draft Gap</strong>—the difference between a player's rising draft stock and their current card prices.</p>
+
+                <div class="highlight-box">
+                    <p><strong>Example: The Paige Bueckers Effect</strong></p>
+                    <p>In early 2025, when Paige Bueckers was rising in WNBA mock drafts from late lottery to top-3 pick territory, her cards were still trading at $15-30. Savvy investors who tracked mock drafts bought in at those prices. By the time she was projected as the #1 overall pick, those same cards were selling for $80-120. The scouts saw it coming months before the masses.</p>
+                </div>
+
+                <h2>How to Read Mock Drafts Like a Pro</h2>
+
+                <p>Not all mock drafts are created equal. Here's what to look for:</p>
+
+                <h3>1. Track Movement, Not Just Position</h3>
+                <p>A player jumping from pick #45 to pick #28 over two weeks is more valuable intel than a player sitting steady at #15. <strong>Rising stocks create buying opportunities</strong> before the market adjusts.</p>
+
+                <h3>2. Aggregate Multiple Sources</h3>
+                <p>One analyst's mock draft is interesting. Ten analysts all moving a player up at the same time? That's a trend worth investing in.</p>
+
+                <p>For WNBA, track: ESPN, The Athletic, Draftsite, Swish Appeal<br>
+                For NBA: ESPN, The Ringer, Tankathon, NBADraft.net<br>
+                For NFL: NFL.com, PFF, The Athletic, Mel Kiper<br>
+                For MLB: MLB Pipeline, Baseball America, FanGraphs<br>
+                For NHL: NHL.com, EliteProspects, The Athletic</p>
+
+                <h3>3. Understand Positional Value</h3>
+                <p>In sports, certain positions are more valuable than others. The same applies to cards:</p>
+                <ul style="list-style-position: inside; color: var(--text-secondary); margin: 16px 0;">
+                    <li style="margin-bottom: 8px;"><strong>NFL:</strong> Quarterbacks and skill positions (WR, RB) have the most card demand</li>
+                    <li style="margin-bottom: 8px;"><strong>NBA/WNBA:</strong> Guards and wings (especially scorers) tend to have higher value than centers</li>
+                    <li style="margin-bottom: 8px;"><strong>MLB:</strong> Power hitters and starting pitchers lead in card values</li>
+                    <li style="margin-bottom: 8px;"><strong>NHL:</strong> Centers and goalies typically command premium prices</li>
+                </ul>
+
+                <h3>4. Watch for Combine/Workout Bumps</h3>
+                <p>Mock drafts update after major events: NFL Combine, NBA Draft Combine, pro days, and individual workouts. These events often cause dramatic movement. If you're tracking mock drafts, you'll see these shifts before they hit the mainstream news.</p>
+
+                <h2>Real-World Strategy: The Mock Draft Buy Signal</h2>
+
+                <p>Here's a simple strategy you can implement today:</p>
+
+                <ol style="list-style-position: inside; color: var(--text-secondary); margin-bottom: 16px;">
+                    <li style="margin-bottom: 12px;"><strong>Identify rising prospects</strong> — Look for players who've jumped 5+ spots across multiple recent mocks</li>
+                    <li style="margin-bottom: 12px;"><strong>Check card prices</strong> — See if their base rookie/prospect cards are still affordable (under $50)</li>
+                    <li style="margin-bottom: 12px;"><strong>Buy a small position</strong> — Don't bet the farm. Buy 1-3 cards to test the thesis</li>
+                    <li style="margin-bottom: 12px;"><strong>Monitor draft movement</strong> — If they keep rising, add more. If they fall, you're only in small</li>
+                    <li style="margin-bottom: 12px;"><strong>Sell before the draft</strong> — The biggest price spikes often happen in the weeks before the draft, not after. Take profits early</li>
+                </ol>
+
+                <h2>Common Mistakes to Avoid</h2>
+
+                <h3>❌ Buying Only Top-5 Picks</h3>
+                <p>Everyone knows about the #1 overall pick. The real opportunities are in players rising from #20 to #10, or from "undrafted" to "late second round." The percentage gains are bigger.</p>
+
+                <h3>❌ Ignoring Team Needs</h3>
+                <p>A quarterback might be the best player in the draft, but if the top teams don't need a QB, they won't get picked early. Landing spot matters.</p>
+
+                <h3>❌ Holding Too Long</h3>
+                <p>Remember: you're investing based on <em>predictions</em>, not proven performance. Once a player is actually drafted and playing, the advantage is gone. Sell before or shortly after the draft.</p>
+
+                <h3>❌ Chasing Last Year's Trends</h3>
+                <p>Don't assume this year's draft will mirror last year's. Every draft class is different. Evaluate players independently.</p>
+
+                <h2>The Sports That Matter Most</h2>
+
+                <p>Not all sports have equally predictive mock drafts:</p>
+
+                <h3>🏀 NBA/WNBA: Highest Correlation</h3>
+                <p>Basketball mock drafts are incredibly accurate because there's a small number of picks and elite prospects are well-known from college. <strong>This is the best sport for mock draft investing.</strong></p>
+
+                <h3>🏈 NFL: High Volume, High Variance</h3>
+                <p>NFL mock drafts have more uncertainty (256 picks!) but also more opportunity. Focus on quarterbacks and skill positions in the first two rounds.</p>
+
+                <h3>⚾ MLB: Longer Timeline</h3>
+                <p>MLB prospects take years to reach the majors, so the draft-to-value timeline is slower. This can be an advantage for patient investors.</p>
+
+                <h3>🏒 NHL: International Complexity</h3>
+                <p>NHL drafts include international players and junior leagues, making mocks less reliable. Proceed with caution.</p>
+
+                <h2>How CollectorStream Helps</h2>
+
+                <p>At CollectorStream, we aggregate mock drafts from dozens of sources across all major sports. We track every player's movement and compare it to their current card floor prices.</p>
+
+                <p>When we find a player rising in mocks but still affordable in the card market, we flag it. No more manually checking 10 different websites. No more missing opportunities because you didn't see the latest ESPN mock.</p>
+
+                <blockquote>
+                "The best investors don't follow the crowd—they anticipate it. Mock drafts let you see what the crowd will care about in 60 days."
+                </blockquote>
+
+                <h2>Action Steps</h2>
+
+                <p>Ready to start using mock drafts to invest smarter?</p>
+
+                <ol style="list-style-position: inside; color: var(--text-secondary); margin-bottom: 16px;">
+                    <li style="margin-bottom: 8px;">Create a free CollectorStream account</li>
+                    <li style="margin-bottom: 8px;">Browse our daily-updated draft boards for all major sports</li>
+                    <li style="margin-bottom: 8px;">Identify 2-3 rising prospects with affordable cards</li>
+                    <li style="margin-bottom: 8px;">Buy small positions and track their movement</li>
+                    <li style="margin-bottom: 8px;">Watch your portfolio grow as the market catches on</li>
+                </ol>
+
+                <p>The 2026 WNBA, NBA, NFL, and MLB drafts are approaching. The next Paige Bueckers, Victor Wembanyama, or Caleb Williams might be rising in the mocks right now—while their cards are still cheap.</p>
+
+                <p><strong>Don't wait for the hype. Find it first.</strong></p>
+
+                <div class="highlight-box">
+                    <p><strong>Start tracking mock drafts today</strong> → <a href="/" style="color: var(--accent); font-weight: 600;">CollectorStream Dashboard</a></p>
+                </div>
+            </div>
+        </article>
+
+        <div style="text-align: center; padding: 48px 0; color: var(--text-muted);">
+            <p>More posts coming soon! Follow us for updates on sports card investing strategies.</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 CollectorStream. All rights reserved. | <a href="/">Home</a> | <a href="/blog">Blog</a> | <a href="/privacy">Privacy</a></p>
+    </footer>
+</body>
+</html>
