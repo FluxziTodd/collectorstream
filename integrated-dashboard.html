@@ -5590,7 +5590,8 @@ async function refreshAllMarketValues() {
 
     for (const card of allCards) {
         try {
-            console.log(`Refreshing card ${card.id} (${card.player_name})...`);
+            const playerName = card.player_name || card.playerName || 'Unknown Player';
+            console.log(`Refreshing card ${card.id} (${playerName})...`);
 
             const result = await refreshMarketValue(card.id);
 
@@ -5603,15 +5604,15 @@ async function refreshAllMarketValues() {
                     allCards[cardIndex].estimated_value = result.marketPrice;
                     allCards[cardIndex].estimatedValue = result.marketPrice;
                     updated++;
-                    console.log(`Updated ${card.player_name} to $${result.marketPrice}`);
+                    console.log(`Updated ${playerName} to $${result.marketPrice}`);
                 }
             } else {
-                console.warn(`No market price found for ${card.player_name}`);
+                console.warn(`No market price found for ${playerName}`);
             }
 
             completed++;
         } catch (error) {
-            console.error(`Failed to refresh card ${card.id} (${card.player_name}):`, error);
+            console.error(`Failed to refresh card ${card.id} (${playerName}):`, error);
             errors++;
             completed++;
         }

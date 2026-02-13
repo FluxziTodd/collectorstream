@@ -428,6 +428,12 @@ async def update_card_market_value(
         add_market_price(card_id, market_data)
         print(f"✅ Stored market price for card {card_id}: ${market_data['market_price']}")
 
+        # Update the card's estimated_value field
+        update_card(card_id, current_user["id"], {
+            "estimated_value": market_data["market_price"]
+        })
+        print(f"✅ Updated card {card_id} estimated_value to ${market_data['market_price']}")
+
     return {
         "cardId": card_id,
         "marketPrice": market_data.get("market_price"),

@@ -27,8 +27,31 @@
 		018 /* CardIdentificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118 /* CardIdentificationService.swift */; };
 		019 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 201 /* Assets.xcassets */; };
 		020 /* VisionCardDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120 /* VisionCardDetector.swift */; };
-		021 /* AuthenticatedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121 /* AuthenticatedAsyncImage.swift */; };
 		906 /* BlurDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905 /* BlurDetector.swift */; };
+		021 /* AuthenticatedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121 /* AuthenticatedAsyncImage.swift */; };
+		929 /* TimeframeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1029 /* TimeframeSelector.swift */; };
+		928 /* ConfidenceMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1028 /* ConfidenceMeter.swift */; };
+		927 /* MarketMetricsCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1027 /* MarketMetricsCard.swift */; };
+		926 /* RecommendationCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1026 /* RecommendationCard.swift */; };
+		925 /* PriceChartCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1025 /* PriceChartCard.swift */; };
+		924 /* CardDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1024 /* CardDetailViewModel.swift */; };
+		923 /* RecommendationFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1023 /* RecommendationFilterBar.swift */; };
+		922 /* EnhancedCardGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1022 /* EnhancedCardGridItem.swift */; };
+		921 /* CollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1021 /* CollectionViewModel.swift */; };
+		920 /* EnhancedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1020 /* EnhancedCollectionView.swift */; };
+		919 /* ActionSignalPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1019 /* ActionSignalPill.swift */; };
+		918 /* QuickStatCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1018 /* QuickStatCard.swift */; };
+		917 /* TrendIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1017 /* TrendIndicator.swift */; };
+		916 /* AIBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1016 /* AIBadge.swift */; };
+		915 /* EnhancedCardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1015 /* EnhancedCardDetailView.swift */; };
+		914 /* InsightsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1014 /* InsightsViewModel.swift */; };
+		913 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1013 /* InsightsView.swift */; };
+		912 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1012 /* DashboardViewModel.swift */; };
+		911 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1011 /* DashboardView.swift */; };
+		910 /* PortfolioStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1010 /* PortfolioStats.swift */; };
+		909 /* MarketHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1009 /* MarketHistory.swift */; };
+		908 /* TrendMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1008 /* TrendMetrics.swift */; };
+		907 /* Recommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1007 /* Recommendation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +74,34 @@
 		117 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		118 /* CardIdentificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIdentificationService.swift; sourceTree = "<group>"; };
 		120 /* VisionCardDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionCardDetector.swift; sourceTree = "<group>"; };
+		905 /* BlurDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurDetector.swift; sourceTree = "<group>"; };
 		121 /* AuthenticatedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedAsyncImage.swift; sourceTree = "<group>"; };
+		1029 /* TimeframeSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeframeSelector.swift; sourceTree = "<group>"; };
+		1028 /* ConfidenceMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidenceMeter.swift; sourceTree = "<group>"; };
+		1027 /* MarketMetricsCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketMetricsCard.swift; sourceTree = "<group>"; };
+		1026 /* RecommendationCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationCard.swift; sourceTree = "<group>"; };
+		1025 /* PriceChartCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceChartCard.swift; sourceTree = "<group>"; };
+		1024 /* CardDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailViewModel.swift; sourceTree = "<group>"; };
+		1023 /* RecommendationFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationFilterBar.swift; sourceTree = "<group>"; };
+		1022 /* EnhancedCardGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCardGridItem.swift; sourceTree = "<group>"; };
+		1021 /* CollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewModel.swift; sourceTree = "<group>"; };
+		1020 /* EnhancedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCollectionView.swift; sourceTree = "<group>"; };
+		1019 /* ActionSignalPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSignalPill.swift; sourceTree = "<group>"; };
+		1018 /* QuickStatCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickStatCard.swift; sourceTree = "<group>"; };
+		1017 /* TrendIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendIndicator.swift; sourceTree = "<group>"; };
+		1016 /* AIBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBadge.swift; sourceTree = "<group>"; };
+		1015 /* EnhancedCardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedCardDetailView.swift; sourceTree = "<group>"; };
+		1014 /* InsightsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsViewModel.swift; sourceTree = "<group>"; };
+		1013 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		1012 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		1011 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		1010 /* PortfolioStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStats.swift; sourceTree = "<group>"; };
+		1009 /* MarketHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketHistory.swift; sourceTree = "<group>"; };
+		1008 /* TrendMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendMetrics.swift; sourceTree = "<group>"; };
+		1007 /* Recommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recommendation.swift; sourceTree = "<group>"; };
 		201 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		301 /* CollectorStream.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectorStream.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		401 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		905 /* BlurDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -265,6 +311,29 @@
 				018 /* CardIdentificationService.swift in Sources */,
 				020 /* VisionCardDetector.swift in Sources */,
 				906 /* BlurDetector.swift in Sources */,
+				929 /* TimeframeSelector.swift in Sources */,
+				928 /* ConfidenceMeter.swift in Sources */,
+				927 /* MarketMetricsCard.swift in Sources */,
+				926 /* RecommendationCard.swift in Sources */,
+				925 /* PriceChartCard.swift in Sources */,
+				924 /* CardDetailViewModel.swift in Sources */,
+				923 /* RecommendationFilterBar.swift in Sources */,
+				922 /* EnhancedCardGridItem.swift in Sources */,
+				921 /* CollectionViewModel.swift in Sources */,
+				920 /* EnhancedCollectionView.swift in Sources */,
+				919 /* ActionSignalPill.swift in Sources */,
+				918 /* QuickStatCard.swift in Sources */,
+				917 /* TrendIndicator.swift in Sources */,
+				916 /* AIBadge.swift in Sources */,
+				915 /* EnhancedCardDetailView.swift in Sources */,
+				914 /* InsightsViewModel.swift in Sources */,
+				913 /* InsightsView.swift in Sources */,
+				912 /* DashboardViewModel.swift in Sources */,
+				911 /* DashboardView.swift in Sources */,
+				910 /* PortfolioStats.swift in Sources */,
+				909 /* MarketHistory.swift in Sources */,
+				908 /* TrendMetrics.swift in Sources */,
+				907 /* Recommendation.swift in Sources */,
 				021 /* AuthenticatedAsyncImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,10 +465,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HNQTP6D4MG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CollectorStream/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CollectorStream;
@@ -415,9 +483,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluxzi.collectorstream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.collectorstream.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -429,10 +496,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HNQTP6D4MG;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CollectorStream/App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = CollectorStream;
@@ -448,9 +514,8 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.fluxzi.collectorstream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.collectorstream.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
