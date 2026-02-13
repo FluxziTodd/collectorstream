@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 class EmailService:
     def __init__(self):
-        self.api_key = "0980c425-723b-426d-b58c-9de6547503d0"
+        self.api_key = "3b1bc9be-2a11-4e78-ad3f-04790b22c368"
         self.api_url = "https://api.postmarkapp.com/email"
-        self.from_email = "noreply@collectorstream.com"
+        self.from_email = "todd@fluxzi.com"
         self.to_email = "todd@fluxzi.com"
 
     def send_contact_email(
