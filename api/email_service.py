@@ -1,9 +1,9 @@
 """
 Email service for CollectorStream contact and feedback forms
+Uses Postmark for reliable email delivery
 """
 
-import boto3
-from botocore.exceptions import ClientError
+import httpx
 from typing import Optional
 import logging
 
@@ -11,8 +11,9 @@ logger = logging.getLogger(__name__)
 
 
 class EmailService:
-    def __init__(self, region: str = "us-east-2"):
-        self.ses_client = boto3.client('ses', region_name=region)
+    def __init__(self):
+        self.api_key = "0980c425-723b-426d-b58c-9de6547503d0"
+        self.api_url = "https://api.postmarkapp.com/email"
         self.from_email = "noreply@collectorstream.com"
         self.to_email = "todd@fluxzi.com"
 
@@ -26,8 +27,7 @@ class EmailService:
         """Send contact form submission via email"""
         try:
             email_subject = f"CollectorStream Contact: {subject}"
-            email_body = f"""
-New contact form submission from CollectorStream:
+            email_body = f"""New contact form submission from CollectorStream:
 
 Name: {name}
 Email: {email}
@@ -40,20 +40,32 @@ Message:
 Reply to: {email}
 """
 
-            response = self.ses_client.send_email(
-                Source=self.from_email,
-                Destination={'ToAddresses': [self.to_email]},
-                Message={
-                    'Subject': {'Data': email_subject},
-                    'Body': {'Text': {'Data': email_body}}
+            response = httpx.post(
+                self.api_url,
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-Postmark-Server-Token": self.api_key
                 },
-                ReplyToAddresses=[email]
+                json={
+                    "From": self.from_email,
+                    "To": self.to_email,
+                    "Subject": email_subject,
+                    "TextBody": email_body,
+                    "ReplyTo": email,
+                    "MessageStream": "outbound"
+                },
+                timeout=10.0
             )
 
-            logger.info(f"Contact email sent successfully: {response['MessageId']}")
-            return True
+            if response.status_code == 200:
+                logger.info(f"Contact email sent successfully via Postmark")
+                return True
+            else:
+                logger.error(f"Postmark error: {response.status_code} - {response.text}")
+                return False
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Failed to send contact email: {e}")
             return False
 
@@ -66,8 +78,7 @@ Reply to: {email}
         """Send feedback form submission via email"""
         try:
             email_subject = f"CollectorStream Feedback: {feedback_type}"
-            email_body = f"""
-New feedback submission from CollectorStream:
+            email_body = f"""New feedback submission from CollectorStream:
 
 Type: {feedback_type}
 User Email: {email or 'Not provided'}
@@ -80,20 +91,36 @@ Feedback:
             if email:
                 email_body += f"Reply to: {email}"
 
-            response = self.ses_client.send_email(
-                Source=self.from_email,
-                Destination={'ToAddresses': [self.to_email]},
-                Message={
-                    'Subject': {'Data': email_subject},
-                    'Body': {'Text': {'Data': email_body}}
+            payload = {
+                "From": self.from_email,
+                "To": self.to_email,
+                "Subject": email_subject,
+                "TextBody": email_body,
+                "MessageStream": "outbound"
+            }
+
+            if email:
+                payload["ReplyTo"] = email
+
+            response = httpx.post(
+                self.api_url,
+                headers={
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "X-Postmark-Server-Token": self.api_key
                 },
-                ReplyToAddresses=[email] if email else []
+                json=payload,
+                timeout=10.0
             )
 
-            logger.info(f"Feedback email sent successfully: {response['MessageId']}")
-            return True
+            if response.status_code == 200:
+                logger.info(f"Feedback email sent successfully via Postmark")
+                return True
+            else:
+                logger.error(f"Postmark error: {response.status_code} - {response.text}")
+                return False
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Failed to send feedback email: {e}")
             return False
 
